@@ -1,1 +1,47 @@
 
+
+IDataSource
+ - fetchObject(String clsName, String flds...) : Object
+ 
+ - fetchObjects(String clsName, String flds...) : ArrayList<Object>
+ - fetchObjects(int N, String clsName, String flds...) : ArrayList<Object>
+ 
+ - fetchObjectArray(String clsName, String flds...) : Object[]
+ - fetchObjectArray(int N, String clsName, String flds...) : Object[]
+ 
+ - fillObjectArray(Object[] A, String clsName, String flds...) 
+
+ - filter(string key, string value)
+ - select(string serviceName)
+ - usage()
+ 
+ 
+ 
+DataSourceManager
+ - getCacheLocation() : String
+ - setCacheLocation(String path)
+ - getCacheTimeout() : long
+ - setCacheTimeout(long msec)  
+
+ - listAll() : String[]
+ - usage(String dsName)
+ - use(String dsName, String ops...)
+ 
+
+Weather : IDataSource
+ Weather(String zipcode)
+
+
+XMLDataSource
+
+CSVDataSource
+
+
+
+DataRow
+  maps  name -> IDataField
+  asInt(String fldName)
+  
+  
+IDataField
+ - 
