@@ -1,5 +1,16 @@
 
 
+DataSourceManager
+ - getCacheLocation() : String
+ - setCacheLocation(String path)
+ - getCacheTimeout() : long
+ - setCacheTimeout(long msec)  
+
+ - listAll() : String[]
+ - usage(String dsName)
+ - use(String dsName, String ops...)
+ 
+
 IDataSource
  - fetchObject(String clsName, String flds...) : Object
  
@@ -17,31 +28,45 @@ IDataSource
  
  
  
-DataSourceManager
- - getCacheLocation() : String
- - setCacheLocation(String path)
- - getCacheTimeout() : long
- - setCacheTimeout(long msec)  
+AbsDataSource : IDataSource
+ - isEmpty() : boolean
+ - numRecords() : int
+ - getRecord(int i) : IDataRow
+ - saveToFile(File) : boolean
+ - readFromFile(File) : boolean
 
- - listAll() : String[]
- - usage(String dsName)
- - use(String dsName, String ops...)
- 
 
-Weather : IDataSource
+Weather : AbsDataSource
  Weather(String zipcode)
 
+XMLDataSource : AbsDataSource
 
-XMLDataSource
+CSVDataSource : AbsDataSource
 
-CSVDataSource
+TestDataSource : AbsDataSource
+ - addRecord(IDataRecord)
 
 
-
-DataRow
+IDataRecord
   maps  name -> IDataField
-  asInt(String fldName)
-  
+ - fieldNames() : String[]
   
 IDataField
- - 
+ - asInt() : int
+ - asLong() : long
+ - asString() : String
+ - asDouble() : double
+ - asFloat() : float
+ - asBoolean() : boolean
+ - asChar() : char
+ - asArrayList(Class<T> cls) : ArrayList<T>
+ - asArray(Class<T> cls) : T[]
+ - isList() : boolean
+ - isPrimitive() : boolean
+
+
+HashRecord : IDataRecord
+ map String -> StringField/ListField
+
+StringField : IDataField
+ListField : IDataField
