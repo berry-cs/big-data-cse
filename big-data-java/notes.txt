@@ -70,3 +70,53 @@ HashRecord : IDataRecord
 
 StringField : IDataField
 ListField : IDataField
+
+
+
+xml = 
+<body>
+<report>
+   <date> ... </date>
+   <reading>
+      <time> ... </time>
+   	  <temp> ... </temp>
+   </reading>
+   <reading>
+   	  <time> ... </time>
+   	  <temp> ... </temp>
+   </reading>
+</report>
+</body>
+
+
+rp = new CompField("report")
+rp.add(new PrimField("date"))
+
+rd = new CompField("reading")
+rd.add("time", new PrimField("time"))
+rd.add("temperature", new PrimField("temp"))
+rp.add("readings", new ListField(rd))
+
+xml = load...()
+xds = new XMLDataSource(xml)
+xds.addService("weather report", rp, true)   // gives back structured  (default service)
+xds.addService("weather reading", new CompField("report/reading"))   // gives back single reading
+xds.addService("weather reading list", new ListField(new CompField("report/reading")));  // gives back list of all readings
+xds.addService("date", new PrimField("date"))
+
+...
+
+xds.selectService("date")
+xds.fetchString()
+
+xds.fetch(xds.object("Report", "date", xds.listOf(xds.object("Reading", "time", "temp"))))
+xds.fetchObject("Reading", "date", "time", "temp");   // nested/array/flattened object - should happen automatically (?)
+xds.fetchObject("Report1", "date", xds.object("Reading", "time", "temp"))  // nested objects
+
+xds.selectService("weather reading list");
+xds.fetch(xds.listOf(xds.object("Reading", "time", "temp")))
+
+
+
+
+

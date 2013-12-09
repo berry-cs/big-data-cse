@@ -6,11 +6,14 @@ import ext.*;
 public class XMLDataRecord implements IDataRecord {
 
 	private XML xml;   // the parsed xml data source
+	String basetag; 
 	private HashMap<String,XMLDataField> fields;
+	private HashMap<String,XMLDataRecord> records;
 	
 	public XMLDataRecord(XML xml) {
 		this.xml = xml;
 		this.fields = new HashMap<String,XMLDataField>();
+		this.records = new HashMap<String,XMLDataRecord>();
 	}
 	
 	public IDataField addField(String path) {
@@ -40,7 +43,7 @@ public class XMLDataRecord implements IDataRecord {
 	}*/
 
 	@Override
-	public boolean contains(String name) {
+	public boolean containsField(String name) {
 		return fields.containsKey(name);
 	}
 	
@@ -53,6 +56,23 @@ public class XMLDataRecord implements IDataRecord {
 		}
 		m += "}";
 		return m;
+	}
+
+	@Override
+	public boolean containsRecord(String name) {
+		return records.containsKey(name);
+	}
+
+	@Override
+	public IDataRecord getRecord(String name) {
+		return getRecords(name)[0];
+	}
+
+	@Override
+	public IDataRecord[] getRecords(String name) {
+		IDataRecord idr = records.get(name);
+		
+		return null;
 	}
 
 }
