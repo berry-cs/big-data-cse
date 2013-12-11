@@ -14,7 +14,7 @@ public class TestInput {
 		//String[] lines = IOUtil.loadStrings("http://www.processing.org");
 		// for (String line : lines) System.out.println(line);
 
-		String WWOapikey = "7kwg5bevqqvrv3s676kd4uwb";
+		String WWOapikey = "7kwg5bevqqvrv3s676kd4uwbx";
 		
 		XML xml = IOUtil.loadXML("wwocache.xml");
 		
