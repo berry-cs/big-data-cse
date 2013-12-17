@@ -41,14 +41,17 @@ public class PrimField implements IDataField {
 	
 	protected XML findMyNode(XML xml) {
 		XML node = xml;
+		//System.err.println(" From node: " + node.getName());
 		if (path != null) {
 			node = node.getChild(path);
 		}
+		//System.err.println(" Found node: " + node.getName());
 		return node;
 	}
 
 	@Override
-	public <T> T instantiate(final XML xml, ISig s) {	
+	public <T> T instantiate(final XML xml, ISig s) {
+		//System.err.println(" PrimField.instantiate(" + xml.getName() + ", " + s + ")");
 		return s.apply(new SigMatcher<T>() {
 			public <C> T visit(PrimSig s) {
 				if (s == PrimSig.INT_SIG) {
@@ -73,6 +76,10 @@ public class PrimField implements IDataField {
 			}
 			
 		});
+	}
+	
+	public String toString() {
+		return "<" + path + ">";
 	}
 }
 

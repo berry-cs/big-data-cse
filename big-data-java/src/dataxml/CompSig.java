@@ -56,9 +56,9 @@ public class CompSig<C> implements ISig {
 			Constructor<C>[] constrs = (Constructor<C>[])cls.getConstructors();
 			Constructor<C> theCons = null;
 			for (Constructor<C> cr : constrs) {
-				System.out.println(" >> Checking " + cr);
+				//System.err.println(" >> Checking " + cr);
 				if (unifies(this, cr)) {
-					System.out.println(" >> OK");
+					//System.err.println(" >> OK");
 					theCons = cr;
 					break;
 				}

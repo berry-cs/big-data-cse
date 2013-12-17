@@ -47,6 +47,7 @@ public class CompField implements IDataField {
 	@Override
 	public <T> T instantiate(XML xml, ISig s) {
 		final XML basexml = findMyNode(xml);
+		//System.err.println(" CompField.instantiate(" + xml.getName() + ", " + s + ")   basexml: " + basexml.getName());
 		return s.apply(new SigMatcher<T>() {
 			public T visit(CompSig<?> s) {
 				Constructor cr = s.findConstructor();
@@ -56,7 +57,7 @@ public class CompField implements IDataField {
 					IDataField df = fieldMap.get(s.getFieldName(i));
 					ISig fs = s.getFieldSig(i).unifyWith(paramTys[i]);  
 					args[i] = df.instantiate(basexml, fs);
-					System.out.println(" " + i + ": " + args[i] + " " + args[i].getClass());
+					//System.err.println(" " + i + ": " + args[i] + " " + args[i].getClass());
 				}
 				
 				try {

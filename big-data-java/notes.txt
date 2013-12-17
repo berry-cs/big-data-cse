@@ -119,4 +119,21 @@ xds.fetch(xds.listOf(xds.object("Reading", "time", "temp")))
 
 
 
+XMLDataSource xds = XMLDataSource.getInstance("weather");
+
+System.out.println(xds.usage());
+
+{
+  SecondReport c1 = xds.fetch("SecondReport", "date", "time", "tempF");
+...
+delay(1);
+}
+
+
+class SecondReport {
+   ...
+   
+   SecondReport(String d, String t, int f) { ... }
+   SecondReport(String dt, int f) { ... }
+}
 

@@ -1,5 +1,7 @@
 package dataxml;
 
+import java.util.ArrayList;
+
 import ext.XML;
 
 public class ListField implements IDataField {
@@ -10,10 +12,35 @@ public class ListField implements IDataField {
 		this.basePath = basepath;
 		this.baseField = basefld;
 	}
+	
+	public IDataField baseField() {
+		return baseField;
+	}
 
 	@Override
 	public <T> T instantiate(XML xml, ISig s) {
-		// TODO Auto-generated method stub
-		return null;
+		final XML basexml = findMyNode(xml);
+		//System.err.println(" ListField.instantiate(" + (xml==null ? "null" : xml.getName()) + ", " + s + ")   basexml: " + ((basexml==null)?"null":basexml.getName()) + "  basepath: " + basePath);
+		
+		XML[] childs = basexml.getChildren();
+		ArrayList<Object> lst = new ArrayList<Object>();
+		for (XML c : childs) {
+			XML wrap = new XML("wrap");
+			wrap.addChild(c);
+			Object o = baseField.instantiate(wrap, ((ListSig)s).getElemType());
+			lst.add(o);
+		}
+		
+		return (T)lst;
 	}
+	
+	
+	protected XML findMyNode(XML xml) {
+		XML node = xml;
+		if (basePath != null && !basePath.equals("") /*&& !node.getName().equals(basePath)*/) {
+			node = node.getChild(basePath);
+		}
+		return node;
+	}
+
 }

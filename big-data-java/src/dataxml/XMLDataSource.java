@@ -14,9 +14,7 @@ public class XMLDataSource {
 	public void registerService(String name, IDataField fld) {
 		servs.put(name, fld);
 	}
-	
-	
-	
+
 }
 
 
