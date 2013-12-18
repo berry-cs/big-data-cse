@@ -17,8 +17,12 @@ public abstract class DataSource implements IDataSource {
 	}
 	
 	public static DataSource worldWeather(String zip, String WWOapikey) {
-		return new XMLDataSource("http://api.worldweatheronline.com/free/v1/weather.ashx?q=" + zip + "&format=xml&date=today&extra=localObsTime&fx=no&key=" + WWOapikey, 
-				60*60*1000);
+		//return new XMLDataSource("http://api.worldweatheronline.com/free/v1/weather.ashx?q=" + zip + "&format=xml&date=today&extra=localObsTime&fx=no&key=" + WWOapikey, 
+		// 60*60*1000);
+		
+		URLPrepper up = new URLPrepper("api.worldweatheronline.com/free/v1/weather.ashx");
+		up.addParams(new String[][] { {"q", zip}, {"format", "xml"}, {"date", "today"}, {"extra", "localObsTime"}, {"fx", "no"}, {"key", WWOapikey} });
+		return up.getXMLDataSource(60*60*1000);
 	}
 	
 }
