@@ -1,9 +1,11 @@
 package test;
 
 import java.io.InputStream;
-import dataxml.*;
+
+import data.xml.*;
+
 import ext.*;
-import static dataxml.PrimSig.*;
+import static data.xml.PrimSig.*;
 
 public class TestInput {
 

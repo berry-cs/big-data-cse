@@ -1,4 +1,4 @@
-package dataxml;
+package data.xml;
 
 import java.lang.reflect.*;
 import java.util.ArrayList;
@@ -78,7 +78,9 @@ public class CompSig<C> implements ISig {
 			Class<?> c = paramTys[i];
 			FieldSpec fs = s.fields.get(i);
 			//System.out.println(" >> Unifies " + fs.type + " | " + c );
-			if (!unifies(fs.type, c)) return false;
+			if (!unifies(fs.type, c)) {
+				return false;
+			}
 		}
 		return true;
 	}
@@ -91,11 +93,13 @@ public class CompSig<C> implements ISig {
 				if (s == PrimSig.WILDCARD_SIG) {
 					return c.equals(Integer.class) || c.equals(int.class)
 						    || c.equals(Double.class) || c.equals(double.class)
+						    || c.equals(Boolean.class) || c.equals(boolean.class)
 						    || c.equals(String.class);
 				} else {
 					return
 							s == PrimSig.DOUBLE_SIG && (c.equals(Double.class) || c.equals(double.class))
 						|| s == PrimSig.INT_SIG && (c.equals(Integer.class) || c.equals(int.class))
+						|| s == PrimSig.BOOLEAN_SIG && (c.equals(Boolean.class) || c.equals(boolean.class))
 						|| s == PrimSig.STRING_SIG && c.equals(String.class);
 				}
 			}

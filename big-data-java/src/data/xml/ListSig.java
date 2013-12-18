@@ -1,4 +1,4 @@
-package dataxml;
+package data.xml;
 
 public class ListSig implements ISig {
 	private ISig elemType;

@@ -1,6 +1,8 @@
-package dataxml;
+package data.xml;
 
 import java.lang.reflect.*;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import ext.*;
 
@@ -17,12 +19,20 @@ public class CompField implements IDataField {
 		this.fieldMap = new HashMap<String, IDataField>();
 	}
 	
+	public String getBasePath() {
+		return basePath;
+	}
+	
 	public IDataField addField(String name, IDataField fld) {
 		return fieldMap.put(name, fld);
 	}
 	
 	public String[] fieldNames() {
 		return fieldMap.keySet().toArray(new String[] {});
+	}
+	
+	public IDataField getField(String name) {
+		return fieldMap.get(name);
 	}
 	
 	@Override
@@ -51,6 +61,7 @@ public class CompField implements IDataField {
 		return s.apply(new SigMatcher<T>() {
 			public T visit(CompSig<?> s) {
 				Constructor cr = s.findConstructor();
+				if (cr == null) throw new RuntimeException("Constructor not found for: " + s);
 				Class[] paramTys = cr.getParameterTypes();
 				Object[] args = new Object[paramTys.length];
 				for (int i = 0; i < args.length; i++) {
@@ -113,5 +124,43 @@ public class CompField implements IDataField {
 	}
 	*/
 	
-
+	@Override
+	public <T> T apply(IDFVisitor<T> fv) {
+		return fv.visit(this);
+	}
+	
+	public String toString(int indent) {
+		return this.toString(indent, true);
+	}
+	
+	public String toString(int indent, boolean indentFirst) {
+		String initSpaces = IOUtil.repeat(' ', indent);
+		String s = (indentFirst ? initSpaces : "") + "Structure\n" + initSpaces + "{\n";
+		String spaces = IOUtil.repeat(' ', indent + 2);
+		ArrayList<String> keys = new ArrayList<String>(fieldMap.keySet());
+		Collections.sort(keys);
+		for (String name : keys) {
+			IDataField df = fieldMap.get(name);
+			if (df instanceof PrimField) {
+				String leader = spaces + name + " : ";
+				s += leader + df.toString(leader.length(), false) + "\n";
+			}
+		}
+		for (String name : keys) {
+			IDataField df = fieldMap.get(name);
+			if (df instanceof CompField) {
+				String leader = spaces + name + " : ";
+				s += leader + df.toString(leader.length(), false) + "\n";
+			}
+		}
+		for (String name : keys) {
+			IDataField df = fieldMap.get(name);
+			if (df instanceof ListField) {
+				String leader = spaces + name + " : ";
+				s += leader + df.toString(leader.length(), false) + "\n";
+			}
+		}
+		s += initSpaces + "}";
+		return s;
+	}
 }

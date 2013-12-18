@@ -2,11 +2,16 @@ package test;
 
 
 import java.util.ArrayList;
-import dataxml.*;
+
+import data.*;
+import data.csv.*;
+import data.xml.*;
+import ext.IOUtil;
+
 
 public class TestFileDS {
-	public static void main(String[] args) {
-		XMLFileDS xds = new XMLFileDS("vehicles.xml");
+	public static void test1() {
+		XMLDataSource xds = new XMLDataSource("vehicles.xml");
 		Car1 c1 = xds.fetch("test.Car1", "make", "model", "city08");
 		System.out.println(c1);
 		
@@ -17,6 +22,110 @@ public class TestFileDS {
 			if (c.mpgCity > max.mpgCity) max = c;
 		}
 		System.out.println(max);
+	}
+	
+	public static void test2() {
+		String airportCode = "JFK";
+		XMLDataSource ads = new XMLDataSource("http://services.faa.gov/airport/status/" + airportCode + "?format=application/xml");
+		APStatus x = ads.fetch("test.APStatus", "Name", "State", "Delay", "Weather/Weather");
+		System.out.println(x + "\n");
+		System.out.println(ads.usageString());
+		System.out.println("---");
+		
+		XMLDataSource fds = new XMLDataSource("Food_Display_Table.xml");
+		ArrayList<FoodItem> fs = fds.fetchList(FoodItem.class, "Display_Name", "Calories", "Portion_Amount", "Portion_Display_Name", "Food_Code");
+		System.out.println(fs.size() + " foods in table");
+		
+		for (int i = 0; i < 10; i++) {
+			System.out.println(fs.get(i));
+		}
+		System.out.println("---");
+		
+		for (FoodItem f : fs) {
+			if (f.code.startsWith("7514")) {
+				System.out.println(f);
+			}
+		}
+		System.out.println("---");
+		
+		ArrayList<String> names = fds.fetchList("String", "Display_Name");
+		for (int i = 0; i < 10; i++) {
+			System.out.println(names.get(i));
+		}
+		System.out.println("---");
+
+		ArrayList<Double> cals = fds.fetchList("Double", "Calories");
+		for (int i = 0; i < 10; i++) {
+			System.out.println(cals.get(i));
+		}
+		System.out.println("---");
+		
+		Double[] dcals = fds.fetchArray("Double", "Calories");
+	}
+	
+	public static class CodeCountry { String code; String ctry; String city; public CodeCountry(String a, String b, String c) { code = a; ctry = b; city = c; } }
+
+	public static void test3() {
+		IDataSource ds = CSVDataSourceFactory.getDataSource("airports.dat");
+		System.out.println(ds.usageString());
+
+
+		CodeCountry[] codes = ds.fetchArray(CodeCountry.class, "IATA-FAA_Code", "Country", "City");
+		for (CodeCountry airport : codes) {
+			if (airport.ctry.equals("United States") && airport.city.equals("New York")) {
+				String airportCode = airport.code;
+				XMLDataSource ads = new XMLDataSource("http://services.faa.gov/airport/status/" + airportCode + "?format=application/xml");
+				if (ads.dataAvailable()) {
+					APStatus x = ads.fetch("test.APStatus", "Name", "State", "Delay", "Status/Reason");
+					if (x.delay) {
+						System.out.println("Delay at " + x.name + ". Reason: " + x.weather);
+					} else {
+						System.out.println(x.name + " good.");
+					}
+				}
+			}
+		}
+		System.out.println("done");
+	}
+	
+	public static void test4() {
+		DataSource ds = CSVDataSourceFactory.getDataSource("http://sourceforge.net/p/openflights/code/HEAD/tree/openflights/data/airlines.dat?format=raw",
+						new String[] { "ID", "Name", "Alias", "IATA", "ICAO", "Callsign", "Country", "Active" });
+		System.out.println(ds.usageString());
+		String[] names = ds.fetchArray("String", "Name");
+		System.out.println(names.length + " airlines");
+	}
+	
+	public static class Weather {
+		String time;
+		int temp;
+		int vis;   // km
+		
+		public Weather(String time, int temp, int vis) {
+			super();
+			this.time = time;
+			this.temp = temp;
+			this.vis = vis;
+		}
+		
+		public String toString() {
+			return time + ": " + temp + " degrees; visibility: " + vis + "km";
+		}
+	}
+	
+	public static void test5() {
+		DataSource ds = DataSource.worldWeather("11746", "7kwg5bevqqvrv3s676kd4uwb");
+		System.out.println(ds.usageString());
+		System.out.println(ds.fetch(Weather.class, "current_condition/localObsDateTime", "current_condition/temp_F", "current_condition/visibility"));
+	}
+	
+
+	public static void main(String[] args) {
+		//test1();
+		//test2();
+		//test3();
+		test4();
+		test5();
 	}
 }
 

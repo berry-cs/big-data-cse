@@ -14,8 +14,7 @@ public class Car1 {
 	
 	public String toString() {
 		return "{Car: " + make + " - " + model + ". City MPG=" + mpgCity + "}";
-	}
-	
+	}	
 }
 
 

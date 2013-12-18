@@ -1,4 +1,4 @@
-package dataxml;
+package data.xml;
 
 public abstract class SigMatcher<T> implements ISigVisitor<T> {
 	public T defaultVisit(ISig s) {

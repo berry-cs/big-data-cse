@@ -137,3 +137,33 @@ class SecondReport {
    SecondReport(String dt, int f) { ... }
 }
 
+
+
+
+
+
+
+
+http://www.statcrunch.com/index.php
+http://www.usgovxml.com
+http://www.fueleconomy.gov/feg/ws/index.shtml
+http://www.census.gov/did/www/saipe/data/index.html?eml=gd&utm_medium=email&utm_source=govdelivery
+http://services.faa.gov/airport/status/JFK?format=application/xml
+http://openflights.org/data.html
+http://www.ourairports.com/data/
+http://www.wunderground.com/weather/api/d/docs
+
+https://explore.data.gov/Health-and-Nutrition/MyPyramid-Food-Raw-Data/b978-7txq
+  (use fndds 3.0 food coding scheme: http://www.ars.usda.gov/Services/docs.htm?docid=12074#view   good for string startsWith example - food codes)
+
+http://catalog.data.gov/dataset
+https://explore.data.gov/catalog/raw
+
+
+
+
+http://www.generatedata.com
+http://lib.stat.cmu.edu
+
+
+

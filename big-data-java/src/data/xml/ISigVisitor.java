@@ -1,4 +1,4 @@
-package dataxml;
+package data.xml;
 
 public interface ISigVisitor<T> {
 	public T defaultVisit(ISig s);

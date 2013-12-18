@@ -46,6 +46,7 @@ import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -55,6 +56,17 @@ public class IOUtil {
 
 	// STRINGS
 
+	
+	// .nah.
+	
+	public static String repeat(char c, int count) {
+		char[] spaces = new char[count];
+		Arrays.fill(spaces, c);
+		return new String(spaces);
+	}
+	
+	
+	
 
 	/**
 	 * ( begin auto-generated from trim.xml )
