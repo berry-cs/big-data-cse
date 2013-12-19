@@ -52,12 +52,10 @@ abstract class IAMatcher implements IAVisitor {
 		System.out.println("generic");
 	}
 
-	@Override
 	public void visit(A1 o) {
 		defaultVisit(o);
 	}
 
-	@Override
 	public void visit(A2 o) {
 		defaultVisit(o);
 	}
@@ -70,7 +68,6 @@ interface IA {
 
 class A1 implements IA {
 
-	@Override
 	public void apply(IAVisitor v) {
 		v.visit(this);
 	}

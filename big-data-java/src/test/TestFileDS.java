@@ -117,15 +117,18 @@ public class TestFileDS {
 		DataSource ds = DataSource.worldWeather("11746", "7kwg5bevqqvrv3s676kd4uwb");
 		System.out.println(ds.usageString());
 		System.out.println(ds.fetch(Weather.class, "current_condition/localObsDateTime", "current_condition/temp_F", "current_condition/visibility"));
+		
+		ds = DataSource.loadFrom("http://www.cnpp.usda.gov/Innovations/DataSource/MyFoodapediaData.zip"); 
+		System.out.println(ds.usageString());
 	}
 	
 
 	public static void main(String[] args) {
-		//test1();
+		test1();
 		//test2();
 		//test3();
-		test4();
-		test5();
+		//test4();
+		//test5();
 	}
 }
 

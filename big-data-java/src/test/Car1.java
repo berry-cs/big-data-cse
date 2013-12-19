@@ -1,6 +1,6 @@
 package test;
 
-public class Car1 {
+ class Car1 {
 	String make;
 	String model;
 	int mpgCity;

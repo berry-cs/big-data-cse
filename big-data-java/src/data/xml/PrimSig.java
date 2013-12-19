@@ -15,7 +15,6 @@ public class PrimSig implements ISig {
 		this.name = name;
 	}
 
-	@Override
 	public <A> A apply(ISigVisitor<A> sv) {
 		return sv.visit(this);
 	}
@@ -27,7 +26,6 @@ public class PrimSig implements ISig {
 		return "<" + name + ">";
 	}
 
-	@Override
 	public ISig unifyWith(Class<?> c) {
 		if (c == Integer.class || c == int.class) return PrimSig.INT_SIG;
 		else if (c == Double.class || c == double.class) return PrimSig.DOUBLE_SIG;

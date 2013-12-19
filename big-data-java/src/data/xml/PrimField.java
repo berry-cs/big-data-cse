@@ -69,7 +69,6 @@ public class PrimField implements IDataField {
 		return node;
 	}
 
-	@Override
 	public <T> T instantiate(final XML xml, ISig s) {
 		//System.err.println(" PrimField.instantiate(" + xml.getName() + ", " + s + ")");
 		return s.apply(new SigMatcher<T>() {
@@ -113,7 +112,6 @@ public class PrimField implements IDataField {
 		return s;
 	}
 
-	@Override
 	public <T> T apply(IDFVisitor<T> fv) {
 		return fv.visit(this);
 	}

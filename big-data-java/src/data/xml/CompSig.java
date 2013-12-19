@@ -35,7 +35,6 @@ public class CompSig<C> implements ISig {
 		return this.fields.get(i).name;
 	}
 
-	@Override
 	public <A> A apply(ISigVisitor<A> sv) {
 		return sv.visit(this);
 	}
@@ -111,7 +110,6 @@ public class CompSig<C> implements ISig {
 				return false;
 			}
 
-			@Override
 			public Boolean visit(ListSig s) {
 				if (!c.equals(ArrayList.class)) return false;
 				ISig se = s.getElemType();
@@ -121,7 +119,6 @@ public class CompSig<C> implements ISig {
 		});
 	}
 
-	@Override
 	public ISig unifyWith(Class<?> c) {
 		if (cls.equals(c)) 
 			return this;

@@ -54,7 +54,6 @@ public class CompField implements IDataField {
 		return node;
 	}
 	
-	@Override
 	public <T> T instantiate(XML xml, ISig s) {
 		final XML basexml = findMyNode(xml);
 		//System.err.println(" CompField.instantiate(" + xml.getName() + ", " + s + ")   basexml: " + basexml.getName());
@@ -72,12 +71,17 @@ public class CompField implements IDataField {
 				}
 				
 				try {
+					cr.setAccessible(true);
 					return (T) cr.newInstance(args);
-				} catch (InstantiationException | IllegalAccessException
-						| IllegalArgumentException | InvocationTargetException e) {
-					// TODO Auto-generated catch block
+				} catch (InstantiationException  e) {
 					e.printStackTrace();
-				}
+				} catch ( IllegalAccessException e) {
+					e.printStackTrace();
+				} catch ( IllegalArgumentException  e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				} 
 				return null;
 			}
 
@@ -124,7 +128,6 @@ public class CompField implements IDataField {
 	}
 	*/
 	
-	@Override
 	public <T> T apply(IDFVisitor<T> fv) {
 		return fv.visit(this);
 	}

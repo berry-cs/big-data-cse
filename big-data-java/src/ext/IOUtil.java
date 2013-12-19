@@ -49,6 +49,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 public class IOUtil {
 
@@ -358,12 +360,24 @@ public class IOUtil {
 	 */
 	public static InputStream createInput(String filename) {
 		InputStream input = createInputRaw(filename);
-		if ((input != null) && filename.toLowerCase().endsWith(".gz")) {
-			try {
-				return new GZIPInputStream(input);
-			} catch (IOException e) {
-				e.printStackTrace();
-				return null;
+		if (input != null) {
+			if (filename.toLowerCase().endsWith(".gz")) {
+				try {
+					return new GZIPInputStream(input);
+				} catch (IOException e) {
+					e.printStackTrace();
+					return null;
+				}
+			} else if (filename.toLowerCase().endsWith(".zip")) {
+				try {
+					ZipInputStream zin = new ZipInputStream(input);
+					ZipEntry ze = zin.getNextEntry();
+					System.err.println("Using " + ze.getName() + " from zip source");
+					return zin;	
+				} catch (IOException e) {
+					e.printStackTrace();
+					return null;
+				}
 			}
 		}
 		return input;

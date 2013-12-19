@@ -9,7 +9,6 @@ public class ListSig implements ISig {
 	
 	public ISig getElemType() { return elemType; }
 
-	@Override
 	public <A> A apply(ISigVisitor<A> sv) {
 		return sv.visit(this);
 	}
@@ -19,7 +18,6 @@ public class ListSig implements ISig {
 		return "(listof " + elemType.toString() + ")";
 	}
 
-	@Override
 	public ISig unifyWith(Class<?> c) {
 		throw new RuntimeException("unhandled");
 	}

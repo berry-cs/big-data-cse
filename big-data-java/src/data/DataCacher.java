@@ -57,10 +57,16 @@ public class DataCacher {
 					//System.err.println(cacheXML);
 					IOUtil.saveXML(cacheXML, cacheIndexName);
 					return cachedFilePath;
-				} catch (IOException | ParserConfigurationException | SAXException e) {
+				} catch (IOException e ) {
 					e.printStackTrace();
 					return path;
-				}
+				} catch ( ParserConfigurationException e) {
+					e.printStackTrace();
+					return path;
+				} catch ( SAXException e) {
+					e.printStackTrace();
+					return path;
+				} 
 			}
 			return cachepath;
 		}
@@ -75,7 +81,7 @@ public class DataCacher {
 		File cacheDir = new File(cacheDirectory + File.separator + path.hashCode());
 		if (!cacheDir.exists()) cacheDir.mkdirs();
 		File tempFile = File.createTempFile("cache", ".dat", cacheDir);
-		IOUtil.saveBytes(tempFile, stuff);		
+		IOUtil.saveBytes(IOUtil.createOutput(tempFile), stuff);		
 		return tempFile.getCanonicalPath();
 	}
 	
