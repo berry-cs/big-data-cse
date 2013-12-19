@@ -34,6 +34,10 @@ public class CompSig<C> implements ISig {
 	public String getFieldName(int i) {
 		return this.fields.get(i).name;
 	}
+	
+	public int getFieldCount() {
+		return this.fields.size();
+	}
 
 	public <A> A apply(ISigVisitor<A> sv) {
 		return sv.visit(this);
@@ -52,11 +56,14 @@ public class CompSig<C> implements ISig {
 	
 	public Constructor<C> findConstructor() {
 		try {
-			Constructor<C>[] constrs = (Constructor<C>[])cls.getConstructors();
+			Constructor<C>[] constrs = (Constructor<C>[]) cls.getDeclaredConstructors(); // cls.getConstructors();
 			Constructor<C> theCons = null;
 			for (Constructor<C> cr : constrs) {
+				int m = cr.getModifiers();
+				if (Modifier.isPrivate(m) || Modifier.isProtected(m))
+					continue;
 				//System.err.println(" >> Checking " + cr);
-				if (unifies(this, cr)) {
+				if (unifies(this, cr) || unifies_processing(this, cr)) {
 					//System.err.println(" >> OK");
 					theCons = cr;
 					break;
@@ -76,6 +83,20 @@ public class CompSig<C> implements ISig {
 		for (int i = 0; i < paramTys.length; i++) {
 			Class<?> c = paramTys[i];
 			FieldSpec fs = s.fields.get(i);
+			//System.out.println(" >> Unifies " + fs.type + " | " + c );
+			if (!unifies(fs.type, c)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	private static <T> boolean unifies_processing(CompSig<T> s, Constructor<T> cr) {
+		Class[] paramTys = cr.getParameterTypes();
+		if (paramTys.length != 1 + s.fields.size()) return false;   // different number of pararmeters
+		for (int i = 1; i < paramTys.length; i++) {
+			Class<?> c = paramTys[i];
+			FieldSpec fs = s.fields.get(i-1);
 			//System.out.println(" >> Unifies " + fs.type + " | " + c );
 			if (!unifies(fs.type, c)) {
 				return false;

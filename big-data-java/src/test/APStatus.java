@@ -7,7 +7,6 @@ public class APStatus {
 	String weather;
 	
 	public APStatus(String name, String place, boolean delay, String weather) {
-		super();
 		this.name = name;
 		this.place = place;
 		this.delay = delay;
