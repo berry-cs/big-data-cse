@@ -63,7 +63,7 @@ public class CompField implements IDataField {
 				if (cr == null) throw new RuntimeException("Constructor not found for: " + s);
 				Class[] paramTys = cr.getParameterTypes();
 				Object[] args = new Object[paramTys.length];
-				int start = (s.getFieldCount() == paramTys.length) ? 0 : 1;   // this funny business for extra constructor parameter added in processing
+				int start = (ProcessingDetector.inProcessing() && s.getFieldCount()+1 == paramTys.length) ? 1 : 0;   // this funny business for extra constructor parameter added in processing
 				for (int i = start; i < args.length; i++) {
 					IDataField df = fieldMap.get(s.getFieldName(i-start));
 					ISig fs = s.getFieldSig(i-start).unifyWith(paramTys[i]);  

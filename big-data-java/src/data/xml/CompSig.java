@@ -3,6 +3,8 @@ package data.xml;
 import java.lang.reflect.*;
 import java.util.ArrayList;
 
+import ext.ProcessingDetector;
+
 @SuppressWarnings("unused")
 public class CompSig<C> implements ISig {
 	private Class<C> cls;
@@ -63,7 +65,7 @@ public class CompSig<C> implements ISig {
 				if (Modifier.isPrivate(m) || Modifier.isProtected(m))
 					continue;
 				//System.err.println(" >> Checking " + cr);
-				if (unifies(this, cr) || unifies_processing(this, cr)) {
+				if (unifies(this, cr) || (ProcessingDetector.inProcessing() && unifies_processing(this, cr))) {
 					//System.err.println(" >> OK");
 					theCons = cr;
 					break;
@@ -94,6 +96,7 @@ public class CompSig<C> implements ISig {
 	private static <T> boolean unifies_processing(CompSig<T> s, Constructor<T> cr) {
 		Class[] paramTys = cr.getParameterTypes();
 		if (paramTys.length != 1 + s.fields.size()) return false;   // different number of pararmeters
+		if (!ProcessingDetector.pappletClass.isAssignableFrom(paramTys[0])) return false;
 		for (int i = 1; i < paramTys.length; i++) {
 			Class<?> c = paramTys[i];
 			FieldSpec fs = s.fields.get(i-1);
