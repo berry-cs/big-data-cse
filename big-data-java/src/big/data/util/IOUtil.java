@@ -365,7 +365,7 @@ public class IOUtil {
 				try {
 					return new GZIPInputStream(input);
 				} catch (IOException e) {
-					e.printStackTrace();
+					//e.printStackTrace();
 					return null;
 				}
 			} else if (filename.toLowerCase().endsWith(".zip")) {
@@ -375,7 +375,7 @@ public class IOUtil {
 					System.err.println("Using " + ze.getName() + " from zip source");
 					return zin;	
 				} catch (IOException e) {
-					e.printStackTrace();
+					//e.printStackTrace();
 					return null;
 				}
 			}
@@ -415,7 +415,7 @@ public class IOUtil {
 
 			} catch (IOException e) {
 				// changed for 0117, shouldn't be throwing exception
-				e.printStackTrace();
+				//e.printStackTrace();
 				//System.err.println("Error downloading from URL " + filename);
 				return null;
 				//throw new RuntimeException("Error downloading from URL " + filename);
@@ -541,7 +541,7 @@ public class IOUtil {
 			return out.toByteArray();
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			// .nah. e.printStackTrace();
 			//throw new RuntimeException("Couldn't load bytes from stream");
 		}
 		return null;

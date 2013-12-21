@@ -1,22 +1,28 @@
 package test;
 
 
-import java.util.ArrayList;
+import java.io.PrintWriter;
+import java.util.*;
 
+import org.apache.commons.lang3.ArrayUtils;
+
+import big.data.*;
+import big.data.field.FieldToXMLSpec;
 import big.data.util.IOUtil;
-
-import data.*;
-import data.csv.*;
-import data.xml.*;
+import big.data.xml.*;
+//import data.csv.*;
 
 
 public class TestFileDS {
 	public static void test1() {
-		XMLDataSource xds = new XMLDataSource("vehicles.xml");
-		Car c1 = xds.fetch("test.Car1", "make", "model", "city08");
+		DataSource ds = DataSource.connectXML("vehicles.xml").load();
+		System.out.println(ds.usageString());
+		System.out.println("ds.size(): " + ds.size());
+
+		Car c1 = ds.fetch("test.Car", "make", "model", "city08");
 		System.out.println(c1);
-		
-		ArrayList<Car> cs = xds.fetchList(Car.class, "make", "model", "city08");
+
+		ArrayList<Car> cs = ds.fetchList(Car.class, "make", "model", "city08");
 		System.out.println(cs.size());
 		Car max = cs.get(0);
 		for (Car c : cs) {
@@ -26,14 +32,33 @@ public class TestFileDS {
 	}
 	
 	public static void test2() {
+		DataSource ds = DataSource.connect("src/big/data/tests/dsspec1.xml");
+		System.out.println(ds.usageString());
+		System.out.println(ds.readyToLoad());
+		System.out.println(IOUtil.join(ds.missingParams().toArray(new String[] {}), ", "));
+		//ds.load();
+		ds.set("airportCode", "BOS").load();
+		System.out.println("ds.size(): " + ds.size());
+		String[] names = ds.fetchArray("String", "Name");
+		System.out.println(names.length + " airports. First name: " + names[0]);
+		
+		ds = DataSource.connect("http://services.faa.gov/airport/status/BOS").set("format", "application/xml").load();
+		System.out.println(ds.usageString());
+		APStatus x = ds.fetch("test.APStatus", "Name", "State", "Delay", "Weather/Weather");
+		System.out.println(x);
+	}
+	
+	
+	/*
+	public static void test2() {
 		String airportCode = "JFK";
-		XMLDataSource ads = new XMLDataSource("http://services.faa.gov/airport/status/" + airportCode + "?format=application/xml");
+		XMLDataSource ads = new XMLDataSource("Airport Status", "http://services.faa.gov/airport/status/" + airportCode + "?format=application/xml");
 		APStatus x = ads.fetch("test.APStatus", "Name", "State", "Delay", "Weather/Weather");
 		System.out.println(x + "\n");
 		System.out.println(ads.usageString());
 		System.out.println("---");
 		
-		XMLDataSource fds = new XMLDataSource("Food_Display_Table.xml");
+		XMLDataSource fds = new XMLDataSource("Foods", "Food_Display_Table.xml");
 		ArrayList<FoodItem> fs = fds.fetchList(FoodItem.class, "Display_Name", "Calories", "Portion_Amount", "Portion_Display_Name", "Food_Code");
 		System.out.println(fs.size() + " foods in table");
 		
@@ -63,9 +88,38 @@ public class TestFileDS {
 		
 		Double[] dcals = fds.fetchArray("Double", "Calories");
 	}
+	*/
 	
 	public static class CodeCountry { String code; String ctry; String city; public CodeCountry(String a, String b, String c) { code = a; ctry = b; city = c; } }
 
+	public static void test4() {
+		DataSource ds = DataSource.connectCSV("Airline Data", "http://sourceforge.net/p/openflights/code/HEAD/tree/openflights/data/airlines.dat");
+		ds.setOption("header", "\"ID\",\"Name\",\"Alias\",\"IATA\",\"ICAO\",\"Callsign\",\"Country\",Active");
+		ds.set("format", "raw");
+		System.out.println(ds.usageString());
+		ds.load();
+		System.out.println(ds.usageString());
+		System.out.println("ds.size(): " + ds.size());
+		String[] names = ds.fetchStringArray("Name");
+		System.out.println(names.length + " airlines");
+		System.out.println(names[100]);
+		
+		ds = DataSource.connect("src/big/data/tests/dsspec2.xml").load();
+		System.out.println(ds.usageString());
+		names = ds.fetchStringArray("Name");
+		System.out.println(names.length + " airlines");
+		System.out.println(names[100]);
+		
+		System.out.println("---");
+		ds.getFieldSpec().apply(new FieldToXMLSpec()).write(new PrintWriter(System.out));
+		
+		ds = DataSource.connect("src/big/data/tests/dsspec3.xml").load();
+		System.out.println(ds.usageString());
+		names = ds.fetchStringArray("Country");
+		System.out.println(IOUtil.join(ArrayUtils.subarray(names, 0, 20), ","));
+	}
+	
+	/*
 	public static void test3() {
 		IDataSource ds = CSVDataSourceFactory.getDataSource("airports.dat");
 		System.out.println(ds.usageString());
@@ -96,6 +150,7 @@ public class TestFileDS {
 		String[] names = ds.fetchArray("String", "Name");
 		System.out.println(names.length + " airlines");
 	}
+	*/
 	
 	public static class Weather {
 		String time;
@@ -115,21 +170,26 @@ public class TestFileDS {
 	}
 	
 	public static void test5() {
-		DataSource ds = DataSource.worldWeather("11746", "7kwg5bevqqvrv3s676kd4uwb");
+		DataSource ds = DataSource.connect("src/big/data/tests/dsspec4.xml");
+		ds.set("q", "11746").set("key", "7kwg5bevqqvrv3s676kd4uwb").load();
 		System.out.println(ds.usageString());
-		System.out.println(ds.fetch(Weather.class, "current_condition/localObsDateTime", "current_condition/temp_F", "current_condition/visibility"));
 		
-		ds = DataSource.loadFrom("http://www.cnpp.usda.gov/Innovations/DataSource/MyFoodapediaData.zip"); 
+		//System.out.println("---");
+		//ds.getFieldSpec().apply(new FieldToXMLSpec()).write(new PrintWriter(System.out));
+
+		ds = DataSource.connect("src/big/data/tests/dsspec5.xml").set("q", "11746").set("key", "7kwg5bevqqvrv3s676kd4uwb").load();
 		System.out.println(ds.usageString());
+
+		Weather w = ds.fetch(Weather.class, "date&time", "temp", "visibility");
+		System.out.println(w);
 	}
-	
 
 	public static void main(String[] args) {
 		//test1();
 		test2();
 		//test3();
-		//test4();
-		//test5();
+		test4();
+		test5();
 	}
 }
 

@@ -61,7 +61,7 @@ public class XMLInstantiatorTest {
 
 	@Before
 	public void setUp() throws Exception {
-		xml1 = IOUtil.loadXML("src/data2/tests/dsspec1.xml");
+		xml1 = IOUtil.loadXML("src/big/data/tests/dsspec1.xml");
 		pf1 = new PrimField("name", "option name");
 		pf2 = new PrimField("value", "option setting");
 		pf3 = new PrimField(null);
@@ -99,7 +99,7 @@ public class XMLInstantiatorTest {
 						  ((ArrayList)instantiate(pf4, xml1, new ListSig(PrimSig.WILDCARD_SIG))).toArray());
 
 		ArrayList<String> lst = instantiate(lf3, xml1, new ListSig(PrimSig.WILDCARD_SIG));
-		assertArrayEquals(new String[] { "City", "Status Comment", "Status" },
+		assertArrayEquals(new String[] { "City", "State", "Name", "Status Comment", "Status" },
 						  lst.toArray());
 		
 		assertEquals(new Pair("xmlpreprocclass", "WeatherConsolidate"), 

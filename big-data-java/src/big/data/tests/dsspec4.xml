@@ -1,0 +1,27 @@
+<datasourcespec>
+    
+	<loaderclass>big.data.xml.XMLDataSource</loaderclass>
+	<path>http://api.worldweatheronline.com/free/v1/weather.ashx</path>
+	<name>World Weather Online</name>
+	
+	<infourl>http://www.worldweatheronline.com/free-weather-feed.aspx</infourl>
+	<description>Provides current weather conditions and next 5 days of accurate and reliable weather forecast</description>
+	
+	<options>
+	</options>
+	
+	<params>
+		<queryparam required="true"><key>key</key><description>Your WWO API key</description></queryparam>
+		<queryparam required="true"><key>q</key><description>US Zipcode, UK Postcode, Canada Postalcode, IP address, Latitude/Longitude (decimal degree), or City Name</description></queryparam>
+		<queryparam><key>format</key><value>xml</value></queryparam>
+		<queryparam><key>date</key><value>today</value><description>Specify today, tomorrow or a date in future. The date should be in the yyyy-mm-dd format. e.g: today or tomorrow or 2013-04-21</description></queryparam>
+		<queryparam><key>extra</key><value>localObsTime</value><description>Possible values are localObsTime, isDayTime, utcDateTime. Two or more values can be passed as comma separated</description></queryparam>
+		<queryparam><key>fx</key><value>no</value></queryparam>
+	</params>
+		
+	<cache>
+		<timeout>10800000</timeout>
+		<directory />             
+	</cache>
+		
+</datasourcespec>

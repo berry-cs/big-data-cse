@@ -1,5 +1,5 @@
 <datasourcespec>
-	<loaderclass>data2.xml.XMLDataSource</loaderclass>
+	<loaderclass>big.data.xml.XMLDataSource</loaderclass>
 	<path>http://services.faa.gov/airport/status/@{airportCode}</path>
 	<name>FAA Airport Status</name>
 	
@@ -25,10 +25,10 @@
 	</params>
 		
 	<cache>
-		<timeout>3600000</timeout>               
+		<timeout>-1</timeout>               
 		<directory>cache</directory>             
 	</cache>
-	
+
 	<dataspec>
 		<compfield>
 			<basepath />
@@ -41,7 +41,23 @@
 						<description>name of the city where the airport is</description>
 					</primfield>
 				</field>
-				
+
+				<field>
+					<name>State</name>
+					<primfield>
+						<basepath>State</basepath>
+						<description>name of the state where the airport is</description>
+					</primfield>
+				</field>
+
+				<field>
+					<name>Name</name>
+					<primfield>
+						<basepath>Name</basepath>
+						<description>full name of the airport</description>
+					</primfield>
+				</field>
+
 				<field>
 					<name>Status Comment</name>
 					<primfield>

@@ -1,0 +1,26 @@
+<datasourcespec>
+    
+	<loaderclass>big.data.csv.CSVtoXMLDataSource</loaderclass>
+	<path>http://sourceforge.net/p/openflights/code/HEAD/tree/openflights/data/airlines.dat</path>
+	<name>Airline Data</name>
+	
+	<infourl />
+	<description />
+	
+	<options>
+		<option><name>header</name><value>"ID","Name","Alias","IATA","ICAO","Callsign","Country",Active</value></option>
+	</options>
+
+	<params>
+		<queryparam>
+			<key>format</key>
+			<value>raw</value>
+		</queryparam>
+	</params>
+		
+	<cache>
+		<timeout />
+		<directory />             
+	</cache>
+	
+</datasourcespec>

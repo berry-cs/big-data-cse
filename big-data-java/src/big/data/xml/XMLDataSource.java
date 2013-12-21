@@ -27,12 +27,14 @@ public class XMLDataSource extends DataSource {
 	
 	public DataSource load() {
 		if (!readyToLoad())
-			throw new DataSourceException("Not ready to load; missing parameters: " + IOUtil.join((String[])missingParams().toArray(), ','));
+			throw new DataSourceException("Not ready to load; missing parameters: " + IOUtil.join(missingParams().toArray(new String[]{}), ','));
 
-		if (xml == null)
-			xml = IOUtil.loadXML(this.cacher.resolvePath(this.getFullPathURL()));
 		if (xml == null) {
-			System.err.println("Failed to load: " + this.getFullPathURL());
+			String resolvedPath = this.cacher.resolvePath(this.getFullPathURL());
+			if (resolvedPath != null) xml = IOUtil.loadXML(resolvedPath);
+		}
+		if (xml == null) {
+			System.err.println("Failed to load: " + this.getFullPathURL() + "\nCHECK NETWORK CONNECTION, if applicable");
 			return null;
 		}
 		
@@ -78,19 +80,17 @@ public class XMLDataSource extends DataSource {
 	}
 
 	public <T> T fetch(Class<T> cls, String... keys) {
+		if (!this.hasData())
+			throw new DataSourceException("No data available: " + this.getName());
 		ISig sig = SigBuilder.buildCompSig(cls, keys);
 		return spec.apply(new XMLInstantiator<T>(xml, sig));
 	}
 
 	public <T> ArrayList<T> fetchList(Class<T> cls, String... keys) {
+		if (!this.hasData())
+			throw new DataSourceException("No data available: " + this.getName());
 		ISig sig = new ListSig(SigBuilder.buildCompSig(cls, keys));
 		return spec.apply(new XMLInstantiator<ArrayList<T>>(xml, sig));
-	}
-
-	@Override
-	public String usageString() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

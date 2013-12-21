@@ -9,6 +9,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import big.data.util.IOUtil;
+import big.data.util.ProcessingDetector;
 import big.data.util.XML;
 
 
@@ -19,7 +20,7 @@ public class DataCacher {
 	public static final long NEVER_CACHE = 0;
 	public static final long NEVER_RELOAD = -1;
 
-	private static final DataCacher dc = new DataCacher(DEFAULT_CACHE_DIR, NEVER_RELOAD); 
+	private static final DataCacher dc = makeDefaultDataCacher(); 
 	private static boolean CachingEnabled = true;
 	
 	private String cacheDirectory;
@@ -30,13 +31,20 @@ public class DataCacher {
 		this.cacheExpiration = cacheExpiration;
 	}
 	
+	private static DataCacher makeDefaultDataCacher() {
+		if (ProcessingDetector.inProcessing()) 
+			return new DataCacher(ProcessingDetector.sketchPath(DEFAULT_CACHE_DIR), NEVER_RELOAD);
+		else 
+			return new DataCacher(DEFAULT_CACHE_DIR, NEVER_RELOAD);	
+	}
+	
 	public static DataCacher defaultCacher() { return dc; }
 	
 	public DataCacher updateDirectory(String path) {
 		File f = new File(path);
-		if (!f.exists() || !f.isDirectory()) {
+		if (!f.exists()) f.mkdirs();
+		if (!f.exists() || !f.isDirectory())
 			throw new RuntimeException("Cannot access cache directory: " + path);
-		}
 		return new DataCacher(path, this.cacheExpiration);
 	}
 	
@@ -57,7 +65,7 @@ public class DataCacher {
 			XML cacheXML = IOUtil.loadXML(cacheIndexName);
 			XML myNode = findMyEntry(cacheXML, path);
 			String cachepath = (myNode==null ? null : myNode.getChild("cachefile").getContent());
-			//System.err.println(path + " > " + cachepath + " / " + myNode);
+			//System.err.println(path + " > " + cachepath + " / " + myNode + " / " + this.cacheExpiration);
 			if (cachepath == null || cacheExpired(myNode) || cacheInvalid(myNode)) {
 				try {
 					// update cache
@@ -77,14 +85,16 @@ public class DataCacher {
 					IOUtil.saveXML(cacheXML, cacheIndexName);
 					return cachedFilePath;
 				} catch (IOException e ) {
-					e.printStackTrace();
-					return path;
+					//e.printStackTrace();
+					return null;
 				} catch ( ParserConfigurationException e) {
-					e.printStackTrace();
-					return path;
+					System.err.println("ParserConfigurationException: " + e);
+					//e.printStackTrace();
+					return null;
 				} catch ( SAXException e) {
-					e.printStackTrace();
-					return path;
+					System.err.println("SAXException: " + e);
+					//e.printStackTrace();
+					return null;
 				} 
 			}
 			return cachepath;
@@ -97,6 +107,9 @@ public class DataCacher {
 
 	private String readAndCache(String path) throws IOException {
 		byte[] stuff = IOUtil.loadBytes(IOUtil.createInput(path));
+		if (stuff == null) {
+			throw new IOException("Failed to load: " + path + "\nCHECK NETWORK CONNECTION, if applicable");
+		}
 		File cacheDir = new File(cacheDirectory + File.separator + path.hashCode());
 		if (!cacheDir.exists()) cacheDir.mkdirs();
 		File tempFile = File.createTempFile("cache", ".dat", cacheDir);
@@ -113,7 +126,7 @@ public class DataCacher {
 		long ts = node.getChild("timestamp").getLongContent();
 		long diff = (System.currentTimeMillis() - ts);
 		//System.err.println("exp: " + cacheExpiration + "/ " + diff);
-		return cacheExpiration > 0 && diff > cacheExpiration; 
+		return cacheExpiration >= 0 && diff > cacheExpiration; 
 	}
 	
 	private XML findMyEntry(XML xml, String path) {

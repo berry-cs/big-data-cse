@@ -25,7 +25,7 @@ public class DataSourceLoader {
 			Class<?> dsclass = Class.forName(loaderClass);
 			Constructor<?> cr = dsclass.getConstructor(String.class, String.class);
 			cr.setAccessible(true);
-			ds = (DataSource) cr.newInstance(name!=null?name:path, path);
+			ds = (DataSource) cr.newInstance((name!=null)?name:path, path);
 			
 			String infoURL = getContentOf(xml, "infourl");
 			if (infoURL != null) ds.setInfoURL(infoURL);
@@ -168,14 +168,14 @@ public class DataSourceLoader {
 		if (node == null) return;
 		String timeout = getContentOf(node, "timeout");
 		String dir = getContentOf(node, "directory");
-		if (timeout != null) { 
+		if (timeout != null && !"".equals(timeout)) { 
 			try {
 				ds.setCacheTimeout(Long.parseLong(timeout)); 
 			} catch (NumberFormatException e) {
 				System.err.println("Error loading cache timeout value: " + timeout + " (" + e.getMessage() + ")");
 			}
 		}
-		if (dir != null) {
+		if (dir != null && !"".equals(dir)) {
 			ds.setCacheDirectory(dir);
 		}
 	}
@@ -191,7 +191,7 @@ public class DataSourceLoader {
 	private String getContentOf(XML xml, String xmlpath) {
 		XML node = xml.getChild(xmlpath);
 		if (node == null) return null;
-		return node.getContent();
+		return node.getContent().trim();
 	}
 
 }

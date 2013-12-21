@@ -3,9 +3,11 @@ package big.data;
 import java.lang.reflect.Array;
 import java.util.*;
 
+import big.data.csv.CSVtoXMLDataSource;
 import big.data.field.*;
 import big.data.sig.*;
 import big.data.util.*;
+import big.data.xml.XMLDataSource;
 
 
 /**
@@ -55,15 +57,53 @@ public abstract class DataSource implements IDataSource {
 		this.paramValues = new HashMap<String, String>();
 		this.paramValueKeys = new ArrayList<String>();
 	}
+	
+	public static DataSource connect(String path) {
+		if (DataSourceLoader.isValidDataSourceSpec(path)) {
+			return connectUsing(path);
+		} else if (path.toLowerCase().endsWith(".csv")) {
+			return connectCSV(path);
+		} else {
+			return connectXML(path);
+		}
+	}
+	
+	public static DataSource connectUsing(String specpath) {
+		// TODO: validate
+		return new DataSourceLoader(specpath).getDataSource();
+	}
+	
+	public static DataSource connectXML(String path) {
+		//String[] pcs = IOUtil.split(path, "/");
+		// TODO: generate more sensible name?
+		return connectXML(path, path);
+	}
 
+	public static DataSource connectCSV(String path) {
+		return connectCSV(path, path);
+	}
+
+	public static DataSource connectXML(String name, String path) {
+		return new XMLDataSource(name, path);
+	}
+	
+	public static DataSource connectCSV(String name, String path) {
+		return new CSVtoXMLDataSource(name, path);
+	}
+
+	public IDataField getFieldSpec() {
+		return this.spec;
+	}
+	
 	public String getFullPathURL() {
-		if (!readyToLoad) 
+		if (!readyToLoad()) 
 			throw new RuntimeException("Cannot finalize path: not ready to load");
 
-		URLPrepper prepper = new URLPrepper(this.path);
+		String fullpath = this.path;
 		
 		// add query params to request URL...
 		if (URLPrepper.isURL(this.path)) {
+			URLPrepper prepper = new URLPrepper(this.path);
 			for (String k : paramValueKeys) {
 				IParam p = findParam(k);
 				if (p == null || p.getType() == ParamType.QUERY) {
@@ -71,10 +111,10 @@ public abstract class DataSource implements IDataSource {
 					prepper.addParam(k, v);
 				}
 			}
+			fullpath = prepper.getRequestURL();
 		}
 		
 		// fill in substitutions
-		String fullpath = prepper.getRequestURL();
 		for (String k : paramValueKeys) {
 			IParam p = findParam(k);
 			if (p != null && p.getType() == ParamType.PATH) {
@@ -107,7 +147,6 @@ public abstract class DataSource implements IDataSource {
 	public abstract int size();
 	public abstract <T> T fetch(Class<T> cls, String... keys);
 	public abstract <T> ArrayList<T> fetchList(Class<T> cls, String... keys);
-	public abstract String usageString();
 	
 	
 	
@@ -208,5 +247,43 @@ public abstract class DataSource implements IDataSource {
     	T[] ts = (T[]) Array.newInstance(cls, 1);
     	return (T[]) (fetchList(cls, keys).toArray(ts));
     }
+    
+	public String[] fetchStringArray(String key) {
+		return fetchArray(String.class, key);
+	}
+
+	public String usageString() {
+		String s = "-----\n";
+		if (this.name != null) 
+			s += "Data Source: " + this.name + "\n";
+		if (description != null && !description.equals("")) s += description + "\n";
+		if (infoURL != null) s += "(See " + infoURL + " for more information about this data.)\n";
+
+		String[] paramKeys = params.keySet().toArray(new String[]{});
+		if (paramKeys.length > 0) {
+			Arrays.sort(paramKeys);
+			s += "\nThe following options may/must be set on this data source:\n";
+			for (String key : paramKeys) {
+				IParam p = params.get(key);
+				String v = paramValues.get(key);
+				String desc = p.getDescription();
+				boolean req = p.isRequired();
+				s += "   - " + key
+						+ ((v==null)?" (not set)":" (currently set to: " + v + ")") 
+						+ ((desc==null)?"":" : " + desc) + ((v==null && req)?" [*required]":"")
+						+ "\n";
+			}
+		}
+		
+		
+		if (spec == null) {
+			s += "\n*** Data not loaded ***";
+		} else {
+			s += "\nThe following data is available:\n" + spec.apply(new FieldStringPrettyPrint(3, true)) + "\n";
+			s += "-----\n";
+		}
+		return s;			
+	}
 
 }
+

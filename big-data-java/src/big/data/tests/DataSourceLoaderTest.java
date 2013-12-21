@@ -16,7 +16,7 @@ import big.data.xml.XMLDataSource;
 
 
 public class DataSourceLoaderTest {
-	static String spec1path = "src/data2/tests/dsspec1.xml";
+	static String spec1path = "src/big/data/tests/dsspec1.xml";
 
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
@@ -41,8 +41,8 @@ public class DataSourceLoaderTest {
 	@Test
 	public void testIsValidDataSourceSpec() {
 		assertTrue(DataSourceLoader.isValidDataSourceSpec(spec1path));
-		assertFalse(DataSourceLoader.isValidDataSourceSpec("src/data2/tests/DataSourceLoaderTest.java"));
-		assertFalse(DataSourceLoader.isValidDataSourceSpec("src/data2/tests/nonexistent"));
+		assertFalse(DataSourceLoader.isValidDataSourceSpec("src/big/data/tests/DataSourceLoaderTest.java"));
+		assertFalse(DataSourceLoader.isValidDataSourceSpec("src/big/data/tests/nonexistent"));
 	}
 	
 	@Test

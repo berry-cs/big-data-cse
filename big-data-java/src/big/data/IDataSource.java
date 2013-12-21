@@ -101,5 +101,7 @@ public interface IDataSource {
 	public <T> T[] fetchArray(String clsName, String... keys);
 	public <T> T[] fetchArray(Class<T> cls, String... keys);
 	
+	public String[] fetchStringArray(String key);
+	
 	public String usageString();
 }
