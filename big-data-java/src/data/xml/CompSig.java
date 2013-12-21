@@ -3,7 +3,9 @@ package data.xml;
 import java.lang.reflect.*;
 import java.util.ArrayList;
 
-import ext.ProcessingDetector;
+import big.data.util.ProcessingDetector;
+
+
 
 @SuppressWarnings("unused")
 public class CompSig<C> implements ISig {

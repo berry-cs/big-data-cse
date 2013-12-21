@@ -4,8 +4,9 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import big.data.util.*;
+
 import data.*;
-import ext.*;
 
 public class XMLDataSource extends DataSource {
 	private DataCacher dc;
@@ -145,13 +146,22 @@ public class XMLDataSource extends DataSource {
 	private <T> Class<T> classFor(String clsName) {
 		if (clsName.equals("String")) return classFor("java.lang.String");
 		else if (clsName.equals("Double") || clsName.equals("double")) return classFor("java.lang.Double");
+		else if (clsName.equals("Boolean") || clsName.equals("boolean")) return classFor("java.lang.Boolean");
 		
 		try {
 			Class<T> cls;
 			cls = (Class<T>)Class.forName(clsName);
 			return cls;
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			if (ProcessingDetector.inProcessing()) {
+				String sketchName = ProcessingDetector.getProcessingSketchClassName();
+				if (sketchName != null && !clsName.startsWith(sketchName + "$"))
+					return classFor(sketchName + "$" + clsName); 
+				else 
+					e.printStackTrace();
+			} else {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}

@@ -1,8 +1,14 @@
 package data;
 
+import big.data.util.ProcessingDetector;
 import data.xml.XMLDataSource;
 
 public abstract class DataSource implements IDataSource {
+
+	// for processing purpose only
+	public static void initialize(Object papplet) {
+		ProcessingDetector.setPappletObject(papplet);
+	}
 	
 	public static DataSource loadFrom(String path) {
 		return new XMLDataSource(path);

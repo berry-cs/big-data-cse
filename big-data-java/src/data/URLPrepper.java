@@ -31,7 +31,7 @@ public class URLPrepper {
 	public String getRequestURL() {
 		String req = url;
 		if (!req.startsWith("http")) req = "http://" + req;
-		if (params.size() > 0) req += "?";
+		if (params.size() > 0 && !req.contains("?")) req += "?";
 		for (String k : keys) {
 			String v = params.get(k);
 			if (!req.endsWith("?")) req += "&";

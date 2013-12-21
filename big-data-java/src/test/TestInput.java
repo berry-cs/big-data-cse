@@ -2,9 +2,10 @@ package test;
 
 import java.io.InputStream;
 
+import big.data.util.*;
+
 import data.xml.*;
 
-import ext.*;
 import static data.xml.PrimSig.*;
 
 public class TestInput {

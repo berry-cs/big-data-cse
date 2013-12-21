@@ -1,6 +1,6 @@
 package data.xml;
 
-import ext.*;
+import big.data.util.*;
 
 public class PrimField implements IDataField {
 	private String path;

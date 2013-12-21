@@ -3,10 +3,11 @@ package test;
 
 import java.util.ArrayList;
 
+import big.data.util.IOUtil;
+
 import data.*;
 import data.csv.*;
 import data.xml.*;
-import ext.IOUtil;
 
 
 public class TestFileDS {
@@ -124,8 +125,8 @@ public class TestFileDS {
 	
 
 	public static void main(String[] args) {
-		test1();
-		//test2();
+		//test1();
+		test2();
 		//test3();
 		//test4();
 		//test5();
