@@ -117,29 +117,84 @@ xds.selectService("weather reading list");
 xds.fetch(xds.listOf(xds.object("Reading", "time", "temp")))
 
 
+DataSource ds = DataSource.connectXML("http://fe.org/veh.xml").set("apikey", "x43gjk4").load();
 
 
-XMLDataSource xds = XMLDataSource.getInstance("weather");
-
-System.out.println(xds.usage());
-
-{
-  SecondReport c1 = xds.fetch("SecondReport", "date", "time", "tempF");
-...
-delay(1);
-}
+<datasource>
+	<path>http://www.cnpp.usda.gov/Innovations/DataSource/MyFoodapediaData.zip</path>
+	<filetype>xml</filetype>
+</datasource>
 
 
-class SecondReport {
-   ...
-   
-   SecondReport(String d, String t, int f) { ... }
-   SecondReport(String dt, int f) { ... }
-}
+<datasourcespec>
+	<loaderclass>XMLDataSource</loaderclass>
+	
+	<name>FAA Airport Status</name>
+	<infourl>http://services.faa.gov/docs/services/airport/</infourl>
+	<description>Serves airport status and delay information from the Air Traffic Control System Command Center (ATCSCC) as displayed on http://fly.faa.gov/</description>
 
+	<options>
+		<option><name>xmlpreprocclass</name><value>WeatherConsolidate</value></option>
+	</options>
 
-
-
+	<path>http://services.faa.gov/airport/status/@{airportCode}"</path>
+	
+	<params>
+		<queryparam hidden="hidden">
+			<key>format</key>
+			<value>application/xml</value>
+		</queryparam>
+		<pathparam>
+			<key>airportCode</key>
+			<required>true</required>
+			<description>3-digit FAA code</description>
+		</pathparam>
+	</params>
+		
+	<cache>
+		<timeout>3600000</timeout>                /* msecs */
+		<directory>cache</directory>             /* @{tempdir}  @{homedir}  @{curdir} =/= @{sketchdir} */
+	</cache>
+	
+	<dataspec>
+		<compfield>
+			<basepath />
+			<description>airport status and delay information</description>
+			<fields>
+				<field>
+					<name>City</name>
+					<primfield>
+						<path>City</path>
+						<description>name of the city where the airport is</description>
+					</primfield>
+				</field>
+				
+				<field>
+					<name>Status Comment</name>
+					<primfield>
+						<path>Status/Reason</path>
+					</primfield>
+				</field>
+				
+				<field>
+					<name>Status</name>
+					<compfield>
+						<basepath>Status</basepath>
+						<fields>
+							<field>
+								<name>Reason</name>
+								<primfield>
+									<path>Reason</path>
+								</primfield>
+							</field>
+						</fields>
+					</compfield>
+				</field>
+			</fields>
+		</compfield>
+	</dataspec>
+	
+</datasourcespec>
 
 
 

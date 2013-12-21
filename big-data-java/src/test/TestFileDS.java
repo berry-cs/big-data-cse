@@ -13,13 +13,13 @@ import data.xml.*;
 public class TestFileDS {
 	public static void test1() {
 		XMLDataSource xds = new XMLDataSource("vehicles.xml");
-		Car1 c1 = xds.fetch("test.Car1", "make", "model", "city08");
+		Car c1 = xds.fetch("test.Car1", "make", "model", "city08");
 		System.out.println(c1);
 		
-		ArrayList<Car1> cs = xds.fetchList(Car1.class, "make", "model", "city08");
+		ArrayList<Car> cs = xds.fetchList(Car.class, "make", "model", "city08");
 		System.out.println(cs.size());
-		Car1 max = cs.get(0);
-		for (Car1 c : cs) {
+		Car max = cs.get(0);
+		for (Car c : cs) {
 			if (c.mpgCity > max.mpgCity) max = c;
 		}
 		System.out.println(max);
