@@ -77,6 +77,10 @@ public class DataCacher {
 					}
 
 					String cachedFilePath = readAndCache(path);
+					if (cachepath != null) {  // need to remove old cached file
+						File oldcache = new File(cachepath);
+						oldcache.delete();
+					}
 					myNode.getChild("cachefile").setContent(cachedFilePath);
 					myNode.getChild("timestamp").setContent(System.currentTimeMillis() + "");
 					cacheXML.addChild(myNode);

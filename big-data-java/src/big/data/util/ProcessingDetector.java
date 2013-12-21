@@ -20,7 +20,7 @@ public class ProcessingDetector {
 	}
 	
 	public static void setPappletObject(Object o) {
-		if (pappletClass != null && o.getClass() == pappletClass) {
+		if (pappletClass != null && pappletClass.isAssignableFrom(o.getClass())) {
 			pappletObject = o;
 		}
 	}

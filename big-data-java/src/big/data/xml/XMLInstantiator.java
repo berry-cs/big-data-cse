@@ -213,11 +213,11 @@ public class XMLInstantiator<T> implements IDFVisitor<T> {
 	
 	/* -------------------------- helper functions ----------------------------------- */
 	
-	public String asString(XML xml) {
+	public static String asString(XML xml) {
 		return xml.getContent().trim();
 	}
 	
-	public int asInt(XML xml) {
+	public static int asInt(XML xml) {
 		String s = asString(xml).trim();
 		int v = 0;
 		try {
@@ -228,7 +228,7 @@ public class XMLInstantiator<T> implements IDFVisitor<T> {
 		return v;
 	}
 	
-	public double asDouble(XML xml) {
+	public static double asDouble(XML xml) {
 		String s = asString(xml);
 		double v = 0.0;
 		try {
@@ -239,7 +239,7 @@ public class XMLInstantiator<T> implements IDFVisitor<T> {
 		return v;
 	}
 	
-	public boolean asBoolean(XML xml) {
+	public static boolean asBoolean(XML xml) {
 		String s = asString(xml).toLowerCase();
 		boolean b = false;
 		if (s.equals("true") || s.equals("1") || s.equals("y") || s.equals("yes"))

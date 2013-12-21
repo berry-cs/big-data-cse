@@ -29,24 +29,22 @@ public class XMLDataSource extends DataSource {
 		if (!readyToLoad())
 			throw new DataSourceException("Not ready to load; missing parameters: " + IOUtil.join(missingParams().toArray(new String[]{}), ','));
 
-		if (xml == null) {
-			String resolvedPath = this.cacher.resolvePath(this.getFullPathURL());
-			if (resolvedPath != null) xml = IOUtil.loadXML(resolvedPath);
-		}
+		String resolvedPath = this.cacher.resolvePath(this.getFullPathURL());
+		if (resolvedPath != null) xml = IOUtil.loadXML(resolvedPath);
+
 		if (xml == null) {
 			System.err.println("Failed to load: " + this.getFullPathURL() + "\nCHECK NETWORK CONNECTION, if applicable");
 			return null;
 		}
 		
-		if (spec == null) {
+		if (spec == null)
 			spec = XMLSigBuilder.inferDataField(xml);
-		}
-		if (spec == null) {
+		if (spec == null)
 			System.err.println("Failed to load: missing data field specification");
-			return null;
+		
+		if (xml != null && spec != null) {
+			this.loaded = true;
 		}
-
-		this.loaded = true;
 		return this;
 	}
 

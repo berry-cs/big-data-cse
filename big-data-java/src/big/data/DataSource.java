@@ -3,6 +3,8 @@ package big.data;
 import java.lang.reflect.Array;
 import java.util.*;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import big.data.csv.CSVtoXMLDataSource;
 import big.data.field.*;
 import big.data.sig.*;
@@ -89,6 +91,15 @@ public abstract class DataSource implements IDataSource {
 	
 	public static DataSource connectCSV(String name, String path) {
 		return new CSVtoXMLDataSource(name, path);
+	}
+	
+	public static void initializeProcessing(Object papp) {
+		if (ProcessingDetector.inProcessing()) {
+			ProcessingDetector.setPappletObject(papp);
+		}
+		else {
+			System.err.println("initializeProcessing() should only be called if Processing is being used.");
+		}
 	}
 
 	public IDataField getFieldSpec() {
@@ -248,10 +259,59 @@ public abstract class DataSource implements IDataSource {
     	return (T[]) (fetchList(cls, keys).toArray(ts));
     }
     
+	public boolean fetchBoolean(String key) { return fetch(Boolean.class, key); }
+	public byte fetchByte(String key) { return fetch(Byte.class, key); }
+	public char fetchChar(String key) { return fetch(Character.class, key); }
+	public double fetchDouble(String key) { return fetch(Double.class, key); }
+	public float fetchFloat(String key) { return fetch(Float.class, key); }
+	public int fetchInt(String key) { return fetch(Integer.class, key); }
+	public String fetchString(String key) { return fetch(String.class, key); }
+	
+	public boolean[] fetchBooleanArray(String key) {
+		return ArrayUtils.toPrimitive(fetchArray(Boolean.class, key));
+	}
+	public byte[] fetchByteArray(String key) {
+		return ArrayUtils.toPrimitive(fetchArray(Byte.class, key));
+	}
+	public char[] fetchCharArray(String key) {
+		return ArrayUtils.toPrimitive(fetchArray(Character.class, key));
+	}
+	public double[] fetchDoubleArray(String key) {
+		return ArrayUtils.toPrimitive(fetchArray(Double.class, key));
+	}
+	public float[] fetchFloatArray(String key) {
+		return ArrayUtils.toPrimitive(fetchArray(Float.class, key));
+	}
+	public int[] fetchIntArray(String key) {
+		return ArrayUtils.toPrimitive(fetchArray(Integer.class, key));
+	}
 	public String[] fetchStringArray(String key) {
 		return fetchArray(String.class, key);
 	}
-
+	
+	public ArrayList<Boolean> fetchBooleanList(String key) {
+		return fetchList(Boolean.class, key);
+	}
+	public ArrayList<Byte> fetchByteList(String key) {
+		return fetchList(Byte.class, key);
+	}
+	public ArrayList<Character> fetchCharList(String key) {
+		return fetchList(Character.class, key);
+	}
+	public ArrayList<Double> fetchDoubleList(String key) {
+		return fetchList(Double.class, key);
+	}
+	public ArrayList<Float> fetchFloatList(String key) {
+		return fetchList(Float.class, key);
+	}
+	public ArrayList<Integer> fetchIntList(String key) {
+		return fetchList(Integer.class, key);
+	}
+	public ArrayList<String> fetchStringList(String key) {
+		return fetchList(String.class, key);
+	}
+    
+    
 	public String usageString() {
 		String s = "-----\n";
 		if (this.name != null) 
@@ -274,14 +334,14 @@ public abstract class DataSource implements IDataSource {
 						+ "\n";
 			}
 		}
-		
-		
-		if (spec == null) {
-			s += "\n*** Data not loaded ***";
-		} else {
+			
+		if (spec != null)
 			s += "\nThe following data is available:\n" + spec.apply(new FieldStringPrettyPrint(3, true)) + "\n";
-			s += "-----\n";
-		}
+		
+		if (!this.hasData())
+			s += "\n*** Data not loaded *** ... use .load()";
+		
+		s += "-----\n";
 		return s;			
 	}
 

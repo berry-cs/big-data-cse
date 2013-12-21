@@ -101,7 +101,30 @@ public interface IDataSource {
 	public <T> T[] fetchArray(String clsName, String... keys);
 	public <T> T[] fetchArray(Class<T> cls, String... keys);
 	
+	public boolean fetchBoolean(String key);
+	public byte fetchByte(String key);
+	public char fetchChar(String key);
+	public double fetchDouble(String key);
+	public float fetchFloat(String key);
+	public int fetchInt(String key);
+	public String fetchString(String key);
+	
+	public boolean[] fetchBooleanArray(String key);
+	public byte[] fetchByteArray(String key);
+	public char[] fetchCharArray(String key);
+	public double[] fetchDoubleArray(String key);
+	public float[] fetchFloatArray(String key);
+	public int[] fetchIntArray(String key);
 	public String[] fetchStringArray(String key);
+	
+	public ArrayList<Boolean> fetchBooleanList(String key);
+	public ArrayList<Byte> fetchByteList(String key);
+	public ArrayList<Character> fetchCharList(String key);
+	public ArrayList<Double> fetchDoubleList(String key);
+	public ArrayList<Float> fetchFloatList(String key);
+	public ArrayList<Integer> fetchIntList(String key);
+	public ArrayList<String> fetchStringList(String key);
+
 	
 	public String usageString();
 }

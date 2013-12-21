@@ -7,8 +7,12 @@ public class SigBuilder {
 
 	public static <T> Class<T> classFor(String clsName) {
 		if (clsName.equals("String")) return classFor("java.lang.String");
-		else if (clsName.equals("Double") || clsName.equals("double")) return classFor("java.lang.Double");
 		else if (clsName.equals("Boolean") || clsName.equals("boolean")) return classFor("java.lang.Boolean");
+		else if (clsName.equals("Byte") || clsName.equals("byte")) return classFor("java.lang.Byte");
+		else if (clsName.equals("Character") || clsName.equals("char")) return classFor("java.lang.Character");
+		else if (clsName.equals("Double") || clsName.equals("double")) return classFor("java.lang.Double");
+		else if (clsName.equals("Float") || clsName.equals("float")) return classFor("java.lang.Float");
+		else if (clsName.equals("Integer") || clsName.equals("int")) return classFor("java.lang.Integer");
 		
 		try {
 			Class<T> cls;
