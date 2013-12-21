@@ -28,7 +28,7 @@ public class CSVtoXMLDataSource extends XMLDataSource {
 				XML xml = buildXML(this.header, lines);
 				reader.close();
 				this.setXML(xml);
-				return super.load();
+				return super.load(false);
 			}
 		} catch (IOException e) {
 			//e.printStackTrace();

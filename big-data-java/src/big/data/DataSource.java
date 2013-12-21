@@ -63,7 +63,7 @@ public abstract class DataSource implements IDataSource {
 	public static DataSource connect(String path) {
 		if (DataSourceLoader.isValidDataSourceSpec(path)) {
 			return connectUsing(path);
-		} else if (path.toLowerCase().endsWith(".csv")) {
+		} else if (path.toLowerCase().endsWith(".csv") || path.toLowerCase().contains(".csv.")) {
 			return connectCSV(path);
 		} else {
 			return connectXML(path);
@@ -259,6 +259,7 @@ public abstract class DataSource implements IDataSource {
     	return (T[]) (fetchList(cls, keys).toArray(ts));
     }
     
+    // TODO: need to check this fetches boolean values of "true", "yes", "T", "1", etc. as expected...
 	public boolean fetchBoolean(String key) { return fetch(Boolean.class, key); }
 	public byte fetchByte(String key) { return fetch(Byte.class, key); }
 	public char fetchChar(String key) { return fetch(Character.class, key); }
@@ -339,7 +340,7 @@ public abstract class DataSource implements IDataSource {
 			s += "\nThe following data is available:\n" + spec.apply(new FieldStringPrettyPrint(3, true)) + "\n";
 		
 		if (!this.hasData())
-			s += "\n*** Data not loaded *** ... use .load()";
+			s += "\n*** Data not loaded *** ... use .load()\n";
 		
 		s += "-----\n";
 		return s;			

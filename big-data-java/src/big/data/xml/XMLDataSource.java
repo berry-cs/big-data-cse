@@ -26,11 +26,16 @@ public class XMLDataSource extends DataSource {
 	}
 	
 	public DataSource load() {
+		return this.load(true);
+	}
+	
+	public DataSource load(boolean forceReload) {
 		if (!readyToLoad())
 			throw new DataSourceException("Not ready to load; missing parameters: " + IOUtil.join(missingParams().toArray(new String[]{}), ','));
 
 		String resolvedPath = this.cacher.resolvePath(this.getFullPathURL());
-		if (resolvedPath != null) xml = IOUtil.loadXML(resolvedPath);
+		if (resolvedPath != null && (xml == null || forceReload)) 
+			xml = IOUtil.loadXML(resolvedPath);
 
 		if (xml == null) {
 			System.err.println("Failed to load: " + this.getFullPathURL() + "\nCHECK NETWORK CONNECTION, if applicable");
