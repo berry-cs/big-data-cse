@@ -143,13 +143,6 @@ public class TestFileDS {
 		System.out.println("done");
 	}
 	
-	public static void test4() {
-		DataSource ds = CSVDataSourceFactory.getDataSource("http://sourceforge.net/p/openflights/code/HEAD/tree/openflights/data/airlines.dat?format=raw",
-						new String[] { "ID", "Name", "Alias", "IATA", "ICAO", "Callsign", "Country", "Active" });
-		System.out.println(ds.usageString());
-		String[] names = ds.fetchArray("String", "Name");
-		System.out.println(names.length + " airlines");
-	}
 	*/
 	
 	public static class Weather {
@@ -183,13 +176,31 @@ public class TestFileDS {
 		Weather w = ds.fetch(Weather.class, "date&time", "temp", "visibility");
 		System.out.println(w);
 	}
+	
+	public static void test6() {
+		DataSource ds = DataSource.connect("src/big/data/tests/dsspec3.xml").load();
+		DataSourceIterator iter = ds.iterator();
+		System.out.println(iter.usageString());
+		int count = 0;
+		while (iter.hasData() && count<10) {
+			String name = iter.fetchString("Name");
+			boolean active = iter.fetchBoolean("Active");
+			String country = iter.fetch("String", "Country");
+			if (!country.isEmpty() && active) {
+				System.out.println(name + " (" + country + ")");
+				count++;
+			}
+			iter.loadNext();
+		}
+	}
 
 	public static void main(String[] args) {
 		//test1();
-		test2();
+		//test2();
 		//test3();
-		test4();
-		test5();
+		//test4();
+		//test5();
+		test6();
 	}
 }
 

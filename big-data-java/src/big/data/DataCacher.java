@@ -43,7 +43,7 @@ public class DataCacher {
 	public DataCacher updateDirectory(String path) {
 		File f = new File(path);
 		if (!f.exists()) f.mkdirs();
-		if (!f.exists() || !f.isDirectory())
+		if (!f.exists() || (!f.isDirectory() && !path.equals("/dev/null")) )
 			throw new RuntimeException("Cannot access cache directory: " + path);
 		return new DataCacher(path, this.cacheExpiration);
 	}

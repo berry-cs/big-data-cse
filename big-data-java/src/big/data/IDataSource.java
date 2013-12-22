@@ -94,6 +94,13 @@ public interface IDataSource {
 	 */
 	public int size();
 	
+	/**
+	 * Produce an iterator over this data source
+	 * 
+	 * @return an iterator object
+	 */
+	public DataSourceIterator iterator();
+	
 	public <T> T fetch(String clsName, String... keys);
 	public <T> T fetch(Class<T> cls, String... keys);
 	public <T> ArrayList<T> fetchList(String clsName, String... keys);
@@ -125,6 +132,5 @@ public interface IDataSource {
 	public ArrayList<Integer> fetchIntList(String key);
 	public ArrayList<String> fetchStringList(String key);
 
-	
 	public String usageString();
 }

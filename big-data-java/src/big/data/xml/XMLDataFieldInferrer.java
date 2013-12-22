@@ -6,7 +6,7 @@ import big.data.field.*;
 import big.data.util.*;
 
 
-public class XMLSigBuilder {
+public class XMLDataFieldInferrer {
 
 	public static IDataField inferDataField(XML xml) {
 		XML firstChild = firstNonemptyChild(xml);
@@ -17,9 +17,9 @@ public class XMLSigBuilder {
 			String firstChildTag = firstChild.getName();
 			XML[] children = xml.getChildren(firstChildTag); // note: children.length should be > 0
 
-			if (children.length == 1) {  // looks like a list of nodes
+			if (children.length == 1) {  
 				return inferCompField(xml);
-			} else {
+			} else {   // looks like a list of nodes
 				IDataField cf = inferCompField(children[0]); // use the first child as model
 				return new ListField(null, firstChildTag, cf);
 			}

@@ -43,7 +43,7 @@ public class XMLDataSource extends DataSource {
 		}
 		
 		if (spec == null)
-			spec = XMLSigBuilder.inferDataField(xml);
+			spec = XMLDataFieldInferrer.inferDataField(xml);
 		if (spec == null)
 			System.err.println("Failed to load: missing data field specification");
 		
@@ -81,17 +81,23 @@ public class XMLDataSource extends DataSource {
 			}
 		});
 	}
+	
+	public DataSourceIterator iterator() {
+		if (!this.hasData())
+			throw new DataSourceException("No data available: " + this.getName() + " --- make sure you called .load()");
+		return new XMLDataSourceIterator(this, this.spec, this.xml);
+	}
 
 	public <T> T fetch(Class<T> cls, String... keys) {
 		if (!this.hasData())
-			throw new DataSourceException("No data available: " + this.getName());
+			throw new DataSourceException("No data available: " + this.getName() + " --- make sure you called .load()");
 		ISig sig = SigBuilder.buildCompSig(cls, keys);
 		return spec.apply(new XMLInstantiator<T>(xml, sig));
 	}
 
 	public <T> ArrayList<T> fetchList(Class<T> cls, String... keys) {
 		if (!this.hasData())
-			throw new DataSourceException("No data available: " + this.getName());
+			throw new DataSourceException("No data available: " + this.getName() + " --- make sure you called .load()");
 		ISig sig = new ListSig(SigBuilder.buildCompSig(cls, keys));
 		return spec.apply(new XMLInstantiator<ArrayList<T>>(xml, sig));
 	}

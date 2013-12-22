@@ -37,6 +37,19 @@ public class SigBuilder {
      * TODO: does this need to be generalized???
      */
     public static <C> ISig buildCompSig(Class<C> cls, String... keys) {
+    	// first attempt to see if cls unifies as a primitive type
+    	try {
+    		ISig p = PrimSig.WILDCARD_SIG.unifyWith(cls);
+    		if (keys.length == 0) return p;
+    		if (keys.length == 1) {
+    			CompSig<C> cs = new CompSig<C>(cls);
+    			cs.addField(p, keys[0]);
+    			return cs;
+    		}
+    	} catch (SignatureUnificationException e) {
+    		// ok, continue...
+    	}
+    	
     	CompSig<C> cs = new CompSig<C>(cls);
     	for (String k : keys) {
     		cs.addField(PrimSig.WILDCARD_SIG, k);

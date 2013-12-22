@@ -118,5 +118,12 @@ public class XMLInstantiatorTest {
 		assertArrayEquals(new Object[] {}, 
 						((ArrayList)instantiate(new ListField("options", "top", cf1), xml1, new ListSig(cspair))).toArray());
 	}
+	
+	@Test
+	public void testBoolean() {
+		XML node = new XML("data");
+		node.setContent("yes");
+		assertEquals(true, instantiate(new PrimField(), node, PrimSig.BOOLEAN_SIG));
+	}
 
 }

@@ -164,7 +164,8 @@ public abstract class DataSource implements IDataSource {
 	public abstract int size();
 	public abstract <T> T fetch(Class<T> cls, String... keys);
 	public abstract <T> ArrayList<T> fetchList(Class<T> cls, String... keys);
-	
+	public abstract DataSourceIterator iterator();
+
 	
 	
 	public DataSource setFieldSpec(IDataField spec) {
@@ -265,7 +266,6 @@ public abstract class DataSource implements IDataSource {
     	return (T[]) (fetchList(cls, keys).toArray(ts));
     }
     
-    // TODO: need to check this fetches boolean values of "true", "yes", "T", "1", etc. as expected...
 	public boolean fetchBoolean(String key) { return fetch(Boolean.class, key); }
 	public byte fetchByte(String key) { return fetch(Byte.class, key); }
 	public char fetchChar(String key) { return fetch(Character.class, key); }
@@ -318,7 +318,7 @@ public abstract class DataSource implements IDataSource {
 		return fetchList(String.class, key);
 	}
     
-    
+	
 	public String usageString() {
 		String s = "-----\n";
 		if (this.name != null) 
