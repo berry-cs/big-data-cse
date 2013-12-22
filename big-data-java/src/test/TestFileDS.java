@@ -201,7 +201,6 @@ public class TestFileDS {
 	
 	public static void test7() {
 		DataSource apds = DataSource.connect("src/big/data/tests/dsspec7.xml");
-//		ds1.setOption("postprocess", "big.data.xml.IdentityProcessor").load();
 		apds.load();
 		apds.printUsageString();
 				
