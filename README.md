@@ -5,4 +5,43 @@ This library provides a code framework to facilitate the incorporation of large,
 
 # Supported Data Sources
 
-The `big.data` library currently supports loading data files from either the local filesystem or a web URL. 
+The `big.data` library currently supports loading data files from either the local filesystem or a web URL. The following formats are supported:
+
+- XML files
+- CSV (comma-separated) files (with or without first row header)
+- TSV (tab-separated)
+
+A file that is compressed as `zip` or `gz` may also be loaded directly.
+
+# Specifying and Loading a Data Source
+
+## Quick-start
+
+To get started,
+
+```
+import big.data.*;
+````
+
+Then declare a variable of type `DataSource` and use one of the static methods `connectXML`, `connectCSV`, or `connectTSV` as appropriate to specify a path string to the data file:
+
+```
+DataSource ds = DataSource.connectXML("datafile.xml");
+DataSource ds = DataSource.connectCSV("datafile.csv");
+DataSource ds = DataSource.connectTSV("datafile.dat");
+```
+
+If the data source is simple enough that no other options or processing is required, load the data using the `load()` method on the `DataSource` object:
+
+```
+ds.load();
+```
+
+At this point, `ds.printUsageString()` will print (to standard out) a summary of the data structure available from the data source. If everything goes well, you can now proceed to "Fetching Data."
+
+
+
+
+
+
+
