@@ -31,6 +31,8 @@ DataSource ds = DataSource.connectCSV("datafile.csv");
 DataSource ds = DataSource.connectTSV("datafile.dat");
 ```
 
+(There is also a simple `connect()` method that will attempt to make the correct choice based on file extensions or other heuristics.)
+
 If the data source is simple enough that no other options or processing is required, load the data using the `load()` method on the `DataSource` object:
 
 ```
@@ -39,6 +41,23 @@ ds.load();
 
 At this point, `ds.printUsageString()` will print (to standard out) a summary of the data structure available from the data source. If everything goes well, you can now proceed to "Fetching Data."
 
+## Loading from URLs
+
+
+
+
+
+## Data Source Specifications
+
+
+
+
+# Fetching Data
+
+
+
+
+# Data Cache
 
 
 
