@@ -11,6 +11,7 @@ import big.data.util.*;
 @SuppressWarnings("unchecked")
 public class XMLDataSource extends DataSource {
 	protected XML xml;
+	protected IPostProcessor proc;
 	
 	public XMLDataSource(String name, String path) {
 		super(name, path);
@@ -22,7 +23,33 @@ public class XMLDataSource extends DataSource {
 
 	public XMLDataSource setXML(XML xml) {
 		this.xml = xml;
+		doPostProcess();
 		return this;
+	}
+	
+	public XMLDataSource setPostProcessor(IPostProcessor proc) {
+		this.proc = proc;
+		return this;
+	}
+	
+	public XMLDataSource setPostProcessor(String clsName) {
+		try {
+			setPostProcessor((IPostProcessor) SigBuilder.classFor(clsName).newInstance());
+		} catch (InstantiationException e) {
+			System.err.println("Could not load post-processor: " + clsName);
+		} catch (IllegalAccessException e) {
+			System.err.println("Could not load post-processor: " + clsName);
+		}
+		return this;
+	}
+	
+	protected void doPostProcess() {
+		if (proc != null) {
+			xml = proc.process(xml);
+			if (xml == null) {
+				System.err.println(((getName()==null)?"":getName()+": ") + "XML post-process failed");
+			}
+		}
 	}
 	
 	public DataSource load() {
@@ -33,13 +60,18 @@ public class XMLDataSource extends DataSource {
 		if (!readyToLoad())
 			throw new DataSourceException("Not ready to load; missing parameters: " + IOUtil.join(missingParams().toArray(new String[]{}), ','));
 
+		boolean newlyLoaded = false;
 		String resolvedPath = this.cacher.resolvePath(this.getFullPathURL());
-		if (resolvedPath != null && (xml == null || forceReload)) 
+		if (resolvedPath != null && (xml == null || forceReload)) { 
 			xml = IOUtil.loadXML(resolvedPath);
+			newlyLoaded = true;
+		}
 
 		if (xml == null) {
 			System.err.println("Failed to load: " + this.getFullPathURL() + "\nCHECK NETWORK CONNECTION, if applicable");
 			return null;
+		} else {
+			if (newlyLoaded) doPostProcess();
 		}
 		
 		if (spec == null)
@@ -102,4 +134,10 @@ public class XMLDataSource extends DataSource {
 		return spec.apply(new XMLInstantiator<ArrayList<T>>(xml, sig));
 	}
 
+	public DataSource setOption(String op, String value) {
+		if ("postprocess".equals(op) && value != null)
+			return setPostProcessor(value);
+		else
+			return super.setOption(op, value);
+	}
 }

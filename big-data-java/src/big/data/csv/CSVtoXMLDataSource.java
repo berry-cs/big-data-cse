@@ -8,22 +8,30 @@ import big.data.util.*;
 import big.data.xml.XMLDataSource;
 
 public class CSVtoXMLDataSource extends XMLDataSource {
-	private String[] header;
+	protected String[] header;
+	protected char separator = ','; 
 	
 	public CSVtoXMLDataSource(String name, String path) {
 		super(name, path);
 		this.header = null;
+	}
+	
+	public CSVtoXMLDataSource(String name, String path, char sep) {
+		super(name, path);
+		this.header = null;
+		this.separator = sep;
 	}
 
 	public DataSource load() {
 		try {
 			String resolvedPath = this.cacher.resolvePath(this.getFullPathURL());
 			if (resolvedPath != null) {
-				CSVReader reader = new CSVReader( IOUtil.createReader(resolvedPath) );
+				CSVReader reader = new CSVReader( IOUtil.createReader(resolvedPath), this.separator );
 				List<String[]> lines = reader.readAll();
 				if (this.header == null) {  // then assume first line is header
 					this.header = lines.get(0);
 					lines.remove(0);
+					//System.err.println("header: " + header[0] + header[1]);
 				}
 				XML xml = buildXML(this.header, lines);
 				reader.close();
@@ -57,13 +65,13 @@ public class CSVtoXMLDataSource extends XMLDataSource {
 
 		for (String[] row : rows) {
 			XML record = xml.addChild("row");
-			//System.err.println("Row: " + IOUtil.join(row, ","));
+			//System.err.println("Row: " + IOUtil.join(row, ",") + " (" + row.length + ")");
 
-			if (row.length == header.length) {
+			if (row.length >= header.length) {
 				for (int i = 0; i < header.length; i++) {
-					String tag = fixXMLtag(header[i]);
+					String tag = fixXMLtag(header[i]);   // TODO: make this efficient: calculate header tags once outside loop
 					XML child = record.addChild(tag);
-					child.setContent(row[i]);
+					child.setContent(row[i].trim());
 				}
 			} else {
 				System.err.println("CSV data: skipping row");

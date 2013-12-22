@@ -1,0 +1,11 @@
+<datasourcespec>
+    
+	<format>TSV</format>
+	<path>apdata/ap.data.0.Current</path>
+	<name>AP Items</name>
+		
+	<options>
+	    <option><name>postprocess</name><value>test.APDataProcessor</value></option>
+	</options>
+			
+</datasourcespec>

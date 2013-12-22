@@ -6,6 +6,7 @@ import java.util.*;
 import org.apache.commons.lang3.ArrayUtils;
 
 import big.data.csv.CSVtoXMLDataSource;
+import big.data.csv.TSVtoXMLDataSource;
 import big.data.field.*;
 import big.data.sig.*;
 import big.data.util.*;
@@ -88,6 +89,11 @@ public abstract class DataSource implements IDataSource {
 		path = ProcessingDetector.tryToFixPath(path);
 		return connectCSV(path, path);
 	}
+	
+	public static DataSource connectTSV(String path) {
+		path = ProcessingDetector.tryToFixPath(path);
+		return connectTSV(path, path);
+	}
 
 	public static DataSource connectXML(String name, String path) {
 		path = ProcessingDetector.tryToFixPath(path);
@@ -97,6 +103,11 @@ public abstract class DataSource implements IDataSource {
 	public static DataSource connectCSV(String name, String path) {
 		path = ProcessingDetector.tryToFixPath(path);
 		return new CSVtoXMLDataSource(name, path);
+	}
+	
+	public static DataSource connectTSV(String name, String path) {
+		path = ProcessingDetector.tryToFixPath(path);
+		return new TSVtoXMLDataSource(name, path);
 	}
 	
 	public static void initializeProcessing(Object papp) {
@@ -350,6 +361,10 @@ public abstract class DataSource implements IDataSource {
 		
 		s += "-----\n";
 		return s;			
+	}
+
+	public void printUsageString() {
+		System.out.println(usageString());
 	}
 
 }

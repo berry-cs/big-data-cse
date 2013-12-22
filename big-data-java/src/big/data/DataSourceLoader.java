@@ -14,7 +14,8 @@ public class DataSourceLoader {
 
 	public static final Object[][] FORMAT_MAP
 	   = { { "XML", big.data.xml.XMLDataSource.class },
-		   { "CSV", big.data.csv.CSVtoXMLDataSource.class } 
+		   { "CSV", big.data.csv.CSVtoXMLDataSource.class },
+		   { "TSV", big.data.csv.TSVtoXMLDataSource.class }
 	     };
 	
 	public DataSourceLoader(String specpath) {

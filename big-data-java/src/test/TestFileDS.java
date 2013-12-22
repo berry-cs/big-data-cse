@@ -1,11 +1,16 @@
 package test;
 
 
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLConnection;
 import java.util.*;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPFile;
 
+import au.com.bytecode.opencsv.CSVReader;
 import big.data.*;
 import big.data.field.FieldToXMLSpec;
 import big.data.util.IOUtil;
@@ -193,14 +198,26 @@ public class TestFileDS {
 			iter.loadNext();
 		}
 	}
+	
+	public static void test7() {
+		DataSource apds = DataSource.connect("src/big/data/tests/dsspec7.xml");
+//		ds1.setOption("postprocess", "big.data.xml.IdentityProcessor").load();
+		apds.load();
+		apds.printUsageString();
+				
+		System.out.println(apds.fetchString("series_id"));
+		
+
+	}
 
 	public static void main(String[] args) {
 		//test1();
 		//test2();
-		//test3();
+		////test3();
 		//test4();
 		//test5();
-		test6();
+		//test6();
+		test7();
 	}
 }
 
