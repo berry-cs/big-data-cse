@@ -1,5 +1,6 @@
 package big.data.util;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -60,5 +61,20 @@ public class ProcessingDetector {
 		     }
 		  }
 		  return appletName;
+	}
+	
+	public static String tryToFixPath(String path) {
+		if (!inProcessing() || URLPrepper.isURL(path)) return path;
+		
+		File f = new File(path);
+		if (!f.exists() && !f.isAbsolute()) {
+			String try1 = tryToFixPath(sketchPath(path));
+			if (try1.equals(path)) // didn't do anything
+				return tryToFixPath(sketchPath("data/" + path));
+			else 
+				return try1;
+		}
+		
+		return path;
 	}
 }

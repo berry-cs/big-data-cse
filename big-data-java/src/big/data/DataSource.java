@@ -61,6 +61,7 @@ public abstract class DataSource implements IDataSource {
 	}
 	
 	public static DataSource connect(String path) {
+		path = ProcessingDetector.tryToFixPath(path);
 		if (DataSourceLoader.isValidDataSourceSpec(path)) {
 			return connectUsing(path);
 		} else if (path.toLowerCase().endsWith(".csv") || path.toLowerCase().contains(".csv.")) {
@@ -71,25 +72,30 @@ public abstract class DataSource implements IDataSource {
 	}
 	
 	public static DataSource connectUsing(String specpath) {
+		specpath = ProcessingDetector.tryToFixPath(specpath);
 		// TODO: validate
 		return new DataSourceLoader(specpath).getDataSource();
 	}
 	
 	public static DataSource connectXML(String path) {
+		path = ProcessingDetector.tryToFixPath(path);
 		//String[] pcs = IOUtil.split(path, "/");
 		// TODO: generate more sensible name?
 		return connectXML(path, path);
 	}
 
 	public static DataSource connectCSV(String path) {
+		path = ProcessingDetector.tryToFixPath(path);
 		return connectCSV(path, path);
 	}
 
 	public static DataSource connectXML(String name, String path) {
+		path = ProcessingDetector.tryToFixPath(path);
 		return new XMLDataSource(name, path);
 	}
 	
 	public static DataSource connectCSV(String name, String path) {
+		path = ProcessingDetector.tryToFixPath(path);
 		return new CSVtoXMLDataSource(name, path);
 	}
 	
