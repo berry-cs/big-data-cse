@@ -649,9 +649,9 @@ public class XML implements Serializable {
 	 * @param name the non-null name of the attribute.
 	 * @return the value, or null if the attribute does not exist.
 	 */
-	//  public String getAttribute(String name) {
-	//    return this.getAttribute(name, null);
-	//  }
+	  public String getAttribute(String name) {
+	    return this.getAttribute(name, null);
+	  }
 
 
 	/**
@@ -661,10 +661,10 @@ public class XML implements Serializable {
 	 * @param defaultValue the default value of the attribute.
 	 * @return the value, or defaultValue if the attribute does not exist.
 	 */
-	//  public String getAttribute(String name, String defaultValue) {
-	//    Node attr = node.getAttributes().getNamedItem(name);
-	//    return (attr == null) ? defaultValue : attr.getNodeValue();
-	//  }
+	  public String getAttribute(String name, String defaultValue) {
+	    Node attr = node.getAttributes().getNamedItem(name);
+	    return (attr == null) ? defaultValue : attr.getNodeValue();
+	  }
 
 
 	/**

@@ -1,0 +1,83 @@
+<datasourcespec>
+	<loaderclass>big.data.xml.XMLDataSource</loaderclass>
+	<path>http://services.faa.gov/airport/status/@{airportCode}</path>
+	<name>FAA Airport Status</name>
+	
+	<infourl>http://services.faa.gov/docs/services/airport/</infourl>
+	<description>Serves airport status and delay information from the Air Traffic Control System Command Center (ATCSCC) as displayed on http://fly.faa.gov/</description>
+
+	<options>
+	</options>
+
+	
+	<params>
+		<queryparam>
+			<key>format</key>
+			<value>application/xml</value>
+		</queryparam>
+		<pathparam required="true">
+			<key>airportCode</key>
+			<description>3-digit FAA code</description>
+		</pathparam>
+	</params>
+		
+	<cache>
+		<timeout>-1</timeout>               
+		<directory>cache</directory>             
+	</cache>
+
+	<dataspec>
+		<compfield>
+			<basepath />
+			<description>airport status and delay information</description>
+			<fields>
+				<field>
+					<name>City</name>
+					<primfield>
+						<basepath>City</basepath>
+						<description>name of the city where the airport is</description>
+					</primfield>
+				</field>
+
+				<field>
+					<name>State</name>
+					<primfield>
+						<basepath>State</basepath>
+						<description>name of the state where the airport is</description>
+					</primfield>
+				</field>
+
+				<field>
+					<name>Name</name>
+					<primfield>
+						<basepath>Name</basepath>
+						<description>full name of the airport</description>
+					</primfield>
+				</field>
+
+				<field>
+					<name>Status Comment</name>
+					<primfield>
+						<basepath>Status/Reason</basepath>
+					</primfield>
+				</field>
+				
+				<field>
+					<name>Status</name>
+					<compfield>
+						<basepath>Status</basepath>
+						<fields>
+							<field>
+								<name>Reason</name>
+								<primfield>
+									<basepath>Reason</basepath>
+								</primfield>
+							</field>
+						</fields>
+					</compfield>
+				</field>
+			</fields>
+		</compfield>
+	</dataspec>
+	
+</datasourcespec>
