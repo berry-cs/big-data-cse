@@ -12,17 +12,21 @@ import big.data.util.*;
 public class DataSourceLoader {
 	DataSource ds;
 
+	public static final Object[][] FORMAT_MAP
+	   = { { "XML", big.data.xml.XMLDataSource.class },
+		   { "CSV", big.data.csv.CSVtoXMLDataSource.class } 
+	     };
+	
 	public DataSourceLoader(String specpath) {
 		if (!isValidDataSourceSpec(specpath))
-			throw new RuntimeException("Invalid data source specification: " + specpath);
+			throw new DataSourceException("Invalid data source specification: " + specpath);
 		XML xml = IOUtil.loadXML(specpath);
 		
-		String loaderClass = getContentOf(xml, "loaderclass");
 		String name = getContentOf(xml, "name");
 		String path = getContentOf(xml, "path");
 		
 		try {
-			Class<?> dsclass = Class.forName(loaderClass);
+			Class<?> dsclass = lookupClass(getContentOf(xml, "format"));
 			Constructor<?> cr = dsclass.getConstructor(String.class, String.class);
 			cr.setAccessible(true);
 			ds = (DataSource) cr.newInstance((name!=null)?name:path, path);
@@ -38,26 +42,24 @@ public class DataSourceLoader {
 			setParams(xml.getChild("params"), ds);
 			setDataSpec(xml.getChild("dataspec"), ds);
 			
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Data source loader class not found: " + loaderClass);
 		} catch (InstantiationException e) {
 			e.printStackTrace();
-			throw new RuntimeException("Failed initializing data source: " + specpath);
+			throw new DataSourceException("Failed initializing data source: " + specpath);
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
-			throw new RuntimeException("Failed initializing data source: " + specpath);
+			throw new DataSourceException("Failed initializing data source: " + specpath);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
-			throw new RuntimeException("Failed initializing data source: " + specpath);
+			throw new DataSourceException("Failed initializing data source: " + specpath);
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
-			throw new RuntimeException("Failed initializing data source: " + specpath);
+			throw new DataSourceException("Failed initializing data source: " + specpath);
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
-			throw new RuntimeException("Failed initializing data source: " + specpath);
+			throw new DataSourceException("Failed initializing data source: " + specpath);
 		} catch (SecurityException e) {
 			e.printStackTrace();
-			throw new RuntimeException("Failed initializing data source: " + specpath);
+			throw new DataSourceException("Failed initializing data source: " + specpath);
 		}
 		
 	}
@@ -66,6 +68,17 @@ public class DataSourceLoader {
 		return ds;
 	}
 		
+	private Class<?> lookupClass(String format) {
+		if (format == null)
+			throw new DataSourceException("Missing data format in specification");
+		
+		for (Object[] pair : FORMAT_MAP) {
+			if (pair[0].equals(format)) return (Class<?>)pair[1];
+		}
+		
+		throw new DataSourceException("Unrecognized data format in specification: " + format);
+	}
+	
 	private void setDataSpec(XML node, DataSource ds) {
 		if (node == null) return;
 		IDataField df = extractAndParseFieldSpec(node);

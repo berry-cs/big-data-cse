@@ -1,5 +1,5 @@
 <datasourcespec>
-	<loaderclass>big.data.xml.XMLDataSource</loaderclass>
+	<format>XML</format>
 	<path>http://services.faa.gov/airport/status/@{airportCode}</path>
 	<name>FAA Airport Status</name>
 	

@@ -1,6 +1,6 @@
 <datasourcespec>
     
-	<loaderclass>big.data.xml.XMLDataSource</loaderclass>
+	<format>XML</format>
 	<path>http://api.worldweatheronline.com/free/v1/weather.ashx</path>
 	<name>World Weather Online</name>
 	
