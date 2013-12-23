@@ -57,7 +57,7 @@ Upon `load`, if no further information is provided, the `big.data` library will 
 
 ## Data Source Specifications
 
-To provide a more directed (?) way to load data sources (for example, as an instructor might wish to provide to students), a _data source specification_ file may be used with the static `connectUsing(<path>)` method.
+To provide a more directed (?) way to load data sources (for example, as an instructor might wish to provide to students), a _data source specification_ file may be used with the static `connectUsing(<path>)` method. (The `connect(<path>)` method mentioned above will always first attempt to parse the given path or URL as a data source specification file.)
 
 A data source specification file is an XML file (with a top-level `<datasourcespec>` element) that specifies the following:
 
@@ -71,7 +71,7 @@ A data source specification file is an XML file (with a top-level `<datasourcesp
 - Cache settings, inside a `<cache>` element (`timeout` and `directory`)
 - A specification of the data set structure, inside `<dataspec>`
 
-Of the above elements, `path`, `name`, and `format` should be provided, if nothing else. Examples of data source specifications may be found in https://github.com/berry-cs/big-data-cse/tree/master/big-data-java/src/big/data/tests and https://github.com/berry-cs/big-data-cse/tree/master/big-data-java/src/big/data/specs .
+Of the above elements, `path`, `name`, and `format` should be provided, if nothing else. Examples of data source specifications may be found at https://github.com/berry-cs/big-data-cse/tree/master/big-data-java/src/big/data/specs .
 
 ### Parameters
 
@@ -81,7 +81,13 @@ Parameters are either
 
 Query parameters are described using a `queryparam` element. Within it, a `key` element specifies the key and `description` provides a short description of the parameter's purpose. To supply a default value, use a `value` element. Alternatively, to indicate that the user must `set()` the parameter's value before loading the data source, add a `required="true"` attribute to the `queryparam` tag. 
 
+Path parameters specify values that will be substituted into a path or URL. For example, a data source with path element given by `<path>http://services.faa.gov/airport/status/@{airportCode}</path>` may define a path parameter as `<pathparam required="true"><key>airportCode</key><description>3-digit FAA code</description></pathparam>`. When the data source is instantiated, the user must (because the parameter is `required`) use the `set()` method to provide a value for the `airportCode` key. In this example, if the data source specification is stored in file `FAAAirportStatus.xml`, then `DataSource ds = DataSource.connect("FAAAirportStatus.xml").load();` will result in an exception: `big.data.DataSourceException: Not ready to load; missing parameters: airportCode` because the `airportCode` parameter has not been supplied. Once supplied,
 
+```
+DataSource ds = DataSource.connect("FAAAirportStatus.xml").set("airportCode", "JFK").load();
+```
+
+the data source loads from the path `http://services.faa.gov/airport/status/JFK` (note `"JFK"` has been substituted for `@{airportCode}`). 
 
 
 
