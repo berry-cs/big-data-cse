@@ -71,6 +71,18 @@ A data source specification file is an XML file (with a top-level `<datasourcesp
 - Cache settings, inside a `<cache>` element (`timeout` and `directory`)
 - A specification of the data set structure, inside `<dataspec>`
 
+Of the above elements, `path`, `name`, and `format` should be provided, if nothing else.
+
+### Parameters
+
+Parameters are either 
+- query parameters (typically appended to a URL, `http://....?key1=val1&key2=val2&...&keyn=valn`)
+- path parameters (substitutions for placeholders in the path or url of a data source)
+
+
+
+
+
 
 # Fetching Data
 
