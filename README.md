@@ -104,14 +104,62 @@ For CSV:
 
 ## Fetching Data
 
+```
+	 <T> T fetch(String clsName, String... keys);
+	 <T> ArrayList<T> fetchList(String clsName, String... keys);
+	 <T> T[] fetchArray(String clsName, String... keys);
+
+	 boolean fetchBoolean(String key);
+	 byte fetchByte(String key);
+	 char fetchChar(String key);
+	 double fetchDouble(String key);
+	 float fetchFloat(String key);
+	 int fetchInt(String key);
+	 String fetchString(String key);
+	
+	 boolean[] fetchBooleanArray(String key);
+	 byte[] fetchByteArray(String key);
+	 char[] fetchCharArray(String key);
+	 double[] fetchDoubleArray(String key);
+	 float[] fetchFloatArray(String key);
+	 int[] fetchIntArray(String key);
+	 String[] fetchStringArray(String key);
+	
+	 ArrayList<Boolean> fetchBooleanList(String key);
+	 ArrayList<Byte> fetchByteList(String key);
+	 ArrayList<Character> fetchCharList(String key);
+	 ArrayList<Double> fetchDoubleList(String key);
+	 ArrayList<Float> fetchFloatList(String key);
+	 ArrayList<Integer> fetchIntList(String key);
+	 ArrayList<String> fetchStringList(String key);
+```
 
 
 ## Filtering Data
 
+The `big.data` library intentionally does not provide any fancy filtering or aggregation operations, since the intent is for instructors to use the library simply to obtain collections of data upon which students may be asked to write various operations to process them. Nonetheless, the library does provide a very simplistic operation to select only certain records from a data source that provides a list of records. 
+
+```
+	 DataSource select(String key, String val);  // only records where 'key' field matches 'val'
+	 DataSource selectContains(String key, String val); // only records 'key' field contains 'val' as a substring
+```
+
+The `select` operations must be applied _before_ `load()`ing the data source.
+
+
+
 
 ## Using an Iterator over the Data Source
 
-
+```
+      DataSourceIterator iter = ds.iterator();
+      while (iter.hasData()) {
+         String name = iter.fetchString("Name");
+         String status = iter.fetchString("Status Comment");
+         System.out.println(name + ": " + status);
+         iter.loadNext();
+      }
+```
 
 # Miscellaneous
 
