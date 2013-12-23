@@ -43,13 +43,33 @@ At this point, `ds.printUsageString()` will print (to standard out) a summary of
 
 ## Loading from URLs
 
+Use the same static methods as above to load from a URL. Additionally, query parameters may be specified using the `set(key, value)` method, prior to `load()`:
 
+```
+DataSource ds = DataSource.connectXML("http://api.worldweatheronline.com/free/v1/weather.ashx");
+ds.set("q", "30149").set("key", "...").set("format", "xml").load();
+```
 
+Note, that the `connect`, `set`, and `load` methods may be composed in a single expression.
+
+Upon `load`, if no further information is provided, the `big.data` library will attempt to analyze the structure of the data source. In general, this will work if the first row of a CSV/TSV file is a header row, or if an XML file contains a simple list of nodes with identical structure. 
 
 
 ## Data Source Specifications
 
+To provide a more directed (?) way to load data sources (for example, as an instructor might wish to provide to students), a _data source specification_ file may be used with the static `connectUsing(<path>)` method.
 
+A data source specification file is an XML file (with a top-level `<datasourcespec>` element) that specifies the following:
+
+- Path to the data source (inside `<path>`)
+- A human-friendly name for the data source (`<name>`)
+- The file format (`<format>`): either XML, CSV, or TSV
+- A link to web site with further information about the data set (`<infourl>`)
+- A descriptive paragraph about the data set (`<description>`)
+- Options, inside an `<options>` element, specific to the loader for the particular data format (see below)
+- Parameters, inside a `<params>` elements (see below)
+- Cache settings, inside a `<cache>` element (`timeout` and `directory`)
+- A specification of the data set structure, inside `<dataspec>`
 
 
 # Fetching Data
