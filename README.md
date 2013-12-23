@@ -71,7 +71,7 @@ A data source specification file is an XML file (with a top-level `<datasourcesp
 - Cache settings, inside a `<cache>` element (`timeout` and `directory`)
 - A specification of the data set structure, inside `<dataspec>`
 
-Of the above elements, `path`, `name`, and `format` should be provided, if nothing else.
+Of the above elements, `path`, `name`, and `format` should be provided, if nothing else. Examples of data source specifications may be found in https://github.com/berry-cs/big-data-cse/tree/master/big-data-java/src/big/data/tests and https://github.com/berry-cs/big-data-cse/tree/master/big-data-java/src/big/data/specs .
 
 ### Parameters
 
@@ -79,43 +79,7 @@ Parameters are either
 - query parameters (typically appended to a URL, `http://....?key1=val1&key2=val2&...&keyn=valn`)
 - path parameters (substitutions for placeholders in the path or url of a data source)
 
-Query parameters are described using a `queryparam` element. Within it, a `key` element specifies the key and `description` provides a short description of the parameter's purpose. To supply a default value, use a `value` element. Alternatively, to indicate that the user must `set()` the parameter's value before loading the data source, add a `required="true"` attribute to the `queryparam` tag. An example of some query parameter specifications:
-
-```
-	<params>
-		<queryparam required="true">
-		   <key>key</key>
-		   <description>Your WWO API key</description>
-		</queryparam>
-		<queryparam required="true">
-		   <key>q</key>
-		   <description>US Zipcode, UK Postcode, Canada Postalcode, IP address, 
-		                Latitude/Longitude (decimal degree), or City Name
-		   </description>
-		</queryparam>
-		<queryparam>
-		   <key>format</key>
-		   <value>xml</value>
-	  </queryparam>
-		<queryparam>
-		   <key>date</key>
-		   <value>today</value>
-		   <description>Specify today, tomorrow or a date in future. The date 
-		               should be in the yyyy-mm-dd format. e.g: today or tomorrow 
-		               or 2013-04-21
-		   </description>
-		</queryparam>
-		<queryparam>
-		   <key>extra</key>
-		   <value>localObsTime</value>
-		   <description>Possible values are localObsTime, isDayTime, utcDateTime. Two or more values can be passed as comma separated</description>
-		</queryparam>
-		<queryparam>
-		   <key>fx</key>
-		   <value>no</value>
-		</queryparam>
-	</params>
-```
+Query parameters are described using a `queryparam` element. Within it, a `key` element specifies the key and `description` provides a short description of the parameter's purpose. To supply a default value, use a `value` element. Alternatively, to indicate that the user must `set()` the parameter's value before loading the data source, add a `required="true"` attribute to the `queryparam` tag. 
 
 
 
