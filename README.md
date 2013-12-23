@@ -11,7 +11,7 @@ The `big.data` library currently supports loading data files from either the loc
 - CSV (comma-separated) files (with or without first row header)
 - TSV (tab-separated)
 
-A file that is compressed as `zip` or `gz` may also be loaded directly.
+Limited support for files that are compressed as `zip` or `gz` is available.
 
 # Specifying and Loading a Data Source
 
