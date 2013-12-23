@@ -90,16 +90,32 @@ DataSource ds = DataSource.connect("FAAAirportStatus.xml").set("airportCode", "J
 the data source loads from the path `http://services.faa.gov/airport/status/JFK` (note `"JFK"` has been substituted for `@{airportCode}`). 
 
 
+### Data Source Options
 
-# Fetching Data
+For XML:
+ - post-processing class
+
+For CSV:
+ - header
 
 
 
-# Using an Iterator over the Data Source
+#Using the Data Source
+
+## Fetching Data
 
 
 
-# Data Caching
+## Filtering Data
+
+
+## Using an Iterator over the Data Source
+
+
+
+# Miscellaneous
+
+## Data Caching
 
 
 
