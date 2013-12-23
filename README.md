@@ -166,7 +166,19 @@ The `select` operations must be applied _before_ `load()`ing the data source.
 ## Data Caching
 
 
+## Processing Support
 
+When using Processing (http://processing.org), in order for the library to work properly, you must call
+
+```
+void setup() {
+   ...
+   DataSource.initializeProcessing(this);
+   ...
+}
+```
+
+in the `setup()` function.
 
 
 
