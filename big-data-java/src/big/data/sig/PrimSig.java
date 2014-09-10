@@ -53,14 +53,6 @@ public class PrimSig implements ISig {
 		if (c == String.class) return STRING_SIG;
 		else if (this == WILDCARD_SIG) return csig;
 		else if (this == csig) return csig;
-		/*
-		if ((this == BOOLEAN_SIG || this== WILDCARD_SIG) && (c == Boolean.class || c == boolean.class)) return BOOLEAN_SIG;
-		else if ((this == BYTE_SIG || this== WILDCARD_SIG) && (c == Byte.class || c == byte.class)) return PrimSig.BYTE_SIG;
-		else if ((this == CHAR_SIG || this== WILDCARD_SIG) && (c == Character.class || c == char.class)) return PrimSig.CHAR_SIG;
-		else if ((this == INT_SIG || this== WILDCARD_SIG) && (c == Integer.class || c == int.class)) return PrimSig.INT_SIG;
-		else if ((this == DOUBLE_SIG || this== WILDCARD_SIG) && (c == Double.class || c == double.class)) return PrimSig.DOUBLE_SIG;
-		else if ((this == STRING_SIG || this== WILDCARD_SIG) && (c == String.class)) return PrimSig.STRING_SIG;
-		*/
 		else throw new SignatureUnificationException(this + " cannot be unified with " + c.getName());
 	}
 	
