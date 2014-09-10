@@ -24,6 +24,7 @@ public class ProcessingDetector {
 		if (pappletClass != null && pappletClass.isAssignableFrom(o.getClass())) {
 			pappletObject = o;
 		}
+		// TODO: add error checking here...
 	}
 	
 	public static Object getPapplet() {

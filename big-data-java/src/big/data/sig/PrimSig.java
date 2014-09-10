@@ -49,6 +49,7 @@ public class PrimSig implements ISig {
 			&& !c.isPrimitive()) throw new SignatureUnificationException(c.getName() + " is not a primitive class");
 		
 		PrimSig csig = ctos.get(c);   // sig for Class c 
+		//System.out.println("c: " + c + " / csig: " + csig);
 		if (c == String.class) return STRING_SIG;
 		else if (this == WILDCARD_SIG) return csig;
 		else if (this == csig) return csig;
@@ -83,6 +84,8 @@ public class PrimSig implements ISig {
 		ctos.put(int.class, INT_SIG);
 		ctos.put(Double.class, DOUBLE_SIG);
 		ctos.put(double.class, DOUBLE_SIG);
+		ctos.put(float.class, FLOAT_SIG);
+		ctos.put(Float.class, FLOAT_SIG);
 		ctos.put(String.class, STRING_SIG);
 		return ctos;
 	}

@@ -77,6 +77,8 @@ public class CSVtoXMLDataSource extends XMLDataSource {
 				System.err.println("CSV data: skipping row");
 			}
 		}
+		
+		//System.out.println(xml);
 
 		return xml;
 	}

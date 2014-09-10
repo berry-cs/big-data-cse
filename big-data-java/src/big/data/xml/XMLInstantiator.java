@@ -52,6 +52,8 @@ public class XMLInstantiator<T> implements IDFVisitor<T> {
 					return (T)(Boolean)asBoolean(basexml);
 				} else if (s == PrimSig.DOUBLE_SIG) {
 					return (T)(Double)asDouble(basexml);
+				} else if (s == PrimSig.FLOAT_SIG) {
+					return (T)(Float)asFloat(basexml);
 				} else if (s == PrimSig.STRING_SIG || s == PrimSig.WILDCARD_SIG) {
 					return (T)asString(basexml);
 				} else {
@@ -234,7 +236,18 @@ public class XMLInstantiator<T> implements IDFVisitor<T> {
 		try {
 			v = Double.parseDouble(s);
 		} catch (NumberFormatException e) {
-			System.err.println("Could not parse \"" + s + "\" as an int");
+			System.err.println("Could not parse \"" + s + "\" as an double");
+		}
+		return v;
+	}
+	
+	public static float asFloat(XML xml) {
+		String s = asString(xml);
+		float v = 0.0f;
+		try {
+			v = Float.parseFloat(s);
+		} catch (NumberFormatException e) {
+			System.err.println("Could not parse \"" + s + "\" as a float");
 		}
 		return v;
 	}

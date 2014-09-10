@@ -372,6 +372,7 @@ public class IOUtil {
 				try {
 					ZipInputStream zin = new ZipInputStream(input);
 					ZipEntry ze = zin.getNextEntry();
+					ze.getName();
 					//System.err.println("Using " + ze.getName() + " from zip source");
 					return zin;	
 				} catch (IOException e) {

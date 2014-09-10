@@ -1,7 +1,7 @@
 package test;
 
 import java.lang.reflect.Constructor;
-import javax.swing.JFileChooser;
+//import javax.swing.JFileChooser;
 import big.data.*;
 
 /**
@@ -19,7 +19,7 @@ public class JSON_KivaTest {
 		Loan loan;
 		
 		Class<?> testClass = Class.forName("test.Loan");
-		Constructor[] constr = testClass.getConstructors();
+		Constructor<?>[] constr = testClass.getConstructors();
 		System.out.println("number of constructors: "+constr.length);
 		DataSource kivaData = DataSource.connectJSON(path);
 		System.out.println("past declaration");

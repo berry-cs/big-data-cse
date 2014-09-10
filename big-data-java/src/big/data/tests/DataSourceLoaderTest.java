@@ -11,7 +11,6 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import big.data.*;
-import big.data.sig.SignatureUnificationException;
 import big.data.xml.XMLDataSource;
 
 

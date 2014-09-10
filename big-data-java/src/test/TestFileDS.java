@@ -1,20 +1,15 @@
 package test;
 
 
-import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URLConnection;
 import java.util.*;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPFile;
 
-import au.com.bytecode.opencsv.CSVReader;
 import big.data.*;
 import big.data.field.FieldToXMLSpec;
 import big.data.util.IOUtil;
-import big.data.xml.*;
+//import big.data.xml.*;
 //import data.csv.*;
 
 

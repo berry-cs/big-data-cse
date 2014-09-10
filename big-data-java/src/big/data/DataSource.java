@@ -8,6 +8,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import big.data.csv.CSVtoXMLDataSource;
 import big.data.csv.TSVtoXMLDataSource;
 import big.data.field.*;
+import big.data.json.JSONtoXMLDataSource;
 import big.data.sig.*;
 import big.data.util.*;
 import big.data.xml.XMLDataSource;
@@ -42,7 +43,6 @@ public abstract class DataSource implements IDataSource {
 	protected boolean readyToLoad;
 	protected boolean loaded;
 	
-
 	public DataSource(String name, String path) {
 		this(name, path, null);
 	}
@@ -85,6 +85,11 @@ public abstract class DataSource implements IDataSource {
 		return connectXML(path, path);
 	}
 
+	public static DataSource connectJSON(String path) {
+		path = ProcessingDetector.tryToFixPath(path);
+		return connectJSON(path, path);
+	}
+	
 	public static DataSource connectCSV(String path) {
 		path = ProcessingDetector.tryToFixPath(path);
 		return connectCSV(path, path);
@@ -98,6 +103,11 @@ public abstract class DataSource implements IDataSource {
 	public static DataSource connectXML(String name, String path) {
 		path = ProcessingDetector.tryToFixPath(path);
 		return new XMLDataSource(name, path);
+	}
+	
+	public static DataSource connectJSON(String name, String path) {
+		path = ProcessingDetector.tryToFixPath(path);
+		return new JSONtoXMLDataSource(name, path);
 	}
 	
 	public static DataSource connectCSV(String name, String path) {

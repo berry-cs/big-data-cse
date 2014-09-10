@@ -8,7 +8,7 @@ import big.data.field.*;
 import big.data.sig.*;
 import big.data.util.*;
 
-@SuppressWarnings("unchecked")
+
 public class XMLDataSource extends DataSource {
 	protected XML xml;
 	protected IPostProcessor proc;
@@ -131,6 +131,9 @@ public class XMLDataSource extends DataSource {
 		if (!this.hasData())
 			throw new DataSourceException("No data available: " + this.getName() + " --- make sure you called .load()");
 		ISig sig = new ListSig(SigBuilder.buildCompSig(cls, keys));
+		//System.out.println("Spec: " + spec);
+		//System.out.println("Sig: " + sig);
+		//System.out.println("XML: " + xml);
 		return spec.apply(new XMLInstantiator<ArrayList<T>>(xml, sig));
 	}
 

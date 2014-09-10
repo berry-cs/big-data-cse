@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.lang3.StringEscapeUtils;
+
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
@@ -105,6 +106,7 @@ public class DataCacher {
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
 	private String escapeData(String path) {
 		return StringEscapeUtils.escapeXml(path);
 	}

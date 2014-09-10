@@ -1,7 +1,5 @@
 package test;
 
-import java.lang.reflect.*;
-
 public class TestHier {
 
 	/**
@@ -15,7 +13,7 @@ public class TestHier {
 		b.foo(a2);
 
 		System.out.println(Integer.TYPE.getName());
-		Class c = (new String[] {"a", "b"}).getClass();
+		Class<?> c = (new String[] {"a", "b"}).getClass();
 		System.out.println(c.isArray());
 		System.out.println(c.getComponentType());
 		

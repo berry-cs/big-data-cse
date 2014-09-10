@@ -28,6 +28,7 @@ public class XMLDataFieldInferrer {
 	
 	static CompField inferCompField(XML xml) {
 		CompField cf = new CompField();
+		//System.out.println("inferCompField:\n" + xml);
 		for (XML t : xml.getChildren()) {  // for each subnode of xml
 			if (!isEmptyXML(t) && !t.getName().equals("#text")) {
 				if (t.getChildCount() <= 1) {  // looks like t subnode has no nested nodes
@@ -38,7 +39,8 @@ public class XMLDataFieldInferrer {
 					sf.apply(new SubFieldCollector(cf, t.getName() + "/"));
 				}
 			}
-		}		
+		}	
+		//System.out.println("Got: " + cf);
 		return cf;
 	}
 

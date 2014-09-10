@@ -93,6 +93,7 @@ public class CompSig<C> implements ISig {
 	 * 
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public Constructor<C> findConstructor() {
 		try {
 			Constructor<C>[] constrs = (Constructor<C>[]) cls.getDeclaredConstructors();
@@ -101,7 +102,7 @@ public class CompSig<C> implements ISig {
 				int m = cr.getModifiers();
 				if (Modifier.isPrivate(m) || Modifier.isProtected(m))
 					continue;
-				//System.err.println(" >> Checking " + cr);
+				//System.err.println(" >> Checking " + this + " with " + cr);
 				if (this.unifiesWithConstructor(cr, false) || this.unifiesWithConstructor(cr, true)) {
 					//System.err.println(" >> OK");
 					theCons = cr;
@@ -117,18 +118,22 @@ public class CompSig<C> implements ISig {
 	}
 	
 	private boolean unifiesWithConstructor(Constructor<C> cr, boolean processingCompatible) {
-		Class[] paramTys = cr.getParameterTypes();
+		Class<?>[] paramTys = cr.getParameterTypes();
 		int start = 0;
 		if (processingCompatible && ProcessingDetector.inProcessing() && paramTys.length > 0
 				&& paramTys.length == 1 + this.fields.size()
 				&& ProcessingDetector.pappletClass.isAssignableFrom(paramTys[0])) {
 			start = 1;
-		} else if (paramTys.length != this.fields.size()) 
+		} else if (paramTys.length != this.fields.size()) {
+			//System.out.println("param count mismatch (" + ProcessingDetector.inProcessing() + "/" + processingCompatible + ")");
 			return false;   // different number of pararmeters
+		}
 
+		//System.out.printf("start: %d; paramTys length: %d\n", start, paramTys.length);
 		for (int i = start; i < paramTys.length; i++) {
 			Class<?> c = paramTys[i];
 			FieldSpec fs = this.fields.get(i-start);
+			//System.out.println("  > " + fs.type + " -- " + c + " : " + fs.type.unifiesWith(c));
 			if (!fs.type.unifiesWith(c)) 
 				return false;
 		}

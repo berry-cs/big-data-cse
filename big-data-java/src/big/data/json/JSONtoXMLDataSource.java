@@ -4,6 +4,9 @@ package big.data.json;
 
 import java.io.*;
 import java.net.*;
+
+import org.json.JSONException;
+
 import big.data.*;
 import big.data.util.*;
 import big.data.xml.XMLDataSource;
@@ -72,6 +75,8 @@ public class JSONtoXMLDataSource extends XMLDataSource {
 			System.err.println("SAX exception");
 		} catch (javax.xml.parsers.ParserConfigurationException e){
 			System.err.println("xml parser exception");
+		} catch (JSONException e) {
+			System.err.println("JSON exception");
 		}
 		return null;				
 	}
