@@ -31,13 +31,31 @@ public class XMLDataFieldInferrer {
 		//System.out.println("inferCompField:\n" + xml);
 		for (XML t : xml.getChildren()) {  // for each subnode of xml
 			if (!isEmptyXML(t) && !t.getName().equals("#text")) {
+				IDataField sf;  // inferred field for t
+				boolean isPrimField = t.getChildCount() <= 1;
+				   // looks like t subnode has no nested nodes
+				
+				if (isPrimField) sf = new PrimField(t.getName());
+				else sf = inferDataField(t);
+				
+				cf.addField(t.getName(), sf);
+				
+				if (xml.getChildren(t.getName()).length > 1) {  // there are several children like <t>...</t>
+					cf.addField(t.getName() + "-list", new ListField(t.getName() + "/", t.getName(), sf));
+				}
+
+				//if (!isPrimField)
+				//	sf.apply(new SubFieldCollector(cf, t.getName() + "/"));
+
+				/*
 				if (t.getChildCount() <= 1) {  // looks like t subnode has no nested nodes
 					cf.addField(t.getName(), new PrimField(t.getName()));
 				} else {  // looks like subnode t has further subnodes
 					IDataField sf = inferDataField(t);
 					cf.addField(t.getName(), sf);
-					sf.apply(new SubFieldCollector(cf, t.getName() + "/"));
+					//sf.apply(new SubFieldCollector(cf, t.getName() + "/"));
 				}
+				*/
 			}
 		}	
 		//System.out.println("Got: " + cf);
@@ -52,7 +70,10 @@ public class XMLDataFieldInferrer {
 		CompField targetField;
 		String prefix;
 		
-		SubFieldCollector(CompField tf, String prefix) { this.targetField = tf; this.prefix = prefix; }
+		SubFieldCollector(CompField tf, String prefix) { 
+			this.targetField = tf; 
+			this.prefix = prefix;
+		}
 		
 		public Void defaultVisit(IDataField df) { throw new RuntimeException("Unhandled"); }
 

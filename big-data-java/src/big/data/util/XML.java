@@ -613,7 +613,9 @@ public class XML implements Serializable {
 	 * @brief Counts the specified element's number of attributes
 	 */
 	public int getAttributeCount() {
-		return node.getAttributes().getLength();
+		NamedNodeMap nnm = node.getAttributes();
+		if (nnm == null) return 0;
+		else return nnm.getLength();
 	}
 
 

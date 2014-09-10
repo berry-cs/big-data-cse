@@ -1,4 +1,9 @@
 
+TODO:
+
+  - escape spaces, other special chars in URL parameters passed to .set(..., ...)
+
+
 
 DataSourceManager
  - getCacheLocation() : String

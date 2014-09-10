@@ -11,14 +11,17 @@ import big.data.util.*;
 
 public class XMLDataSource extends DataSource {
 	protected XML xml;
-	protected IPostProcessor proc;
+	protected ArrayList<IPostProcessor> procs = new ArrayList<IPostProcessor>();
+	//protected IPostProcessor proc;
 	
 	public XMLDataSource(String name, String path) {
 		super(name, path);
+		procs.add(new AttributeToChildNodeProcessor());
 	}
 
 	public XMLDataSource(String name, String path, IDataField spec) {
 		super(name, path, spec);
+		procs.add(new AttributeToChildNodeProcessor());
 	}
 
 	public XMLDataSource setXML(XML xml) {
@@ -27,14 +30,14 @@ public class XMLDataSource extends DataSource {
 		return this;
 	}
 	
-	public XMLDataSource setPostProcessor(IPostProcessor proc) {
-		this.proc = proc;
+	public XMLDataSource addPostProcessor(IPostProcessor proc) {
+		this.procs.add(proc);
 		return this;
 	}
 	
-	public XMLDataSource setPostProcessor(String clsName) {
+	public XMLDataSource addPostProcessor(String clsName) {
 		try {
-			setPostProcessor((IPostProcessor) SigBuilder.classFor(clsName).newInstance());
+			addPostProcessor((IPostProcessor) SigBuilder.classFor(clsName).newInstance());
 		} catch (InstantiationException e) {
 			System.err.println("Could not load post-processor: " + clsName);
 		} catch (IllegalAccessException e) {
@@ -44,7 +47,7 @@ public class XMLDataSource extends DataSource {
 	}
 	
 	protected void doPostProcess() {
-		if (proc != null) {
+		for (IPostProcessor proc : procs) {
 			xml = proc.process(xml);
 			if (xml == null) {
 				System.err.println(((getName()==null)?"":getName()+": ") + "XML post-process failed");
@@ -128,6 +131,8 @@ public class XMLDataSource extends DataSource {
 	}
 
 	public <T> ArrayList<T> fetchList(Class<T> cls, String... keys) {
+		//System.out.println("fetchList: " + keys[0]);		
+		
 		if (!this.hasData())
 			throw new DataSourceException("No data available: " + this.getName() + " --- make sure you called .load()");
 		ISig sig = new ListSig(SigBuilder.buildCompSig(cls, keys));
@@ -139,7 +144,7 @@ public class XMLDataSource extends DataSource {
 
 	public DataSource setOption(String op, String value) {
 		if ("postprocess".equals(op) && value != null)
-			return setPostProcessor(value);
+			return addPostProcessor(value);
 		else
 			return super.setOption(op, value);
 	}
