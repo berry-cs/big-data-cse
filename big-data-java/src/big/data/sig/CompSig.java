@@ -78,10 +78,12 @@ public class CompSig<C> implements ISig {
 	}
 	
 	public String toString() {
-		String m = "{";
+		String m = cls.getName() + "{";
+		boolean first = true;
 		for (FieldSpec f : fields) {
-			if (m.length() > 1) { m += ", "; }
+			if (!first) { m += ", "; }
 			m += (f.name + ": " + f.type);
+			first = false;
 		}
 		m += "}";
 		return m;

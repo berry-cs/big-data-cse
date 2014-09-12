@@ -17,6 +17,7 @@ public class PrimSig implements ISig {
 	public static final PrimSig DOUBLE_SIG = new PrimSig("double");
 	public static final PrimSig FLOAT_SIG = new PrimSig("float");
 	public static final PrimSig INT_SIG = new PrimSig("int");
+	public static final PrimSig LONG_SIG = new PrimSig("long");
 	public static final PrimSig STRING_SIG = new PrimSig("String");
 	public static final PrimSig WILDCARD_SIG = new PrimSig("?");
 	
@@ -74,6 +75,8 @@ public class PrimSig implements ISig {
 		ctos.put(char.class, CHAR_SIG);
 		ctos.put(Integer.class, INT_SIG);
 		ctos.put(int.class, INT_SIG);
+		ctos.put(long.class, LONG_SIG);
+		ctos.put(Long.class, LONG_SIG);
 		ctos.put(Double.class, DOUBLE_SIG);
 		ctos.put(double.class, DOUBLE_SIG);
 		ctos.put(float.class, FLOAT_SIG);

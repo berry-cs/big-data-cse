@@ -48,6 +48,8 @@ public class XMLInstantiator<T> implements IDFVisitor<T> {
 			public <C> T visit(PrimSig s) {
 				if (s == PrimSig.INT_SIG) {
 					return (T)(Integer)asInt(basexml);
+				} else if (s == PrimSig.LONG_SIG) {
+					return (T)(Long)asLong(basexml);
 				} else if (s == PrimSig.BOOLEAN_SIG) {
 					return (T)(Boolean)asBoolean(basexml);
 				} else if (s == PrimSig.DOUBLE_SIG) {
@@ -151,11 +153,10 @@ public class XMLInstantiator<T> implements IDFVisitor<T> {
 				if (elemsig instanceof CompSig
 						&&  (cs = (CompSig<?>) elemsig).getFieldCount() == 1
 						&& f.hasField(name = cs.getFieldName(0))) {
-					System.out.println("took out: " + f.getField(name));
-					System.out.println(XMLInstantiator.this.xml);
+					//System.out.println("took out: " + f.getField(name));
+					//System.out.println(XMLInstantiator.this.xml);
 					return f.getField(name).apply(new XMLInstantiator<T>(xml, new ListSig(cs.getFieldSig(0))));
-				}
-			
+				} 
 				
 				ArrayList<Object> lst = new ArrayList<Object>();
 				lst.add(elemsig.apply(this));
@@ -246,6 +247,17 @@ public class XMLInstantiator<T> implements IDFVisitor<T> {
 			v = Integer.parseInt(s);
 		} catch (NumberFormatException e) {
 			System.err.println("Could not parse \"" + s + "\" as an int");
+		}
+		return v;
+	}
+	
+	public static long asLong(XML xml) {
+		String s = asString(xml).trim();
+		long v = 0;
+		try {
+			v = Long.parseLong(s);
+		} catch (NumberFormatException e) {
+			System.err.println("Could not parse \"" + s + "\" as a long");
 		}
 		return v;
 	}
