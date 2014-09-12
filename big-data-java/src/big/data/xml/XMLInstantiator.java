@@ -85,6 +85,10 @@ public class XMLInstantiator<T> implements IDFVisitor<T> {
 			return null;
 		}
 
+		//System.out.println(basexml.format(1));
+		//System.out.println(f);
+		//System.out.println(s);
+		
 		return s.apply(new SigMatcher<T>() {
 			public T visit(CompSig<?> s) {
 				Constructor<T> cr = (Constructor<T>) s.findConstructor();
@@ -138,6 +142,22 @@ public class XMLInstantiator<T> implements IDFVisitor<T> {
 			 */
 			public T visit(ListSig s) {
 				ISig elemsig = s.getElemType();
+				
+				// see what this list signature is of - if singleton structure (structure with one named field),
+				// then see if f, the spec, contains field with that same name, and attempt to instantiate 
+				// against that field
+				// TODO: this is bad design - use of instanceof, so reconsider it at some point ?
+				CompSig<?> cs;
+				String name;
+				if (elemsig instanceof CompSig
+						&&  (cs = (CompSig<?>) elemsig).getFieldCount() == 1
+						&& f.hasField(name = cs.getFieldName(0))) {
+					System.out.println("took out: " + f.getField(name));
+					System.out.println(XMLInstantiator.this.xml);
+					return f.getField(name).apply(new XMLInstantiator<T>(xml, new ListSig(cs.getFieldSig(0))));
+				}
+			
+				
 				ArrayList<Object> lst = new ArrayList<Object>();
 				lst.add(elemsig.apply(this));
 				return (T)lst;
@@ -206,6 +226,7 @@ public class XMLInstantiator<T> implements IDFVisitor<T> {
 			 */
 			public T visit(PrimSig s) {
 				XML child = basexml.getChild(elemPath);
+				//System.out.println(elemField + "  > " + elemPath + "\n" + basexml + "\n" + child);
 				return elemField.apply(new XMLInstantiator<T>(child, s));  //instantiate(child, s);
 			}
 			

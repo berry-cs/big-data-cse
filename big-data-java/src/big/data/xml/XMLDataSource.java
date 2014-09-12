@@ -79,6 +79,32 @@ public class XMLDataSource extends DataSource {
 		
 		if (spec == null)
 			spec = XMLDataFieldInferrer.inferDataField(xml);
+			spec.apply(new IDFVisitor<Void>() {
+				public Void visitCompField(CompField f, String basePath,
+						String description, HashMap<String, IDataField> fieldMap) {
+					CompField collected = new CompField();
+					// here f == spec
+					for (String name : f.fieldNames()) {
+						IDataField subfield = f.getField(name);
+						subfield.apply(new SubFieldCollector(collected, name));
+					}
+					// have to break out collecting and adding to spec, because otherwise
+					// a ConcurrentModificationException happens - adding fields to f while
+					// it is being traversed
+					for (String name : collected.fieldNames()) {
+						f.addField(name, collected.getField(name));
+					}
+					return null;
+				}
+
+				public Void defaultVisit(IDataField df) { return null; }
+				public Void visitPrimField(PrimField f, String basePath,
+						String description) { return defaultVisit(f); }
+				public Void visitListField(ListField f, String basePath,
+						String description, String elemPath,
+						IDataField elemField) { return defaultVisit(f); }
+			});
+			//System.out.println("Inferred: " + spec);
 		if (spec == null)
 			System.err.println("Failed to load: missing data field specification");
 		
@@ -131,7 +157,7 @@ public class XMLDataSource extends DataSource {
 	}
 
 	public <T> ArrayList<T> fetchList(Class<T> cls, String... keys) {
-		//System.out.println("fetchList: " + keys[0]);		
+		//System.out.println("fetchList: " + keys[0] + " -> " + cls);		
 		
 		if (!this.hasData())
 			throw new DataSourceException("No data available: " + this.getName() + " --- make sure you called .load()");

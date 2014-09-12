@@ -1,5 +1,6 @@
 package big.data.field;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -30,8 +31,16 @@ public class CompField extends ADataField implements IDataField {
 		return fieldMap.keySet().toArray(new String[] {});
 	}
 	
+	public Collection<IDataField> fields() {
+		return fieldMap.values();
+	}
+	
 	public IDataField getField(String name) {
 		return fieldMap.get(name);
+	}
+	
+	public boolean hasField(String name) {
+		return fieldMap.containsKey(name);
 	}
 
 	public <T> T apply(IDFVisitor<T> fv) {

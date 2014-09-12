@@ -32,7 +32,6 @@ public class SigBuilder {
 		return null;
 	}
 	
-	
     /*
      * TODO: does this need to be generalized???
      */

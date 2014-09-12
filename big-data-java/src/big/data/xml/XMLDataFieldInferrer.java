@@ -38,10 +38,12 @@ public class XMLDataFieldInferrer {
 				if (isPrimField) sf = new PrimField(t.getName());
 				else sf = inferDataField(t);
 				
-				cf.addField(t.getName(), sf);
+				
 				
 				if (xml.getChildren(t.getName()).length > 1) {  // there are several children like <t>...</t>
-					cf.addField(t.getName() + "-list", new ListField(t.getName() + "/", t.getName(), sf));
+					cf.addField(t.getName(), new ListField(t.getName() + "/", t.getName(), sf));
+				} else {
+					cf.addField(t.getName(), sf);
 				}
 
 				//if (!isPrimField)
@@ -60,42 +62,6 @@ public class XMLDataFieldInferrer {
 		}	
 		//System.out.println("Got: " + cf);
 		return cf;
-	}
-
-	// this takes a target compfield and a prefix, and when appled to another
-	// field, sf, that is a compfield, it extracts all of the subfields of sf
-	// and adds them as top-level fields of the target field with names given
-	// by the path to that subfield
-	static class SubFieldCollector implements IDFVisitor<Void> {
-		CompField targetField;
-		String prefix;
-		
-		SubFieldCollector(CompField tf, String prefix) { 
-			this.targetField = tf; 
-			this.prefix = prefix;
-		}
-		
-		public Void defaultVisit(IDataField df) { throw new RuntimeException("Unhandled"); }
-
-		public Void visitPrimField(PrimField pf, String basePath, String description) {
-			String pathName = prefix + basePath;
-			targetField.addField(pathName, new PrimField(pathName));
-			return null;
-		}
-
-		public Void visitCompField(CompField cf, String basePath,
-				String description, HashMap<String, IDataField> fieldMap) {
-			for (IDataField df : fieldMap.values())
-				df.apply(this);
-			return null;
-		}
-
-		public Void visitListField(ListField f, String basePath,
-				String description, String elemPath, IDataField elemField) {
-			String pathName = prefix + basePath;
-			elemField.apply(new SubFieldCollector(targetField, pathName));
-			return null;
-		}
 	}
 
 	static XML firstNonemptyChild(XML xml) {
