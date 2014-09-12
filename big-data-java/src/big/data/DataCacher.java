@@ -20,6 +20,8 @@ public class DataCacher {
 	public static final String DEFAULT_CACHE_DIR = "cache";
 	public static final long NEVER_CACHE = 0;
 	public static final long NEVER_RELOAD = -1;
+	
+	public static final long MINIMUM_CACHE_VALUE = 1000;  // disallow setting cacheExpiration to less than this  
 
 	private static final DataCacher dc = makeDefaultDataCacher(); 
 	private static boolean CachingEnabled = true;
@@ -29,7 +31,10 @@ public class DataCacher {
 	
 	private DataCacher(String cacheDirectory, long cacheExpiration) {
 		this.cacheDirectory = cacheDirectory;
-		this.cacheExpiration = cacheExpiration;
+		if (cacheExpiration > 0 && cacheExpiration < MINIMUM_CACHE_VALUE) {
+			System.err.println("Warning: cannot set cache timeout less than " + MINIMUM_CACHE_VALUE + " msec.");
+		}
+		this.cacheExpiration = Math.max(cacheExpiration, MINIMUM_CACHE_VALUE);
 	}
 	
 	private static DataCacher makeDefaultDataCacher() {
