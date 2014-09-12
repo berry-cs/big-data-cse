@@ -107,8 +107,7 @@ public class XMLInstantiator<T> implements IDFVisitor<T> {
 					String fieldname = s.getFieldName(i-start);
 					IDataField df = fieldMap.get(fieldname);
 					if (df == null) {
-						System.err.println(f + " does not contain field named \"" + fieldname + "\"");
-						return null;
+						throw new RuntimeException("No field named \"" + fieldname + "\" was found in " + f);
 					}					
 					ISig fs = s.getFieldSig(i-start).unifyWith(paramTys[i]);  
 					args[i] = df.apply(new XMLInstantiator<Object>(basexml, fs)); //   df.instantiate(basexml, fs);

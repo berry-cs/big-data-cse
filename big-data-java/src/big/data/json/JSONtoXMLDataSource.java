@@ -4,7 +4,6 @@ package big.data.json;
 
 import java.io.*;
 import java.net.*;
-import java.util.Scanner;
 
 import org.json.JSONException;
 
@@ -55,7 +54,7 @@ public class JSONtoXMLDataSource extends XMLDataSource {
 			} catch(FileNotFoundException e) {
 				System.out.println("File not found: "+url.getPath());
 			}
-			System.out.println("PATH: "+url.getPath());
+			//System.out.println("PATH: "+url.getPath());
 		  }
 	
 	    try {
@@ -68,6 +67,7 @@ public class JSONtoXMLDataSource extends XMLDataSource {
     		String xmlString = "<wrapper> "+org.json.XML.toString(jsonObject)+" </wrapper>";
     		//System.out.println(xmlString);
     		XML xml = XML.parse(xmlString);	
+    		//System.out.println(xml.format(2));
     		this.setXML(xml);
     		return super.load(false);
 	    }

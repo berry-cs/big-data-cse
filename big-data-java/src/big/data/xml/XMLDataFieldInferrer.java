@@ -7,19 +7,14 @@ public class XMLDataFieldInferrer {
 
 	public static IDataField inferDataField(XML xml) {
 		XML firstChild = firstNonemptyChild(xml);
-		if (firstChild == null) {
-			System.err.println("No data in XML (" + xml.getName() + ")");
-			return null;
+		if (firstChild != null) {
+			return inferCompField(xml);
 		} else {
-			String firstChildTag = firstChild.getName();
-			XML[] children = xml.getChildren(firstChildTag); // note: children.length should be > 0
-
-			if (children.length == 1) {  
-				//System.out.println("firstChildTag: " + firstChildTag + " compfield");
-				return inferCompField(xml);
-			} else {   // looks like a list of nodes
-				IDataField cf = inferCompField(children[0]); // use the first child as model
-				return new ListField(null, firstChildTag, cf);
+			if (isEmptyXML(xml) || xml.getName().equals("#text")) {
+				System.err.println("No data in XML (" + xml.getName() + ")");
+				return null;
+			} else {
+				return new PrimField(xml.getName());
 			}
 		}
 	}

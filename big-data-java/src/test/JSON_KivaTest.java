@@ -31,7 +31,7 @@ public class JSON_KivaTest {
 		System.out.println("iterator declared");
 		while(iterator.hasData()) {
 			
-			loan = iterator.fetch("test.Loan","id","loan_amount", "location/country", "name","use");
+			loan = iterator.fetch("test.Loan","loans/id","loans/loan_amount", "loans/location/country", "loans/name","loans/use");
 			System.out.println(loan+"\n-------------------------");
 			iterator.loadNext();
 		}
