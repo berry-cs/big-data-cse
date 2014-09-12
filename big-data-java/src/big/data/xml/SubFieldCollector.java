@@ -61,7 +61,11 @@ public class SubFieldCollector implements IDFVisitor<Void> {
 		}
 		
 		if (!topLevel) {
-			targetField.addField(prefix, f);
+			if (wrapList) {
+				targetField.addField(prefix, new ListField(null, prefix, f));
+			} else {
+				targetField.addField(prefix, f);
+			}
 		}
 		
 		return null;

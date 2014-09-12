@@ -18,6 +18,7 @@ public class XMLDataFieldInferrer {
 			XML[] children = xml.getChildren(firstChildTag); // note: children.length should be > 0
 
 			if (children.length == 1) {  
+				//System.out.println("firstChildTag: " + firstChildTag + " compfield");
 				return inferCompField(xml);
 			} else {   // looks like a list of nodes
 				IDataField cf = inferCompField(children[0]); // use the first child as model
@@ -30,34 +31,24 @@ public class XMLDataFieldInferrer {
 		CompField cf = new CompField();
 		//System.out.println("inferCompField:\n" + xml);
 		for (XML t : xml.getChildren()) {  // for each subnode of xml
-			if (!isEmptyXML(t) && !t.getName().equals("#text")) {
+			if (!isEmptyXML(t) && !t.getName().equals("#text") 
+					&& !cf.hasField(t.getName())) {
 				IDataField sf;  // inferred field for t
 				boolean isPrimField = t.getChildCount() <= 1;
 				   // looks like t subnode has no nested nodes
 				
 				if (isPrimField) sf = new PrimField(t.getName());
-				else sf = inferDataField(t);
-				
-				
-				
+				//else sf = inferDataField(t);
+				else sf = inferCompField(t);
+
+//				if (t.getName().equals("eventParameters"))
+//					System.out.println("Node name: " + t.getName() + " " + isPrimField + " inferred: " + sf);
+
 				if (xml.getChildren(t.getName()).length > 1) {  // there are several children like <t>...</t>
 					cf.addField(t.getName(), new ListField(t.getName() + "/", t.getName(), sf));
 				} else {
 					cf.addField(t.getName(), sf);
 				}
-
-				//if (!isPrimField)
-				//	sf.apply(new SubFieldCollector(cf, t.getName() + "/"));
-
-				/*
-				if (t.getChildCount() <= 1) {  // looks like t subnode has no nested nodes
-					cf.addField(t.getName(), new PrimField(t.getName()));
-				} else {  // looks like subnode t has further subnodes
-					IDataField sf = inferDataField(t);
-					cf.addField(t.getName(), sf);
-					//sf.apply(new SubFieldCollector(cf, t.getName() + "/"));
-				}
-				*/
 			}
 		}	
 		//System.out.println("Got: " + cf);
