@@ -1,10 +1,7 @@
 package big.data.xml;
 
-import java.util.HashMap;
-
 import big.data.field.*;
 import big.data.util.*;
-
 
 public class XMLDataFieldInferrer {
 
