@@ -4,6 +4,7 @@ package big.data.json;
 
 import java.io.*;
 import java.net.*;
+import java.util.Scanner;
 
 import org.json.JSONException;
 
@@ -23,7 +24,7 @@ public class JSONtoXMLDataSource extends XMLDataSource {
 	
 	public DataSource load()
 	{
-		System.out.println("inside JSON load");
+		//System.out.println("inside JSON load");
 		BufferedReader reader = null;
 		URL url = null;
 		try {
@@ -36,11 +37,11 @@ public class JSONtoXMLDataSource extends XMLDataSource {
 		      URLConnection connection = url.openConnection();
 	          HttpURLConnection con = (HttpURLConnection) connection; 	
     	   	  String acceptString = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
-	          String encodingString = "gzip, deflated";
+	          //String encodingString = "gzip, deflated";
     	      String useragent = "Mozilla/5.0 (Macintosh; Intel Mac OS x 10.6; rv:14.0) "+
 	            "Geck0/20100101 Firefox/14.0.1";
 	          con.setRequestProperty("Accept",acceptString);
-	          con.addRequestProperty("Accept-Encoding",encodingString);
+	          //con.addRequestProperty("Accept-Encoding",encodingString);
     	      con.addRequestProperty("DNT","1");
     	      con.setRequestProperty("User-Agent",useragent);
     	      con.connect();
@@ -58,25 +59,26 @@ public class JSONtoXMLDataSource extends XMLDataSource {
 		  }
 	
 	    try {
+	    	//Scanner sc = new Scanner(reader);
+	    	//System.out.println(sc.nextLine());
+	    	
     	    org.json.JSONTokener tokener = new org.json.JSONTokener(reader);
     		org.json.JSONObject jsonObject = new org.json.JSONObject(tokener);
-    		System.out.println(jsonObject);
+    		//System.out.println(jsonObject);
     		String xmlString = "<wrapper> "+org.json.XML.toString(jsonObject)+" </wrapper>";
-    		System.out.println(xmlString);
+    		//System.out.println(xmlString);
     		XML xml = XML.parse(xmlString);	
     		this.setXML(xml);
     		return super.load(false);
 	    }
-		
-		
-		 catch (IOException e) {
-			System.err.println("IO exception in load");
+	    catch (IOException e) {
+			System.err.println("IO exception in load: " + e);
 		} catch (org.xml.sax.SAXException e) {
-			System.err.println("SAX exception");
+			System.err.println("SAX exception: " + e);
 		} catch (javax.xml.parsers.ParserConfigurationException e){
-			System.err.println("xml parser exception");
+			System.err.println("xml parser exception: " + e);
 		} catch (JSONException e) {
-			System.err.println("JSON exception");
+			System.err.println("JSON exception: " + e);
 		}
 		return null;				
 	}
