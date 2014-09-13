@@ -5,6 +5,12 @@ TODO:
 
 
 
+FUTURE:
+
+ maybe have every datafield be a list by default - eliminate ListField, if possible?
+ 
+ 
+
 DataSourceManager
  - getCacheLocation() : String
  - setCacheLocation(String path)

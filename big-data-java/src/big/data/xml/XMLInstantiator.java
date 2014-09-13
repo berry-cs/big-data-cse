@@ -150,14 +150,46 @@ public class XMLInstantiator<T> implements IDFVisitor<T> {
 				// TODO: this is bad design - use of instanceof, so reconsider it at some point ?
 				CompSig<?> cs;
 				String name;
-				if (elemsig instanceof CompSig
-						&&  (cs = (CompSig<?>) elemsig).getFieldCount() == 1
-						&& f.hasField(name = cs.getFieldName(0))) {
-					//System.out.println("took out: " + f.getField(name));
-					//System.out.println(XMLInstantiator.this.xml);
-					return f.getField(name).apply(new XMLInstantiator<T>(xml, new ListSig(cs.getFieldSig(0))));
+				if (elemsig instanceof CompSig) {
+					if ((cs = (CompSig<?>) elemsig).getFieldCount() == 1
+						&& f.hasField(name = cs.getFieldName(0))) { 
+						//System.out.println("took out: " + f.getField(name));
+						//System.out.println(XMLInstantiator.this.xml);
+						return f.getField(name).apply(new XMLInstantiator<T>(xml, new ListSig(cs.getFieldSig(0))));
+					} else {
+						String[] sigflds = new String[cs.getFieldCount()];
+						for (int i = 0; i < sigflds.length; i++) {
+							sigflds[i] = cs.getFieldName(i);
+						}
+						String commonPrefix = longestCommonPrefix(sigflds);
+						int prefixLength = commonPrefix.length();
+						if (commonPrefix.endsWith("/"))
+							commonPrefix = commonPrefix.substring(0, prefixLength-1);
+						if (commonPrefix != null 
+								&& f.hasField(commonPrefix)) {
+							@SuppressWarnings("rawtypes")
+							CompSig<?> newsig = new CompSig(cs.getAssociatedClass());
+							for (int i = 0; i < sigflds.length; i++) {
+								String oldname = sigflds[i];
+								String newname = oldname.substring(prefixLength);
+								newsig.addField(cs.getFieldSig(i), newname);
+							}
+
+							IDataField fsubfld = f.getField(commonPrefix);
+							XML fbasexml = basexml;
+							if (!(fsubfld instanceof ListField)) { // only one element of the spec field in the data source
+								fbasexml = basexml.getChild(commonPrefix); // need to explicitly burrow into the xml
+							}
+							
+							//System.out.println("fsubfld: " + fsubfld);
+							//System.out.println("newsig: " + new ListSig(newsig));
+							//System.out.println("fbasexml: " + fbasexml);
+							return fsubfld.apply(new XMLInstantiator<T>(fbasexml, new ListSig(newsig)));
+						}
+					}
 				} 
 				
+				//System.out.println("Here " + s + "/" + f);
 				ArrayList<Object> lst = new ArrayList<Object>();
 				lst.add(elemsig.apply(this));
 				return (T)lst;
@@ -296,4 +328,21 @@ public class XMLInstantiator<T> implements IDFVisitor<T> {
 		return b;
 	}
 	
+	public static String longestCommonPrefix(String[] strings) {
+	    if (strings.length == 0) {
+	        return null;
+	    }
+
+	    for (int prefixLen = 0; prefixLen < strings[0].length(); prefixLen++) {
+	        char c = strings[0].charAt(prefixLen);
+	        for (int i = 1; i < strings.length; i++) {
+	            if ( prefixLen >= strings[i].length() ||
+	                 strings[i].charAt(prefixLen) != c ) {
+	                // Mismatch found
+	                return strings[i].substring(0, prefixLen);
+	            }
+	        }
+	    }
+	    return strings[0];
+	}
 }
