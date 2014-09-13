@@ -5,6 +5,7 @@ package big.data.json;
 import java.io.*;
 import java.net.*;
 
+import org.apache.commons.io.input.BOMInputStream;
 import org.json.*;
 import big.data.*;
 import big.data.util.XML;
@@ -43,7 +44,7 @@ public class JSONtoXMLDataSource extends XMLDataSource {
     	      con.addRequestProperty("DNT","1");
     	      con.setRequestProperty("User-Agent",useragent);
     	      con.connect();
-	          reader = new BufferedReader(new InputStreamReader( con.getInputStream()));
+	          reader = new BufferedReader(new InputStreamReader( new BOMInputStream(con.getInputStream())));
 	    	} catch(IOException e) {
 	    		System.out.println("IOexception at URLConnection");
 	    	}

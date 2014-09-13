@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="lib/commons-net-3.3.jar"/>
 	<classpathentry kind="lib" path="lib/opencsv-3.0.jar"/>
 	<classpathentry kind="lib" path="lib/org.json-20120521.jar"/>
+	<classpathentry kind="lib" path="lib/commons-io-2.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
