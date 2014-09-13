@@ -5,10 +5,9 @@ package big.data.json;
 import java.io.*;
 import java.net.*;
 
-import org.json.JSONException;
-
+import org.json.*;
 import big.data.*;
-import big.data.util.*;
+import big.data.util.XML;
 import big.data.xml.XMLDataSource;
 
 public class JSONtoXMLDataSource extends XMLDataSource {
@@ -61,11 +60,12 @@ public class JSONtoXMLDataSource extends XMLDataSource {
 	    	//Scanner sc = new Scanner(reader);
 	    	//System.out.println(sc.nextLine());
 	    	
-    	    org.json.JSONTokener tokener = new org.json.JSONTokener(reader);
-    		org.json.JSONObject jsonObject = new org.json.JSONObject(tokener);
-    		//System.out.println(jsonObject);
-    		String xmlString = "<wrapper> "+org.json.XML.toString(jsonObject)+" </wrapper>";
-    		//System.out.println(xmlString);
+    	    JSONTokener tokener = new JSONTokener(reader);
+    		JSONObject jsonObject = new JSONObject(tokener);
+    		
+    		String jsonString = org.json.XML.toString(jsonObject);
+    		String xmlString = "<wrapper>"+jsonString+"</wrapper>";
+    		//System.out.println(xmlString.substring(0, 200));
     		XML xml = XML.parse(xmlString);	
     		//System.out.println(xml.format(2));
     		this.setXML(xml);

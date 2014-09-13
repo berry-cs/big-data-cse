@@ -67,6 +67,8 @@ public abstract class DataSource implements IDataSource {
 			return connectUsing(path);
 		} else if (path.toLowerCase().endsWith(".csv") || path.toLowerCase().contains(".csv.")) {
 			return connectCSV(path);
+		} else if (path.toLowerCase().endsWith(".json")) {
+			return connectJSON(path);
 		} else {
 			return connectXML(path);
 		}
