@@ -3,9 +3,6 @@ package big.data.json;
 /* requires  https://github.com/douglascrockford/JSON-java/  */
 
 import java.io.*;
-import java.net.*;
-
-import org.apache.commons.io.input.BOMInputStream;
 import org.json.*;
 import big.data.*;
 import big.data.util.IOUtil;
@@ -29,8 +26,6 @@ public class JSONtoXMLDataSource extends XMLDataSource {
 			if (resolvedPath == null) return null; 
 
 			BufferedReader reader = IOUtil.createReader(resolvedPath);
-	    	//Scanner sc = new Scanner(reader);
-	    	//System.out.println(sc.nextLine());
 	    	
 			String jsonString;
 			String xmlString;
