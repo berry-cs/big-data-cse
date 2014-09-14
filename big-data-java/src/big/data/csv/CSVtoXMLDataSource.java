@@ -35,13 +35,16 @@ public class CSVtoXMLDataSource extends XMLDataSource {
 				if (this.header == null) {  // then assume first line is header
 					this.header = trimRow(lines.get(0));
 					lines.remove(0);
-					//System.err.println("header (" + header.length + "): " + IOUtil.join(header, ",") );
-					//System.err.println("|" + header[header.length-1].length() + "|");
 				}
+				//System.err.println("header (" + header.length + "): " + IOUtil.join(header, ",") );
+				//System.err.println("|" + header[header.length-1].length() + "|");
 				XML xml = buildXML(this.header, lines);
 				reader.close();
 				this.setXML(xml);
 				return super.load(false);
+			} else {
+				System.err.println("Failed to load: " + this.getFullPathURL() + "\nCHECK NETWORK CONNECTION, if applicable");
+				return null;
 			}
 		} catch (IOException e) {
 			//e.printStackTrace();

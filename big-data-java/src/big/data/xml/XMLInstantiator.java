@@ -56,6 +56,8 @@ public class XMLInstantiator<T> implements IDFVisitor<T> {
 					return (T)(Double)asDouble(basexml);
 				} else if (s == PrimSig.FLOAT_SIG) {
 					return (T)(Float)asFloat(basexml);
+				} else if (s == PrimSig.CHAR_SIG) {
+					return (T)(Character)asChar(basexml);
 				} else if (s == PrimSig.STRING_SIG || s == PrimSig.WILDCARD_SIG) {
 					return (T)asString(basexml);
 				} else {
@@ -270,6 +272,12 @@ public class XMLInstantiator<T> implements IDFVisitor<T> {
 	
 	public static String asString(XML xml) {
 		return xml.getContent().trim();
+	}
+	
+	public static char asChar(XML xml) {
+		String s = xml.getContent().trim();
+		if (s.length() == 0) return 0;
+		else return s.charAt(0);
 	}
 	
 	public static int asInt(XML xml) {
