@@ -123,19 +123,22 @@ public class CSVtoXMLDataSource extends XMLDataSource {
 	}
 	
 	protected static String[] trimRow(String[] row) {
-		int start = 0, end = 0;
+		int start = 0, end = row.length;
 		for (int i = 0; 
 		     i < row.length
 				&& (row[i] == null || row[i].trim().length() == 0); 
-			 i++)
+			 i++) {
 			start = i;
+		}
 		if (start == row.length)  
 			return null;    // nothing in row
+
 		for (int i = row.length-1;
 			 i > start 
 				&& (row[i] == null || row[i].trim().length() == 0);
-			 i--)
+			 i--) {
 			end = i;
+		}
 		
 		String[] newrow = new String[end - start];
 		for (int i = start; i < end; i++) 
