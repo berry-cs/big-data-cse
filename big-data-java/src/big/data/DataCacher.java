@@ -33,8 +33,9 @@ public class DataCacher {
 		this.cacheDirectory = cacheDirectory;
 		if (cacheExpiration > 0 && cacheExpiration < MINIMUM_CACHE_VALUE) {
 			System.err.println("Warning: cannot set cache timeout less than " + MINIMUM_CACHE_VALUE + " msec.");
+			cacheExpiration = MINIMUM_CACHE_VALUE;
 		}
-		this.cacheExpiration = Math.max(cacheExpiration, MINIMUM_CACHE_VALUE);
+		this.cacheExpiration = cacheExpiration;
 	}
 	
 	private static DataCacher makeDefaultDataCacher() {
