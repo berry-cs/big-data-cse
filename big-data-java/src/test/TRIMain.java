@@ -27,6 +27,10 @@ class Facility {
 	public void addChem(String chem) {
 		chems.add(chem);
 	}
+	
+	public String toString() {
+		return String.format("%s (%s%s) Type: %s", name, zip, fed ? ", federal facility" : "", type);
+	}
 }
 
 class TRIEntry {
@@ -76,7 +80,15 @@ public class TRIMain {
 		}
 		
 		System.out.println("Number of Facilities: " + facs.size());
+		if (facs.containsKey("ADVANCED STEEL TECHNOLOGY")) {
+			Facility f = facs.get("ADVANCED STEEL TECHNOLOGY");
+			System.out.println(f);
+			for (String chem : f.chems) {
+				System.out.println("  " + chem);
+			}
+		}
 
+		System.out.println(DataCacher.defaultCacher().resolvePath("http://ofmpub.epa.gov/enviro/efservice/MV_TRI_BASIC_DOWNLOAD/st/=/GA/year/=/2012/EXCEL"));
 	}
 	
 	
@@ -103,7 +115,7 @@ class NAICS {
 	}
 	
 	private void loadCodes(int year) {
-		DataSource nds = DataSource.connectJSON("http://naics.codeforamerica.org/v0/q?year=" + year);
+		DataSource nds = DataSource.connectJSON("http://naics.codeforamerica.org/v0/q?year=" + year);		
 		if (nds.load() == null) {
 			System.out.println("Could not load NAICS data for year " + year);
 			return;
