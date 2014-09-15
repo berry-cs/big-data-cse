@@ -45,7 +45,7 @@ public class PrimSig implements ISig {
 	private static HashMap<Class<?>,PrimSig> ctos = setupClassSigMap();
 	
 	public ISig unifyWith(Class<?> c) throws SignatureUnificationException {
-		if (ArrayUtils.indexOf(new Object[] { Boolean.class, Byte.class, Character.class, Integer.class,
+		if (ArrayUtils.indexOf(new Object[] { Boolean.class, Byte.class, Character.class, Float.class, Integer.class,
 												 Double.class, String.class }, c) == ArrayUtils.INDEX_NOT_FOUND
 			&& !c.isPrimitive()) throw new SignatureUnificationException(c.getName() + " is not a primitive class");
 		

@@ -202,7 +202,8 @@ public class XMLInstantiator<T> implements IDFVisitor<T> {
 			 * field with the name specified in signature s
 			 */
 			public T visit(PrimSig s) {
-				return fieldMap.get(s.getName()).apply(new XMLInstantiator<T>(basexml, s));   //instantiate(basexml, s);
+				throw new DataInstantiationException("Cannot instantiate " + f + " as " + s);
+				//return fieldMap.get(s.getName()).apply(new XMLInstantiator<T>(basexml, s));   //instantiate(basexml, s);
 			}
 		});
 	}

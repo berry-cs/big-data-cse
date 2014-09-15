@@ -66,6 +66,7 @@ public class CompSig<C> implements ISig {
 	public ISig unifyWith(Class<?> c) throws SignatureUnificationException {
 		if (cls.equals(c) && findConstructor() != null) 
 			return this;
+// TODO: should rebuild this ISig, actually, with unified parameter sigs ********		
 	    throw new SignatureUnificationException("Could not unify " + this + " with " + c);
 	}
 	

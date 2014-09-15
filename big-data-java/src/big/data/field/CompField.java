@@ -48,7 +48,7 @@ public class CompField extends ADataField implements IDataField {
 	}
 
 	public String toString() {
-		String m = "{";
+		String m = "{_" + basePath + " ";
 		for (String k : fieldNames()) {
 			if (m.length() > 1) { m += ", "; }
 			m += (k + ": " + fieldMap.get(k));

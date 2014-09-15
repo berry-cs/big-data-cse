@@ -1,6 +1,15 @@
 
 TODO:
 
+  - fix unifyWith in CompSig.java : see TODO comment
+
+  - add more primitive fetch(ISig) to DataSource
+    lift fetch(Class ...) from XMLDataSource to DataSource
+
+  - make a native (direct) JSONDataSource instead of going to XML
+
+  - regexp data source - uses REs patterns to split, or identify, rows and parse fields
+
   - add file chooser, that also copies path to the clipboard upon selection
 
   - escape spaces, other special chars in URL parameters passed to .set(..., ...)
