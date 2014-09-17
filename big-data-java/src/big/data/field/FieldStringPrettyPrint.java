@@ -6,10 +6,12 @@ import big.data.util.IOUtil;
 public class FieldStringPrettyPrint implements IDFVisitor<String> {
 	int indent;
 	boolean indentFirst;
+	boolean omitPaths;
 	
-	public FieldStringPrettyPrint(int indent, boolean indentFirst) {
+	public FieldStringPrettyPrint(int indent, boolean indentFirst, boolean omitPaths) {
 		this.indent = indent;
 		this.indentFirst = indentFirst;
+		this.omitPaths = omitPaths;
 	}
 
 	public String defaultVisit(IDataField df) {
@@ -32,23 +34,23 @@ public class FieldStringPrettyPrint implements IDFVisitor<String> {
          Collections.sort(keys);
          for (String name : keys) {
                  IDataField df = fieldMap.get(name);
-                 if (df instanceof PrimField) {
+                 if ((!omitPaths || !name.contains("/")) && df instanceof PrimField) {
                          String leader = spaces + name + " : ";
-                         s += leader + df.apply(new FieldStringPrettyPrint(leader.length(), false)) + "\n";
+                         s += leader + df.apply(new FieldStringPrettyPrint(leader.length(), false, omitPaths)) + "\n";
                  }
          }
          for (String name : keys) {
                  IDataField df = fieldMap.get(name);
-                 if (df instanceof CompField) {
+                 if ((!omitPaths || !name.contains("/")) && df instanceof CompField) {
                          String leader = spaces + name + " : ";
-                         s += leader + df.apply(new FieldStringPrettyPrint(leader.length(), false)) + "\n";
+                         s += leader + df.apply(new FieldStringPrettyPrint(leader.length(), false, omitPaths)) + "\n";
                  }
          }
          for (String name : keys) {
                  IDataField df = fieldMap.get(name);
-                 if (df instanceof ListField) {
+                 if ((!omitPaths || !name.contains("/")) && df instanceof ListField) {
                          String leader = spaces + name + " : ";
-                         s += leader + df.apply(new FieldStringPrettyPrint(leader.length(), false)) + "\n";
+                         s += leader + df.apply(new FieldStringPrettyPrint(leader.length(), false, omitPaths)) + "\n";
                  }
          }
          s += initSpaces + "}";
@@ -58,7 +60,7 @@ public class FieldStringPrettyPrint implements IDFVisitor<String> {
 	public String visitListField(ListField f, String basePath,
 			String description, String elemPath, IDataField elemField) {
 		String s = (indentFirst ? IOUtil.repeat(' ', indent) : "") + "A list of:\n";
-        s += elemField.apply(new FieldStringPrettyPrint(indent+2, true));
+        s += elemField.apply(new FieldStringPrettyPrint(indent+2, true, omitPaths));
         return s;
 	}
 

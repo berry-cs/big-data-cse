@@ -11,20 +11,22 @@ import org.apache.commons.lang3.*;
  *
  */
 public class PrimSig implements ISig {
-	public static final PrimSig BOOLEAN_SIG = new PrimSig("boolean");
-	public static final PrimSig BYTE_SIG = new PrimSig("byte");
-	public static final PrimSig CHAR_SIG = new PrimSig("char");
-	public static final PrimSig DOUBLE_SIG = new PrimSig("double");
-	public static final PrimSig FLOAT_SIG = new PrimSig("float");
-	public static final PrimSig INT_SIG = new PrimSig("int");
-	public static final PrimSig LONG_SIG = new PrimSig("long");
-	public static final PrimSig STRING_SIG = new PrimSig("String");
-	public static final PrimSig WILDCARD_SIG = new PrimSig("?");
+	public static final PrimSig BOOLEAN_SIG = new PrimSig("boolean", false);
+	public static final PrimSig BYTE_SIG = new PrimSig("byte", 0);
+	public static final PrimSig CHAR_SIG = new PrimSig("char", 0);
+	public static final PrimSig DOUBLE_SIG = new PrimSig("double", 0.0);
+	public static final PrimSig FLOAT_SIG = new PrimSig("float", 0.0f);
+	public static final PrimSig INT_SIG = new PrimSig("int", 0);
+	public static final PrimSig LONG_SIG = new PrimSig("long", 0);
+	public static final PrimSig STRING_SIG = new PrimSig("String", "");
+	public static final PrimSig WILDCARD_SIG = new PrimSig("?", null);
 	
 	private String name;
+	private Object nullValue; // value to use if a field is parsed null
 	
-	protected PrimSig(String name) {
+	protected PrimSig(String name, Object nullValue) {
 		this.name = name;
+		this.nullValue = nullValue;
 	}
 	
 	/* (non-Javadoc)
@@ -91,6 +93,10 @@ public class PrimSig implements ISig {
 	 */
 	public String getName() {
 		return name; 
+	}
+	
+	public Object getNullValue() {
+		return nullValue;
 	}
 
 	@Override

@@ -55,11 +55,21 @@ public class SubFieldCollector implements IDFVisitor<Void> {
 	public Void visitCompField(CompField f, String basePath,
 			String description, HashMap<String, IDataField> fieldMap) {
 
+		CompField collected = new CompField();
+		
 		for (String name : f.fieldNames()) {
 			IDataField subfield = f.getField(name);
 			subfield.apply(new SubFieldCollector(targetField, prefix + "/" + name, false, wrapList));
+			subfield.apply(new SubFieldCollector(collected, name));
 		}
 		
+		// have to break out collecting and adding to spec, because otherwise
+		// a ConcurrentModificationException happens - adding fields to f while
+		// it is being traversed
+		for (String name : collected.fieldNames()) {
+			f.addField(name, collected.getField(name));
+		}
+
 		if (!topLevel) {
 			if (wrapList) {
 				targetField.addField(prefix, new ListField(null, prefix, f));
@@ -67,6 +77,8 @@ public class SubFieldCollector implements IDFVisitor<Void> {
 				targetField.addField(prefix, f);
 			}
 		}
+		
+		
 		
 		return null;
 	}

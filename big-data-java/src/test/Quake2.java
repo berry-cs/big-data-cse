@@ -13,11 +13,13 @@ public class Quake2 {
 
 		DataSource ds = DataSource.connectJSON("http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson");
 		ds.setCacheTimeout(DELAY);		  
-
+		
+		ds.load();
+		ds.printUsageString();
+		
 		HashSet<Earthquake> quakes = new HashSet<Earthquake>();
 
 		//while (true) {
-			ds.load();
 			List<Earthquake> latest = ds.fetchList("test.Earthquake",
 									"features/properties/title",
 									"features/properties/time",

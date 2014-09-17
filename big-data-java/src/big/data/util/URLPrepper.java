@@ -1,9 +1,10 @@
 package big.data.util;
 
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.*;
-import org.apache.commons.lang3.StringEscapeUtils;
 
 
 public class URLPrepper {
@@ -35,7 +36,11 @@ public class URLPrepper {
 		for (String k : keys) {
 			String v = params.get(k);
 			if (!req.endsWith("?")) req += "&";
-			req += StringEscapeUtils.escapeHtml4(k) + "=" + StringEscapeUtils.escapeHtml4(v);
+			try {
+				req += URLEncoder.encode(k, "UTF-8") + "=" + URLEncoder.encode(v, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
 		}		
 		return req;
 	}

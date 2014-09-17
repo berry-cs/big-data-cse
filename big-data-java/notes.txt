@@ -12,7 +12,6 @@ TODO:
 
   - add file chooser, that also copies path to the clipboard upon selection
 
-  - escape spaces, other special chars in URL parameters passed to .set(..., ...)
   - for non-xml sources that are loaded and then transferred to xmldatasource, set up caching mechanism so
     that the xml can be cached, and future requests to that data source (even if as json/csv), if loaded from
     cache, will be loaded from the xml cache, instead of going through the original data.
@@ -22,6 +21,8 @@ TODO:
   - provide way to sample large data set and produce a mini-version and save it locally
   - track number of times particular ISig is fetched, and after some point, cache a representation of the 
       parsed data?
+
+ - get this set up to be added to the gallery of processing libraries
 
 
 FUTURE:

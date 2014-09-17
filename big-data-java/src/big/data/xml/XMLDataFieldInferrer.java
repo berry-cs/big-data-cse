@@ -37,7 +37,7 @@ public class XMLDataFieldInferrer {
 //					System.out.println("Node name: " + t.getName() + " " + isPrimField + " inferred: " + sf);
 
 				if (xml.getChildren(t.getName()).length > 1) {  // there are several children like <t>...</t>
-					cf.addField(t.getName(), new ListField(xml.getName() + "/", t.getName(), sf)); // TODO: should basepath be xml.getName() or t.getName() ?
+					cf.addField(t.getName(), new ListField(xml.getName(), t.getName(), sf)); // TODO: should basepath be xml.getName() or t.getName() ?
 				} else {
 					cf.addField(t.getName(), sf);
 				}

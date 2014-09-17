@@ -9,6 +9,10 @@ public class Psalms {
 	    DataSource ds = DataSource.connect("http://api.preachingcentral.com/bible.php");
 	    ds.set("passage", PASSAGE).load(); 
 	    ds.printUsageString();
+	    
+	    System.out.println(ds.getFieldSpec());
+	    System.out.println(ds.fetchString("cache"));
+	    
 		String[] verses = ds.fetchStringArray("range/item/text");
 		System.out.println(verses.length);
 		System.out.println(verses[0]);

@@ -132,5 +132,5 @@ public interface IDataSource {
 	public ArrayList<Integer> fetchIntList(String key);
 	public ArrayList<String> fetchStringList(String key);
 
-	public String usageString();
+	public String usageString(boolean verbose);
 }

@@ -48,9 +48,10 @@ public class CompField extends ADataField implements IDataField {
 	}
 
 	public String toString() {
-		String m = "{_" + basePath + " ";
+		String m = "{_<" + basePath + "> ";
+		boolean firstDone = false;
 		for (String k : fieldNames()) {
-			if (m.length() > 1) { m += ", "; }
+			if (firstDone) { m += ", "; } else { firstDone = true; }
 			m += (k + ": " + fieldMap.get(k));
 		}
 		m += "}";

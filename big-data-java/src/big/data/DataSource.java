@@ -342,7 +342,7 @@ public abstract class DataSource implements IDataSource {
 	}
     
 	
-	public String usageString() {
+	public String usageString(boolean verbose) {
 		String s = "-----\n";
 		if (this.name != null) 
 			s += "Data Source: " + this.name + "\n";
@@ -366,7 +366,7 @@ public abstract class DataSource implements IDataSource {
 		}
 			
 		if (spec != null)
-			s += "\nThe following data is available:\n" + spec.apply(new FieldStringPrettyPrint(3, true)) + "\n";
+			s += "\nThe following data is available:\n" + spec.apply(new FieldStringPrettyPrint(3, true, !verbose)) + "\n";
 		
 		if (!this.hasData())
 			s += "\n*** Data not loaded *** ... use .load()\n";
@@ -376,7 +376,11 @@ public abstract class DataSource implements IDataSource {
 	}
 
 	public void printUsageString() {
-		System.out.println(usageString());
+		printUsageString(false);
+	}
+	
+	public void printUsageString(boolean verbose) {
+		System.out.println(usageString(verbose));
 	}
 
 }

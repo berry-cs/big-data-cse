@@ -16,7 +16,7 @@ import big.data.util.IOUtil;
 public class TestFileDS {
 	public static void test1() {
 		DataSource ds = DataSource.connectXML("vehicles.xml").load();
-		System.out.println(ds.usageString());
+		ds.printUsageString();
 		System.out.println("ds.size(): " + ds.size());
 
 		Car c1 = ds.fetch("test.Car", "make", "model", "city08");
@@ -33,7 +33,7 @@ public class TestFileDS {
 	
 	public static void test2() {
 		DataSource ds = DataSource.connect("src/big/data/tests/dsspec1.xml");
-		System.out.println(ds.usageString());
+		ds.printUsageString();
 		System.out.println(ds.readyToLoad());
 		System.out.println(IOUtil.join(ds.missingParams().toArray(new String[] {}), ", "));
 		//ds.load();
@@ -43,7 +43,7 @@ public class TestFileDS {
 		System.out.println(names.length + " airports. First name: " + names[0]);
 		
 		ds = DataSource.connect("http://services.faa.gov/airport/status/BOS").set("format", "application/xml").load();
-		System.out.println(ds.usageString());
+		ds.printUsageString();
 		APStatus x = ds.fetch("test.APStatus", "Name", "State", "Delay", "Weather/Weather");
 		System.out.println(x);
 	}
@@ -96,16 +96,16 @@ public class TestFileDS {
 		DataSource ds = DataSource.connectCSV("Airline Data", "http://sourceforge.net/p/openflights/code/HEAD/tree/openflights/data/airlines.dat");
 		ds.setOption("header", "\"ID\",\"Name\",\"Alias\",\"IATA\",\"ICAO\",\"Callsign\",\"Country\",Active");
 		ds.set("format", "raw");
-		System.out.println(ds.usageString());
+		ds.printUsageString();
 		ds.load();
-		System.out.println(ds.usageString());
+		ds.printUsageString();
 		System.out.println("ds.size(): " + ds.size());
 		String[] names = ds.fetchStringArray("Name");
 		System.out.println(names.length + " airlines");
 		System.out.println(names[100]);
 		
 		ds = DataSource.connect("src/big/data/tests/dsspec2.xml").load();
-		System.out.println(ds.usageString());
+		ds.printUsageString();
 		names = ds.fetchStringArray("Name");
 		System.out.println(names.length + " airlines");
 		System.out.println(names[100]);
@@ -114,7 +114,7 @@ public class TestFileDS {
 		ds.getFieldSpec().apply(new FieldToXMLSpec()).write(new PrintWriter(System.out));
 		
 		ds = DataSource.connect("src/big/data/tests/dsspec3.xml").load();
-		System.out.println(ds.usageString());
+		ds.printUsageString();
 		names = ds.fetchStringArray("Country");
 		System.out.println(IOUtil.join(ArrayUtils.subarray(names, 0, 20), ","));
 	}
@@ -165,13 +165,13 @@ public class TestFileDS {
 	public static void test5() {
 		DataSource ds = DataSource.connect("src/big/data/tests/dsspec4.xml");
 		ds.set("q", "11746").set("key", "7kwg5bevqqvrv3s676kd4uwb").load();
-		System.out.println(ds.usageString());
+		ds.printUsageString();
 		
 		//System.out.println("---");
 		//ds.getFieldSpec().apply(new FieldToXMLSpec()).write(new PrintWriter(System.out));
 
 		ds = DataSource.connect("src/big/data/tests/dsspec5.xml").set("q", "11746").set("key", "7kwg5bevqqvrv3s676kd4uwb").load();
-		System.out.println(ds.usageString());
+		ds.printUsageString();
 
 		Weather w = ds.fetch(Weather.class, "date&time", "temp", "visibility");
 		System.out.println(w);

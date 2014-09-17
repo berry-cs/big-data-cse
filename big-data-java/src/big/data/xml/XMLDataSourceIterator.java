@@ -65,7 +65,7 @@ public class XMLDataSourceIterator implements DataSourceIterator {
 
 	public String usageString() {
 		String s = "\nThe following data is available through iterator for: " + xds.getName() + "\n";
-		s += df.apply(new FieldStringPrettyPrint(3, true)) + "\n";
+		s += df.apply(new FieldStringPrettyPrint(3, true, true)) + "\n";
 		return s;
 	}
 }

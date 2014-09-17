@@ -421,14 +421,15 @@ public class XML implements Serializable {
 		if (name.length() > 0 && name.charAt(0) == '/') {
 			throw new IllegalArgumentException("getChild() should not begin with a slash");
 		}
-		if (name.indexOf('/') != -1) {
-			return getChildRecursive(IOUtil.split(name, '/'), 0);
+		if (name.indexOf('/') != -1 && name.indexOf('/') != name.length()-1) {
+			return getChildRecursive(name.split("/"), 0);
+			//return getChildRecursive(IOUtil.split(name, '/'), 0);
 		}
 		int childCount = getChildCount();
 		for (int i = 0; i < childCount; i++) {
 			XML kid = getChild(i);
 			String kidName = kid.getName();
-			if (kidName != null && kidName.equals(name)) {
+			if (kidName != null && (kidName.equals(name) || (kidName+"/").equals(name))) {
 				return kid;
 			}
 		}

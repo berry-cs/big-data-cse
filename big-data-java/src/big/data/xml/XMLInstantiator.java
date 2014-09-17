@@ -116,6 +116,9 @@ public class XMLInstantiator<T> implements IDFVisitor<T> {
 					ISig fs = s.getFieldSig(i-start).unifyWith(paramTys[i]);  
 					args[i] = df.apply(new XMLInstantiator<Object>(basexml, fs)); //   df.instantiate(basexml, fs);
 					if (args[i] != null && allNullArgs) allNullArgs = false;
+					if (args[i] == null && fs instanceof PrimSig) {
+						args[i] = ((PrimSig)fs).getNullValue();
+					}
 				}
 				if (allNullArgs) {
 					System.err.println("Parsed null for all subfields of " + f + " in XML node <" + basexml.getName() + ">");
@@ -270,6 +273,7 @@ public class XMLInstantiator<T> implements IDFVisitor<T> {
 
 	
 	/* -------------------------- helper functions ----------------------------------- */
+
 	
 	public static String asString(XML xml) {
 		return xml.getContent().trim();
