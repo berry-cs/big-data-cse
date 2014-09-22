@@ -1,6 +1,8 @@
 
 TODO:
 
+  - log errors/messages in a log file instead of System.err
+
   - fix unifyWith in CompSig.java : see TODO comment
 
   - add more primitive fetch(ISig) to DataSource
@@ -19,10 +21,17 @@ TODO:
      cache or original data?)
   
   - provide way to sample large data set and produce a mini-version and save it locally
+  
   - track number of times particular ISig is fetched, and after some point, cache a representation of the 
       parsed data?
 
  - get this set up to be added to the gallery of processing libraries
+ 
+  - when inferring, consider all tags of the same name in the data, instead of just the first one
+    in case some have different structure (?) - ebay example - but this could be very inefficient;
+    eventually, try to use provided schemas if available?
+    
+  - try to skip BOM characters if they exist, in IOUtil.createReader(...)
 
 
 FUTURE:

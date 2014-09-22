@@ -27,7 +27,7 @@ public class ListField extends ADataField implements IDataField {
 	}
 
 	public String toString() {
-		return "[" + elemField + "]";
+		return "[_<" + basePath + "," + elemPath + "> " + elemField + "]";
 	}
 
 }

@@ -4,12 +4,14 @@ import big.data.*;
 public class EbayFinder {
 
 	public static void main(String[] args) {
-		DataSource ds = DataSource.connect("http://svcs.ebay.com/services/search/FindingService/v1");
+		
+		DataSource ds = DataSource.connect( "http://svcs.ebay.com/services/search/FindingService/v1");
 		ds.set("OPERATION-NAME", "findItemsByKeywords").set("SERVICE-VERSION", "1.0.0");
-		ds.set("SECURITY-APPNAME", "...").set("GLOBAL-ID", "EBAY-US");
+		ds.set("SECURITY-APPNAME", "StephenJ-4d75-4f49-b701-c21f0c089826").set("GLOBAL-ID", "EBAY-US");
 		ds.set("format", "xml").set("keywords", "hp 1606");
+		//System.out.println(ds.getFullPathURL());
 		ds.load();
-		ds.printUsageString(true);
+		ds.printUsageString();
 
 		//String[] items = ds.fetchStringArray("searchResult/item/title");
 		//for (String i : items) System.out.println(i);

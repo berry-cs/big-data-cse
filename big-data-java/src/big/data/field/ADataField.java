@@ -22,6 +22,10 @@ public class ADataField {
 	public String getDescription() {
 		return this.description;
 	}
+	
+	public String getBasePath() {
+		return this.basePath;
+	}
 
 	public XML findMyNode(XML xml) {
 		XML node = xml;

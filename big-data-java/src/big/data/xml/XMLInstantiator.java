@@ -65,8 +65,20 @@ public class XMLInstantiator<T> implements IDFVisitor<T> {
 				}
 			}
 
+			@SuppressWarnings("rawtypes")
 			public T visit(CompSig<?> s) {
-				throw new DataInstantiationException("Cannot instantiate " + f + " as " + s);
+				if (s.getFieldCount() == 1 && s.getFieldName(0).equals("")) {
+					String name = basexml.getName();
+					//XML wrap = new XML(name);
+					//wrap.addChild(basexml);
+					CompField newfld = new CompField();
+					newfld.addField(name, f);
+					CompSig<?> newsig = new CompSig(s.getAssociatedClass());
+					newsig.addField(s.getFieldSig(0),  name);
+					return newfld.apply(new XMLInstantiator<T>(basexml, newsig));
+				} else {
+					throw new DataInstantiationException("Cannot instantiate " + f + " as " + s);
+				}
 			}
 
 			public T visit(ListSig s) {
@@ -154,24 +166,58 @@ public class XMLInstantiator<T> implements IDFVisitor<T> {
 				// against that field
 				// TODO: this is bad design - use of instanceof, so reconsider it at some point ?
 				CompSig<?> cs;
-				String name;
 				if (elemsig instanceof CompSig) {
-					if ((cs = (CompSig<?>) elemsig).getFieldCount() == 1
-						&& f.hasField(name = cs.getFieldName(0))) { 
-						//System.out.println("took out: " + f.getField(name));
+					cs = (CompSig<?>) elemsig;
+					/*if (false && cs.getFieldCount() == 1
+						&& f.hasField(name = cs.getFieldName(0))
+						&& f.getField(name) instanceof ListField) { 
+						System.out.println("took out: " + f.getField(name) + " from " + f + " / " + s + " " + basexml);
 						//System.out.println(XMLInstantiator.this.xml);
-						return f.getField(name).apply(new XMLInstantiator<T>(xml, new ListSig(cs.getFieldSig(0))));
-					} else {
+						
+						return f.getField(name).apply(XMLInstantiator.this);
+						
+						/*
+						ListField subfld = (ListField) f.getField(name);
+						CompField newInner = new CompField();
+						newInner.addField(name, subfld.getElemField());
+						IDataField newfld = new ListField(subfld.getBasePath(), subfld.getElemPath(), newInner); 
+						
+						System.out.println("built: " + newfld);
+						
+						
+						
+						ArrayList<Object> lst = new ArrayList<Object>();
+						for (Object o : f.getField(name).apply(new XMLInstantiator<ArrayList<Object>>(xml, new ListSig(cs.getFieldSig(0))))) {
+							Constructor<?> cstr = cs.findConstructor();
+							cstr.setAccessible(true);
+							try {
+								lst.add(cstr.newInstance(o));
+							} catch (InstantiationException e) {
+								e.printStackTrace();
+							} catch (IllegalAccessException e) {
+								e.printStackTrace();
+							} catch (IllegalArgumentException e) {
+								e.printStackTrace();
+							} catch (InvocationTargetException e) {
+								e.printStackTrace();
+							}
+						}
+						
+						return (T) lst;
+						
+						
+					} else { */
 						String[] sigflds = new String[cs.getFieldCount()];
 						for (int i = 0; i < sigflds.length; i++) {
 							sigflds[i] = cs.getFieldName(i);
 						}
 						String commonPrefix = longestCommonPrefix(sigflds);
+						if (commonPrefix == null) commonPrefix = "";
+						//System.out.println("prefix: " + commonPrefix);
 						int prefixLength = commonPrefix.length();
 						if (commonPrefix.endsWith("/"))
 							commonPrefix = commonPrefix.substring(0, prefixLength-1);
-						if (commonPrefix != null 
-								&& f.hasField(commonPrefix)) {
+						if (f.hasField(commonPrefix)) {
 							@SuppressWarnings("rawtypes")
 							CompSig<?> newsig = new CompSig(cs.getAssociatedClass());
 							for (int i = 0; i < sigflds.length; i++) {
@@ -191,7 +237,7 @@ public class XMLInstantiator<T> implements IDFVisitor<T> {
 							//System.out.println("fbasexml: " + fbasexml);
 							return fsubfld.apply(new XMLInstantiator<T>(fbasexml, new ListSig(newsig)));
 						}
-					}
+					/* } */ 
 				} 
 				
 				//System.out.println("Here " + s + "/" + f);
@@ -342,7 +388,7 @@ public class XMLInstantiator<T> implements IDFVisitor<T> {
 	}
 	
 	public static String longestCommonPrefix(String[] strings) {
-	    if (strings.length == 0) {
+	    if (strings.length <= 0) {
 	        return null;
 	    }
 

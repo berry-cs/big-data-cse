@@ -15,8 +15,12 @@ public class Quake {
 
 		HashSet<String> quakes = new HashSet<String>();
 
-		while (true) {
+		//while (true) {
 			ds.load();
+			
+			List<Q> qs = ds.fetchList("test.Q", "features/properties/title");
+			for (Q q : qs) System.out.println(q);
+			
 			List<String> latest = ds.fetchStringList("features/properties/title");
 			for (String t : latest) {
 				if (!quakes.contains(t)) {
@@ -24,9 +28,23 @@ public class Quake {
 					quakes.add(t);
 				}
 			}
-		}
+		//}
 	}
 }
 
+class Q {
+	String s;
+	
+	Q(String s) { this.s = s; }
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Q [s=" + s + "]";
+	}
+	
+}
 //xml source: DataSource ds = DataSource.connect("http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.quakeml");
 //ds.printUsageString();
