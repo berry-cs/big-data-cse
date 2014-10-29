@@ -19,10 +19,10 @@ public class TestFileDS {
 		ds.printUsageString();
 		System.out.println("ds.size(): " + ds.size());
 
-		Car c1 = ds.fetch("test.Car", "make", "model", "city08");
+		Car c1 = ds.fetch("test.Car", "vehicle/make", "vehicle/model", "vehicle/city08");
 		System.out.println(c1);
 
-		ArrayList<Car> cs = ds.fetchList(Car.class, "make", "model", "city08");
+		ArrayList<Car> cs = ds.fetchList(Car.class, "vehicle/make", "vehicle/model", "vehicle/city08");
 		System.out.println(cs.size());
 		Car max = cs.get(0);
 		for (Car c : cs) {
@@ -205,7 +205,7 @@ public class TestFileDS {
 	}
 
 	public static void main(String[] args) {
-		//test1();
+		test1();
 		//test2();
 		////test3();
 		//test4();

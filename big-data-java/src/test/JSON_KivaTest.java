@@ -27,6 +27,8 @@ public class JSON_KivaTest {
 		System.out.println("past load, size = "+kivaData.size());
 		kivaData.printUsageString();
 		
+		System.out.println(kivaData.fetchStringArray("loans/name").length);
+		
 		DataSourceIterator iterator = kivaData.iterator();
 		System.out.println("iterator declared");
 		while(iterator.hasData()) {

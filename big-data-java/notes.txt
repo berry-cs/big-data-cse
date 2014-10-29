@@ -1,6 +1,8 @@
 
 TODO:
 
+  - more sophisticated handling of zip files
+
   - log errors/messages in a log file instead of System.err
 
   - fix unifyWith in CompSig.java : see TODO comment
