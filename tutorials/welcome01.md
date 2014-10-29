@@ -11,6 +11,9 @@ Welcome! This set of tutorials provides an introduction to *Sinbad* - a Java lib
 * Using (i.e. calling) methods
 * `import`ing a library
 * Using `System.out.println` to print text to the console
+* String concatenation
+* (Optional) Using a `Scanner` to read keyboard input 
+
 
 ### Downloading and Installing *Sinbad*
 
@@ -48,11 +51,11 @@ There are several steps that may be required for step 1, and there are a variety
   
 * Alright! So, let's now go through the three basic steps above to get data from the NWS' site. 
 
-  1. First, we use the `connect` method to create a DataSource object and assign it to a variable. The `connect` method requires one argument (or, parameter): the URL of the data service. We'll talk more about figuring out URLs later, but for now, let's use `http://w1.weather.gov/xml/current_obs/KATL.xml`, which provides a data feed for current weather conditions at Hartsfield-Jackson International Airport in Atlanta, GA.
+  1. First, we use the `connect` method to create a DataSource object and assign it to a variable. The `connect` method requires one argument (or, parameter): the URL of the data service. We'll talk more about figuring out URLs later, but for now, let's use `http://weather.gov/xml/current_obs/KATL.xml`, which provides a data feed for current weather conditions at Hartsfield-Jackson International Airport in Atlanta, GA.
 
      Add the following statement to your `main` method (or `setup` in [Processing](http://processing.org)):
   
-          DataSource ds = DataSource.connect("http://w1.weather.gov/xml/current_obs/KATL.xml");
+          DataSource ds = DataSource.connect("http://weather.gov/xml/current_obs/KATL.xml");
 
 
   2. Now, the `ds` variable refers to a DataSource object that is set up to connect to the URL you provided. The next step is to have the data actually loaded - this goes out to the URL and downloads whatever data it provides. Add the following statement to your program, which invokes (calls) the `load` method on the `ds` object we created in the previous step:
@@ -67,14 +70,14 @@ There are several steps that may be required for step 1, and there are a variety
 
        System.out.println("Temperature: " + temp);
 
-* Now run your program. You should see a temperature value printed out that matches what is shown at the URL `http://w1.weather.gov/xml/current_obs/KATL.xml` if you load it in your web browser.
+* Now run your program. You should see a temperature value printed out that matches what is shown at the URL `http://weather.gov/xml/current_obs/KATL.xml` if you load it in your web browser.
 
 
 ### Data Elements and Labels
 
 In the program you just wrote, we told you that the label for the piece of data representing the current temperature in Fahrenheit was `temp_f`. How might you figure out what other pieces of data are available? There are at least two ways to do so. 
 
-1. The first is to look for documentation on the web site that provides the data. In our case, if you go to the main web site for the "Current Weather Conditions" data that is provided by the NWS, `http://w1.weather.gov/xml/current_obs/`, the last sentence of the first paragraph contains a link to a "Product Description Document". If you click on that, you get a PDF document with a example, on the second page, of a data set in XML format. 
+1. The first is to look for documentation on the web site that provides the data. In our case, if you go to the main web site for the "Current Weather Conditions" data that is provided by the NWS, `http://weather.gov/xml/current_obs/`, the last sentence of the first paragraph contains a link to a "Product Description Document". If you click on that, you get a PDF document with a example, on the second page, of a data set in XML format. 
 
    It is not very friendly-looking, and indeed, different web sites will provide better or worse documentation of the available pieces of data they supply. If you are working on an assignment for class, the instructor or teaching assistant can help you find and figure out the documentation for a given data source.
 
@@ -88,7 +91,7 @@ In the program you just wrote, we told you that the label for the piece of data 
 
 ````
 -----
-Data Source: http://w1.weather.gov/xml/current_obs/KATL.xml
+Data Source: http://weather.gov/xml/current_obs/KATL.xml
 
 The following data is available:
    A structure with fields:
@@ -110,8 +113,63 @@ The following data is available:
    This listing displays the available fields of data you can extract using the `fetch` method. For many data sources, the names of the labels themselves provide sufficient hints to what information is being represented.
 
 
+### Types of Data Elements
+
+In the program we've written, we used the `fetchFloat` method to extract the `temp_f` element of data as a `float`, and assigned it to a variable of the corresponding type. In general, the *Sinbad* library does not do very much for you to determine what _type_ of data is available, only the available labels of data. You have to request a particular type of data using an appropriate `fetch...` method. You can _always_ however, fetch any data element as a `String`, using the `fetchString` method.
+
+Let's try using `fetchString` to extract the location of the weather observation. Add the following statement to your program after the `fetchInt` statement and update the print statement:
+
+    String loc = ds.fetchString("location");
+    System.out.println("The temperature at " + loc + " is " + temp + "F");
+
+Run your program. (You might want to comment out or delete the `printUsageString` statement.) You should get a message printed out that looks something like:
+
+````
+The temperature at Hartsfield-Jackson/Atlanta International Airport, GA is 65.0F.
+````
+
+### Constructing a URL
+
+In the example above, we provided a literal string constant to the `connect` method. In many cases, however, you might want to build up the string for the URL by concatenating several pieces together. For instance, you might want to make it easy to change the station for which weather data is fetched. If you go to [the NWS' web site](http://weather.gov/xml/current_obs/), you can select a state from the dropdown list and click "Find". This lists all the observation locations in that state along with their abbreviated station id. If you hover, or click, on the various little ![XML](http://weather.gov/images/xml.gif "XML") icons you see that the URL for the data of each station is mostly the same except for the part right before the `.xml` suffix, which is the station id. So, in general, it looks like the URLs are of the form:
+
+`http://weather.gov/xml/current_obs/` + _station id_ + `.xml`
+
+Let's introduce a separate variable into our program for the station id and use string concatenation to build the URL that we use to `connect` to the data source:
+
+    String id = "KATL";
+    DataSource ds = DataSource.connect("http://weather.gov/xml/current_obs/" + id + ".xml");
+
+Now, you can easily change the value of the `id` string to one of the station id's listed on [the NWS' web site](http://weather.gov/xml/current_obs/) to fetch weather data for another location.
+
+
+## Exercises
+
+Here are some extensions to the program above you can try working on. If you are using a Java IDE (editor) like Eclipse, DrJava, or BlueJ, look at the "Java" section. If you are using [Processing](http://processing.org), skip to the section labeled "Processing".
+
+### Java
+
+1. Extend your program to print out a summary of the current weather conditions ("The weather is partly cloudy.", "The weather is overcast.", etc). You will need to find the appropriate label to use and fetch that data element as a string. (You might need to use the `toLowerCase` method of `String`.)
+
+1. Use a `Scanner` to read in a weather station id from the keyboard and  fetch data about the current conditions at that location.
+
+1. Create another DataSource object to read weather data for a second location. Print out a message stating which of the two locations is hotter (or colder). 
+
+1. Fetch the wind speed and print out a description based on the [Beaufort Scale](http://en.wikipedia.org/wiki/Beaufort_scale). 
 
 
 
-* Done
+### Processing
+
+
+1. Extend your program to print out a summary of the current weather conditions ("The weather is partly cloudy.", "The weather is overcast.", etc). You will need to find the appropriate label to use and fetch that data element as a string. (You might need to use the `toLowerCase` method of `String`.)
+
+1. Instead of using `println` statements, modify your program so that it uses `text()` to display information about the weather in the window when your program is run. In general, you must always leave the 
+
+       DataSource.initializeProcessing(this);
+   statement in your `setup()` function, but you can `connect`, `load`, and `fetch` from data sources in `draw()`.
+
+1. By fetching the data elements labeled `icon_url_base` and `icon_url_name`, construct a URL for an image of the current weather conditions. Use that URL with the `loadImage` function of Processing to load and display the image in the window when your program is run.
+
+1. Create another DataSource object to read weather data for a second location. Make your program switch between displaying information for the two locations when the mouse is clicked.
+ 
 
