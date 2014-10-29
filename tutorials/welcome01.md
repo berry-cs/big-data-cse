@@ -171,6 +171,6 @@ Here are some extensions to the program above you can try working on. If you are
 
 1. By fetching the data elements labeled `icon_url_base` and `icon_url_name`, construct a URL for an image of the current weather conditions. Use that URL with the `loadImage` function of Processing to load and display the image in the window when your program is run.
 
-1. Create another DataSource object to read weather data for a second location. Make your program switch between displaying information for the two locations when the mouse is clicked.
+1. Make your program switch between displaying weather information for two (or more) locations when the mouse is clicked.
  
 
