@@ -165,7 +165,8 @@ Here are some extensions to the program above you can try working on. If you are
 
 1. Instead of using `println` statements, modify your program so that it uses `text()` to display information about the weather in the window when your program is run. In general, you must always leave the 
 
-       DataSource.initializeProcessing(this);
+        DataSource.initializeProcessing(this);
+       
    statement in your `setup()` function, but you can `connect`, `load`, and `fetch` from data sources in `draw()`.
 
 1. By fetching the data elements labeled `icon_url_base` and `icon_url_name`, construct a URL for an image of the current weather conditions. Use that URL with the `loadImage` function of Processing to load and display the image in the window when your program is run.
