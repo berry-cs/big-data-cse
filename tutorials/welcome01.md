@@ -11,7 +11,6 @@ Welcome! This set of tutorials provides an introduction to *Sinbad* - a Java lib
 * Using (i.e. calling) methods
 * `import`ing a library
 * Using `System.out.println` to print text to the console
-* (Optional) Using a Scanner to read from the keyboard
 
 ### Downloading and Installing *Sinbad*
 
@@ -53,20 +52,20 @@ There are several steps that may be required for step 1, and there are a variety
 
      Add the following statement to your `main` method (or `setup` in [Processing](http://processing.org)):
   
-         DataSource ds = DataSource.connect("http://w1.weather.gov/xml/current_obs/KATL.xml");
+          DataSource ds = DataSource.connect("http://w1.weather.gov/xml/current_obs/KATL.xml");
 
 
   2. Now, the `ds` variable refers to a DataSource object that is set up to connect to the URL you provided. The next step is to have the data actually loaded - this goes out to the URL and downloads whatever data it provides. Add the following statement to your program, which invokes (calls) the `load` method on the `ds` object we created in the previous step:
   
-         ds.load();
+          ds.load();
          
   3. And, finally, let's fetch the current temperature (in Fahrenheit). To fetch elements of data, you will need to know their labels (or, tags). Again, we'll see later how you go about finding what elements of data are available and what their labels are. For now, the label of interest to us is `temp_f`. Let's fetch that piece of data and assign it to a variable of type `float` using the `fetchFloat` method of the DataSource object:
   
-         float temp = ds.fetchFloat("temp_f");
+          float temp = ds.fetchFloat("temp_f");
 
 * At this point, we've connected, loaded, and fetched some data. It might now by handy to have our program display the temperature value, so let's add a `println` statement:
 
-      System.out.println("Temperature: " + temp);
+       System.out.println("Temperature: " + temp);
 
 * Now run your program. You should see a temperature value printed out that matches what is shown at the URL `http://w1.weather.gov/xml/current_obs/KATL.xml` if you load it in your web browser.
 
@@ -83,7 +82,7 @@ In the program you just wrote, we told you that the label for the piece of data 
 
 2. The second way to figure out what data labels are available is actually by using a method of the `DataSource` object in our program. Once the data has been loaded, the library analyzes it and can provide you a summary of the labels it has found. Do this by adding the following statement _after_ the `ds.load()` statement in your program:
 
-       ds.printUsageString();
+        ds.printUsageString();
        
    When you run your program, you should get a listing that looks something like this: 
 
