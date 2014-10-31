@@ -254,8 +254,11 @@ public abstract class DataSource implements IDataSource {
 		return this;
 	}
 
-	public DataSource setCacheTimeout(long val) {
-		this.cacher = this.cacher.updateTimeout(val);
+	/**
+	 * Sets the cache timeout value, in <em>minutes</em>.
+	 */
+	public DataSource setCacheTimeout(int val) {
+		this.cacher = this.cacher.updateTimeout(val * 1000 * 60);
 		return this;
 	}
 

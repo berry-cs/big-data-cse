@@ -184,7 +184,7 @@ public class DataSourceLoader {
 		String dir = getContentOf(node, "directory");
 		if (timeout != null && !"".equals(timeout)) { 
 			try {
-				ds.setCacheTimeout(Long.parseLong(timeout)); 
+				ds.setCacheTimeout(Integer.parseInt(timeout)); 
 			} catch (NumberFormatException e) {
 				System.err.println("Error loading cache timeout value: " + timeout + " (" + e.getMessage() + ")");
 			}

@@ -8,7 +8,7 @@ import big.data.*;
 
 public class Quake {
 	public static void main(String[] args) {
-		int DELAY = 5 * 60 * 1000;   // 5 minute cache delay
+		int DELAY = 5;   // 5 minute cache delay
 
 		DataSource ds = DataSource.connectJSON("http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson");
 		ds.setCacheTimeout(DELAY);		  

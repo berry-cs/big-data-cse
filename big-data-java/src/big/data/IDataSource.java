@@ -65,7 +65,10 @@ public interface IDataSource {
 	 */
 	public IDataSource set(String op, String val);
 	
-	public IDataSource setCacheTimeout(long val);
+	/**
+	 * Sets the cache timeout value, in <em>minutes</em>.
+	 */
+	public IDataSource setCacheTimeout(int val);
 	public IDataSource setCacheDirectory(String path);
 
 	/**
