@@ -51,6 +51,14 @@ public interface IDataSource {
 	public boolean hasData();
 	
 	/**
+	 * Determines whether data has been successfully loaded and parsed from the data source
+	 * (i.e. it calls hasData()), 
+	 * and whether data elements with the given keys (field labels) are available
+	 * in this data source. 
+	 */
+	public boolean hasFields(String... keys);
+	
+	/**
 	 * Registers a request parameter with this data source
 	 * @param param the parameter specification
 	 * @return this updated data source

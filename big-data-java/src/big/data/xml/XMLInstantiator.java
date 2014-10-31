@@ -33,7 +33,7 @@ public class XMLInstantiator<T> implements IDFVisitor<T> {
 	}
 
 	public T defaultVisit(IDataField df) {
-		throw new RuntimeException("Unable to instantiate data field " + df);
+		throw new DataInstantiationException("Unable to instantiate data field " + df);
 	}
 
 	
@@ -61,7 +61,7 @@ public class XMLInstantiator<T> implements IDFVisitor<T> {
 				} else if (s == PrimSig.STRING_SIG || s == PrimSig.WILDCARD_SIG) {
 					return (T)asString(basexml);
 				} else {
-					throw new RuntimeException("Can't instantiate: unknown PrimSig");
+					throw new DataInstantiationException("Can't instantiate: unknown PrimSig");
 				}
 			}
 
@@ -113,7 +113,7 @@ public class XMLInstantiator<T> implements IDFVisitor<T> {
 					return null;
 				}
 				if (cr == null) {
-					throw new RuntimeException("Constructor not found for: " + s);
+					throw new DataInstantiationException("Constructor not found for: " + s);
 				}
 				Class<?>[] paramTys = cr.getParameterTypes();
 				Object[] args = new Object[paramTys.length];
@@ -123,7 +123,7 @@ public class XMLInstantiator<T> implements IDFVisitor<T> {
 					String fieldname = s.getFieldName(i-start);
 					IDataField df = fieldMap.get(fieldname);
 					if (df == null) {
-						throw new RuntimeException("No field named \"" + fieldname + "\" was found in " + f);
+						throw new DataInstantiationException("No field named \"" + fieldname + "\" was found in " + f);
 					}					
 					ISig fs = s.getFieldSig(i-start).unifyWith(paramTys[i]);  
 					args[i] = df.apply(new XMLInstantiator<Object>(basexml, fs)); //   df.instantiate(basexml, fs);

@@ -61,8 +61,20 @@ public abstract class DataSource implements IDataSource {
 		this.paramValueKeys = new ArrayList<String>();
 	}
 	
+	
+	/* TODO: 
+	 * need to revisit the resolvedPath here -- the problem is that if you don't use the cacher,
+	 * this method will always connect to the URL, partially defeating the point of the cache, because
+	 * it will register an access on the web service. But the defaultCacher may not be the proper
+	 * cacher to use if a data source decided to use a different one for some reason?
+	 */
 	public static DataSource connect(String path) {
 		path = ProcessingDetector.tryToFixPath(path);
+		String resolvedPath = DataCacher.defaultCacher().resolvePath(path);
+		if (resolvedPath != null) {
+			path = resolvedPath;
+		}
+		
 		if (DataSourceLoader.isValidDataSourceSpec(path)) {
 			return connectUsing(path);
 		} else if (path.toLowerCase().endsWith(".csv") || path.toLowerCase().contains(".csv.")) {
@@ -238,6 +250,20 @@ public abstract class DataSource implements IDataSource {
 
 	public boolean hasData() {
 		return this.loaded;
+	}
+	
+	public boolean hasFields(String... keys) {
+		if (!hasData()) return false;
+		
+		for (String key : keys) {
+			try {
+				fetchString(key);
+			} catch (DataInstantiationException e) {
+				return false;
+			}
+		}
+		
+		return true;		
 	}
 
 	public DataSource addParam(IParam param) {
