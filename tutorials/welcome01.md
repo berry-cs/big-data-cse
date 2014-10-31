@@ -142,6 +142,18 @@ Let's introduce a separate variable into our program for the station id and use 
 Now, you can easily change the value of the `id` string to one of the station id's listed on [the NWS' web site](http://weather.gov/xml/current_obs/) to fetch weather data for another location.
 
 
+## Managing the Cache
+
+If you try running the weather data program we've written at different times during the day (on the same computer), you may notice something interesting -- the reported temperature never changes! That's because the *Sinbad* library _caches_ data that is loaded from a web service. What this means is that the very first time you connect to a particular URL, the library downloads the data and stores it somewhere in your computer's hard drive. If you run the program again and attempt to connect to the same URL, instead of actually going out and fetching the data again, the library simply uses the data it had previously downloaded and cached. The benefit of this is that it doesn't overload the data service with repeated requests. Many web-based data services enforce limits on the number of times per hour or day that you can connect and fetch data from them. By caching data, the *Sinbad* library tries to ensure that you don't run into these limits.
+
+However, sometimes you might  really want to connect to the web service and download fresh, rather than cached, data. To tell *Sinbad* that you want to fetch fresh data every so many minutes, use the `setCacheTimeout` method on the `DataSource` object. This method has a single parameter: the number of minutes after which data is considered "stale" and should be downloaded again from the data source upon connection. For example, to have your weather data refreshed every 15 minutes, insert the following statement after your call to `DataSource.connect()` and before `ds.load()`:
+
+    ds.setCacheTimeout(15);
+
+When you run a program that uses the *Sinbad* library, you may notice that a subdirectory named "cache" is created in the same directory as your program - this directory contains all the cached data. You should leave it alone, unless you want to delete it to complete clear out all cached data and force everything to be downloaded fresh upon connection.
+
+----
+
 ## Exercises
 
 Here are some extensions to the program above you can try working on. If you are using a Java IDE (editor) like Eclipse, DrJava, or BlueJ, look at the "Java" section. If you are using [Processing](http://processing.org), skip to the section labeled "Processing".

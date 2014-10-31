@@ -66,7 +66,7 @@ public interface IDataSource {
 	public IDataSource set(String op, String val);
 	
 	/**
-	 * Sets the cache timeout value, in <em>minutes</em>.
+	 * Sets the cache timeout value, in <em>minutes</em>. This should be called before load() to have effect.
 	 */
 	public IDataSource setCacheTimeout(int val);
 	public IDataSource setCacheDirectory(String path);
