@@ -152,6 +152,15 @@ However, sometimes you might  really want to connect to the web service and down
 
 When you run a program that uses the *Sinbad* library, you may notice that a subdirectory named "cache" is created in the same directory as your program - this directory contains all the cached data. You should leave it alone, unless you want to delete it to complete clear out all cached data and force everything to be downloaded fresh upon connection.
 
+## Complete Program Files
+
+The complete source code for the program developed in this tutorial is available here:
+
+* [Welcome01.java](https://github.com/berry-cs/big-data-cse/raw/master/tutorials/Welcome01.java) (standard Java version)
+* [Welcome01.pde](https://github.com/berry-cs/big-data-cse/raw/master/tutorials/Welcome01/Welcome01.pde) (Processing sketch)
+
+
+
 ----
 
 ## Exercises
