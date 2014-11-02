@@ -7,7 +7,8 @@ public class Welcome02_Object {
       DataSource ds1 = DataSource.connect("http://weather.gov/xml/current_obs/" + id1 + ".xml"); 
       ds1.setCacheTimeout(15);  
       ds1.load();
-      
+      //ds1.printUsageString();
+
       Observation ob1 = ds1.fetch("Observation", "weather", "temp_f", "wind_degrees");
       System.out.println(id1 + ": " + ob1);
       
@@ -28,8 +29,9 @@ public class Welcome02_Object {
 }
 
 
+/* Represents a weather observation */
 class Observation {
-   float temp;
+   float temp;    // in fahrenheit
    int windDir;   // in degrees
    String description;
    
@@ -39,10 +41,12 @@ class Observation {
       this.windDir = windDir;
    }
    
+   /* determine if the temperature of this observation is colder than 'that's */
    public boolean colderThan(Observation that) {
       return this.temp < that.temp;
    }
    
+   /* produce a string describing this observation */
    public String toString() {
       return (temp + " degrees; " + description + " (wind: " + windDir + " degrees)");
    }
