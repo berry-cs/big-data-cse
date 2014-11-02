@@ -111,11 +111,3 @@ The complete source code for the program developed in this tutorial, including a
 
 * [Welcome02_Object.java](https://github.com/berry-cs/big-data-cse/raw/master/tutorials/Welcome02_Object.java) (standard Java version)
 * [Welcome02_Object.pde](https://github.com/berry-cs/big-data-cse/raw/master/tutorials/Welcome02_Object/Welcome02_Object.pde) (Processing sketch)
-
-----
-
-## Exercises
-
-
-
-
