@@ -1,7 +1,7 @@
 
 import big.data.*;
 
-public class Welcome02 {
+public class Welcome02_Array {
    public static void main(String[] args) {
       String stateOfInterest = "GA";
       

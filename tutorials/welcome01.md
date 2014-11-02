@@ -150,7 +150,7 @@ However, sometimes you might  really want to connect to the web service and down
 
     ds.setCacheTimeout(15);
 
-When you run a program that uses the *Sinbad* library, you may notice that a subdirectory named "cache" is created in the same directory as your program - this directory contains all the cached data. You should leave it alone, unless you want to delete it to complete clear out all cached data and force everything to be downloaded fresh upon connection.
+When you run a program that uses the *Sinbad* library, you may notice that a subdirectory named "cache" is created in the same directory as your program - this directory contains all the cached data. You should leave it alone, unless you want to delete it to completely clear out all cached data and force everything to be downloaded fresh upon connection.
 
 ## Complete Program Files
 
