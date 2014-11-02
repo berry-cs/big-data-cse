@@ -62,6 +62,10 @@ public class DataCacher {
 	public DataCacher updateTimeout(long value) {
 		return new DataCacher(this.cacheDirectory, value);
 	}
+	
+	public long getTimeout() {
+		return this.cacheExpiration;
+	}
 
 	public String resolvePath(String path) {
 		if (!CachingEnabled || !isCacheable(path)) {
@@ -72,7 +76,7 @@ public class DataCacher {
 			XML cacheXML = IOUtil.loadXML(cacheIndexName);
 			XML myNode = findMyEntry(cacheXML, path);
 			String cachepath = (myNode==null ? null : myNode.getChild("cachefile").getContent());
-			//System.err.println(path + " > " + cachepath + " / " + myNode + " / " + this.cacheExpiration);
+			//System.out.println(path + " > " + cachepath + " / " + myNode + " / " + this.cacheExpiration);
 			if (cachepath == null || cacheExpired(myNode) || cacheInvalid(myNode)) {
 				try {
 					// update cache

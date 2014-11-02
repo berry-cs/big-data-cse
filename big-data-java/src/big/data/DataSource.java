@@ -66,16 +66,18 @@ public abstract class DataSource implements IDataSource {
 	 * need to revisit the resolvedPath here -- the problem is that if you don't use the cacher,
 	 * this method will always connect to the URL, partially defeating the point of the cache, because
 	 * it will register an access on the web service. But the defaultCacher may not be the proper
-	 * cacher to use if a data source decided to use a different one for some reason?
+	 * cacher to use if a data source decided to use a different one for some reason? So, now it's
+	 * just using the cached data (resolvedPath), if it exists, to see if the path refers to a
+	 * data source spec.
 	 */
 	public static DataSource connect(String path) {
 		path = ProcessingDetector.tryToFixPath(path);
 		String resolvedPath = DataCacher.defaultCacher().resolvePath(path);
-		if (resolvedPath != null) {
-			path = resolvedPath;
+		if (resolvedPath == null) {
+			resolvedPath = path;
 		}
 		
-		if (DataSourceLoader.isValidDataSourceSpec(path)) {
+		if (DataSourceLoader.isValidDataSourceSpec(resolvedPath)) {
 			return connectUsing(path);
 		} else if (path.toLowerCase().endsWith(".csv") || path.toLowerCase().contains(".csv.")) {
 			return connectCSV(path);

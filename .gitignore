@@ -5,3 +5,5 @@ cache/
 *.jar
 *.war
 *.ear
+
+*.properties

@@ -64,6 +64,7 @@ public class XMLDataSource extends DataSource {
 			throw new DataSourceException("Not ready to load; missing parameters: " + IOUtil.join(missingParams().toArray(new String[]{}), ','));
 
 		boolean newlyLoaded = false;
+		
 		String resolvedPath = this.cacher.resolvePath(this.getFullPathURL());
 		if (resolvedPath != null && (xml == null || forceReload)) { 
 			xml = IOUtil.loadXML(resolvedPath);
@@ -71,8 +72,8 @@ public class XMLDataSource extends DataSource {
 		}
 
 		if (xml == null) {
-			System.err.println("Failed to load: " + this.getFullPathURL() + "\nCHECK NETWORK CONNECTION, if applicable");
-			return null;
+			//System.err.println("Failed to load: " + this.getFullPathURL() + " (CHECK NETWORK CONNECTION, if applicable)");
+			return this;
 		} else {
 			if (newlyLoaded) doPostProcess();
 		}

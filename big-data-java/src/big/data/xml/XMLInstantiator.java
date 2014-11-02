@@ -117,7 +117,12 @@ public class XMLInstantiator<T> implements IDFVisitor<T> {
 				}
 				Class<?>[] paramTys = cr.getParameterTypes();
 				Object[] args = new Object[paramTys.length];
-				int start = (ProcessingDetector.inProcessing() && s.getFieldCount()+1 == paramTys.length) ? 1 : 0;   // this funny business for extra constructor parameter added in processing
+				int start = 0;
+				if (ProcessingDetector.inProcessing() && s.getFieldCount()+1 == paramTys.length) {
+					start = 1; // this funny business for extra constructor parameter added in processing
+					args[0] = ProcessingDetector.getPapplet();
+				}
+				
 				boolean allNullArgs = true;  // at least one argument was successfully parsed as non-null?
 				for (int i = start; i < args.length; i++) {
 					String fieldname = s.getFieldName(i-start);
@@ -141,12 +146,14 @@ public class XMLInstantiator<T> implements IDFVisitor<T> {
 					cr.setAccessible(true);
 					return cr.newInstance(args);
 				} catch (InstantiationException  e) {
+					//System.err.println(e.getMessage());
 					e.printStackTrace();
 				} catch ( IllegalAccessException e) {
 					e.printStackTrace();
 				} catch ( IllegalArgumentException  e) {
 					e.printStackTrace();
 				} catch (InvocationTargetException e) {
+					//System.err.println(e.getMessage());
 					e.printStackTrace();
 				} 
 				return null;
