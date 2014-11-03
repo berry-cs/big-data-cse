@@ -110,7 +110,7 @@ The following data is available:
 -----
 ````
 
-   This listing displays the available fields of data you can extract using the `fetch` method. For many data sources, the names of the labels themselves provide sufficient hints to what information is being represented.
+   This listing displays the available fields of data you can extract using the `fetch` method. For many data sources, the names of the labels themselves provide sufficient hints to what information is being represented. The `*` indicate that each of these labels refer to a simple, atomic piece of data represented as a string (or number - *Sinbad* is not smart enough, yet, to automatically infer what type of data each label corresponds to).
 
 
 ### Types of Data Elements

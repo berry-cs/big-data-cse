@@ -3,7 +3,6 @@ import big.data.*;
 
 public class Welcome02_Array {
    public static void main(String[] args) {
-      String stateOfInterest = "GA";
       
       DataSource stns = DataSource.connect("http://w1.weather.gov/xml/current_obs/index.xml");
       stns.load();
@@ -11,10 +10,12 @@ public class Welcome02_Array {
       String[] ids = stns.fetchStringArray("station/station_id");
       System.out.println(ids.length);
 
-      String[] states = stns.fetchStringArray("station/state");
       String[] urls = stns.fetchStringArray("station/xml_url");
+      String[] states = stns.fetchStringArray("station/state");
       System.out.println(states.length);
       
+      String stateOfInterest = "GA";
+
       for (int i = 0; i < ids.length; i++) {
          if (states[i].equals(stateOfInterest)) {
             printWeatherInfo(urls[i]);
