@@ -70,7 +70,7 @@ When I ran the program, the following is printed out:
 
     2693
     
-This means that *Sinbad* just constructed an provided you an array of 2693 strings representing all available station ids. You could print out the first and last of these:
+This means that *Sinbad* just constructed and provided you an array of 2693 strings representing all available station ids. You could print out the first and last of these:
 
     System.out.println(ids[0]);
     System.out.println(ids[ids.length - 1]);
