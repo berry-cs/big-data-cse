@@ -225,7 +225,7 @@ Let's extend the program you have so far to allow a user to cycle through and di
    Here's the source code of my sketch at this point: * [Welcome02_ArraySimple.pde](https://github.com/berry-cs/big-data-cse/raw/master/tutorials/Welcome02_ArraySimple/Welcome02_ArraySimple.pde)
 
 
-----
+   ----
 
 
 2. **Challenge:** Now, modify your program to only loop through stations in a particular state. Declare and initialize a global variable named `STATE_OF_INTEREST` with a two-letter abbreviation of your favorite state. 
