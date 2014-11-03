@@ -1,5 +1,6 @@
 
 import big.data.*;
+import java.util.Scanner;
 
 public class Welcome02_Array {
    public static void main(String[] args) {
@@ -14,13 +15,16 @@ public class Welcome02_Array {
       String[] states = stns.fetchStringArray("station/state");
       System.out.println(states.length);
       
-      String stateOfInterest = "GA";
+      Scanner sc = new Scanner(System.in);
+      System.out.println("Enter a state abbreviation: ");
+      String stateOfInterest = sc.next();
 
       for (int i = 0; i < ids.length; i++) {
          if (states[i].equals(stateOfInterest)) {
             printWeatherInfo(urls[i]);
          }
       }
+      
    }
    
    public static void printWeatherInfo(String dataURL) {

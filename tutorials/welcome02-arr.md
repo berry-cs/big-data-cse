@@ -6,6 +6,7 @@ In this tutorial, we'll cover how you can connect to a data source and retrieve 
 
 * Arrays
 * `for` loops
+* Comparing strings for equality (using `.equals()`)
 
 ## Fetching a String Array
 
@@ -90,14 +91,46 @@ I printed out the length of the `states` array to see how many elements were in 
 
 ----
 
-## Exercises
+## Guided Exercises
 
 Here are some extensions to the program above you can try working on. If you are using a Java IDE (editor) like Eclipse, DrJava, or BlueJ, look at the "Java" section. If you are using [Processing](http://processing.org), skip to the section labeled "Processing".
 
 ### Java
 
-1. blah
+Let's extend the program so that it reads in weather observations from all stations in a user-specified state and prints out the data.
 
+1. Construct and use a `Scanner` object to prompt and read in from the user the two-letter abbreviation of a state. Store it in a variable named `stateOfInterest`.
+
+2. Develop a method,
+
+        public static void printWeatherInfo(String dataURL)
+
+   that loads a weather observation from the given URL (as in the [first tutorial](welcome01.md)) and prints out the temperature at that location and the name of the location. The label for the location name in the data is `location`, and use the `temp_f` label to extract the temperature reading. Set a cache timeout value of 15 minutes.
+
+3. Now, back in your `main` method, write a loop that goes through the `states` array (which we fetched above) and for all states that `equal` the `stateOfInterest`, call the `printWeatherInfo` on the corresponding element of the `urls` array.
+
+   ### (Dealing with Incomplete Data)
+
+4. Run your program at this point. Try several states, like `NY` or `GA`. You should get at least some lines of information printed out, like
+
+        The temperature at Albany International Airport, NY is 39.0F
+        The temperature at Watertown International Airport, NY is 38.0F
+        The temperature at Binghamton Regional Airport, NY is 32.0F
+        The temperature at Greater Buffalo International Airport, NY is 41.0F
+
+   However, at some point, your program should crash (!) with a `DataSourceException: No data available...` message as it is trying to fetch the temperature at a particular URL. 
+   
+   The problem is that data in the "real world" is rarely always neat and tidy. There may be some observation stations for which not all the data is available. To help deal with this, the `DataSource` object has a `hasFields` method to which you can pass any number of field labels that you are interested in, and it produces whether values for _all_ those labels is available in the object. 
+
+5. You should have a used a couple of `ds.fetch...()` statements to pull out data for the `location` and `temp_f` labels. Around that bit of code, add the following conditional:
+
+        if (ds.hasFields("temp_f", "location")) {
+        ...
+        }
+
+   Now run your program again. This time it shouldn't crash on URLs that do not have complete weather data available (although you may get a message that the URL `does not exist or could not be read`).
+   
+   If you have trouble getting your program together, you may look at the complete program file linked at the bottom of this page.
 
 
 ### Processing
