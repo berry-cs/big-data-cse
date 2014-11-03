@@ -109,7 +109,7 @@ Let's extend the program so that it reads in weather observations from all stati
 
 3. Now, back in your `main` method, write a loop that goes through the `states` array (which we fetched above) and for all states that `equal` the `stateOfInterest`, call the `printWeatherInfo` on the corresponding element of the `urls` array.
 
-   ### (Dealing with Incomplete Data)
+   ### Dealing with Incomplete Data
 
 4. Run your program at this point. Try several states, like `NY` or `GA`. You should get at least some lines of information printed out, like
 
@@ -178,6 +178,8 @@ Let's extend the program you have so far to allow a user to cycle through and di
         }
 
    Run your program. There is a good chance it might crash with a `DataSourceException: No data available...` error message as it is trying to fetch data for a particular URL. If it doesn't, try changing the value of `currentIndex` to something other than 0. You might be able to find the position of a particular URL that causes the program to crash.
+   
+   ### Dealing with Incomplete Data
    
    The problem is that data in the "real world" is rarely always neat and tidy. There may be some observation stations for which not all the data is available. To help deal with this, the `DataSource` object has a `hasFields` method to which you can pass any number of field labels that you are interested in, and it produces whether values for _all_ those labels is available in the object. 
 
