@@ -135,9 +135,108 @@ Let's extend the program so that it reads in weather observations from all stati
 
 ### Processing
 
-1. blah
+Let's extend the program you have so far to allow a user to cycle through and display weather observations from all the stations.
+
+1. First, reorganize your variables so that `ids`, `urls`, and `states` are declared as global variables above the `setup()` function:
+
+        String[] ids;
+        String[] urls;
+        String[] states;
+
+        int currentIndex;
+
+        void setup() {
+          DataSource.initializeProcessing(this);
+          size(500, 150);
+
+          DataSource stns = DataSource.connect("http://weather.gov/xml/current_obs/index.xml");
+          stns.load();
+          //stns.printUsageString();
+
+          ids = stns.fetchStringArray("station/station_id");
+          urls = stns.fetchStringArray("station/xml_url");
+          states = stns.fetchStringArray("station/state");
+
+        }
+
+1. Declare a `currentIndex` variable and initialize it to 0. The `currentIndex` variable will keep track of which element of the data array(s) is currently being displayed in the window when your program runs.
+
+        int currentIndex = 0;
 
 
+1. Develop a function, 
+
+        void showWeatherInfo(String dataURL) {
+       
+   that loads a weather observation from the given URL (as in the [first tutorial](welcome01.md)) and displays the name of the location and the temperature reading there. The label for the location name in the data is `location`, and use the `temp_f` label to extract the temperature reading. Set a cache timeout value of 15 minutes.
+   
+1. Define a `draw()` function, if you don't already have one, that sets the background to white and shows the weather info at the URL of element `currentIndex` in the `urls` array:
+
+        void draw() {
+          background(255);
+          showWeatherInfo(urls[currentIndex]);
+        }
+
+   Run your program. There is a good chance it might crash with a `DataSourceException: No data available...` error message as it is trying to fetch data for a particular URL. If it doesn't, try changing the value of `currentIndex` to something other than 0. You might be able to find the position of a particular URL that causes the program to crash.
+   
+   The problem is that data in the "real world" is rarely always neat and tidy. There may be some observation stations for which not all the data is available. To help deal with this, the `DataSource` object has a `hasFields` method to which you can pass any number of field labels that you are interested in, and it produces whether values for _all_ those labels is available in the object. 
+
+5. You should have a used a couple of `ds.fetch...()` statements to pull out data for the `location` and `temp_f` labels in your `showWeatherInfo` function. Around that bit of code, add the following conditional:
+
+        if (ds.hasFields("temp_f", "location")) {
+        ...
+        }
+
+   Now run your program again. This time it shouldn't crash on URLs that do not have complete weather data available (although you may still get a message that the URL `does not exist or could not be read`).
+   
+   Here's what my function looks like at this point:
+   
+        void showWeatherInfo(String dataURL) {
+          DataSource ds = DataSource.connect(dataURL);
+          ds.setCacheTimeout(15);  
+          ds.load();
+        
+          fill(0);
+          textSize(18);
+          if (ds.hasFields("temp_f", "location")) {
+            float temp = ds.fetchFloat("temp_f");
+            String loc = ds.fetchString("location");
+        
+            text(loc, 30, 50);
+            text(temp + "F", 30, 75);
+          } else {
+            text("No data: " + dataURL, 30, 60); 
+          }
+        }
+
+1. Define another function `advanceIndex` that increments the value of `currentIndex`. If the value reaches or passes `urls.length`, it should be reset to 0.
+
+        void advanceIndex() {
+          currentIndex++;  // bump it up one
+          if (currentIndex >= states.length) {
+              currentIndex = 0;
+            }
+        }
+
+1. Define a `mousePressed` function that calls `advanceIndex()`.
+
+   You should now be able to run your sketch and click the mouse to advance through the weather observations for the various stations. 
+   
+   Here's the source code of my sketch at this point: * [Welcome02_ArraySimple.pde](https://github.com/berry-cs/big-data-cse/raw/master/tutorials/Welcome02_ArraySimple/Welcome02_ArraySimple.pde)
+
+
+----
+
+
+2. **Challenge:** Now, modify your program to only loop through stations in a particular state. Declare and initialize a global variable named `STATE_OF_INTEREST` with a two-letter abbreviation of your favorite state. 
+
+        String STATE_OF_INTEREST = "GA";
+
+   In your `setup` function, you need to find the first value `i` where `states[i].equals(STATE_OF_INTEREST)`. Set `currentIndex` to this `i` value.
+   
+   Also, modify `advanceIndex` so that it skips over values of `currentIndex` where `! states[currentIndex].equals (STATE_OF_INTEREST)` (notice the `!` in front of that condition). Hint: Use a `while` loop.
+   
+   If you have trouble getting your program together, you may look at the complete program file linked at the bottom of this page.
 
 
 ----

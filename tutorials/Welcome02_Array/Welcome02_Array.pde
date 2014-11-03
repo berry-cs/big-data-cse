@@ -7,7 +7,8 @@ String[] ids;
 String[] urls;
 String[] states;
 
-int currentIndex;
+int currentIndex = -1;
+
 
 void setup() {
   DataSource.initializeProcessing(this);
@@ -27,7 +28,7 @@ void setup() {
   /* here we search for an initial data element that matches
    the STATE_OF_INTEREST */
   currentIndex = -1;   // an invalid value to check for afterwards
-  for (int i = 0; i < ids.length; i++) {
+  for (int i = 0; i < states.length; i++) {
     if (states[i].equals(STATE_OF_INTEREST)) {
       currentIndex = i;
       break;   // stops the 'for' loop immediately and continues onto the
@@ -52,6 +53,9 @@ void mousePressed() {
 }
 
 
+/* increments the index to the next data item matching the 
+   STATE_OF_INTEREST, wrapping around to zero if we go off the
+   end of the array */
 void advanceIndex() {
   if (currentIndex == -1) {
     return;  // because we already know there is no matching data
@@ -67,6 +71,8 @@ void advanceIndex() {
 }
 
 
+/* loads a weather observation from the given URL 
+   and displays the name of the location and the temperature reading */
 void showWeatherInfo(String dataURL) {
   DataSource ds = DataSource.connect(dataURL);
   ds.setCacheTimeout(15);  
