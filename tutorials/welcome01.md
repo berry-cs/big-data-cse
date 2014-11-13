@@ -17,7 +17,7 @@ Welcome! This set of tutorials provides an introduction to *Sinbad* - a Java lib
 
 ### Downloading and Installing *Sinbad*
 
-* Follow the instructions here.
+* Follow the instructions [here](../install/index.md).
 
 ### The Basics
 
