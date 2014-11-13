@@ -1,0 +1,60 @@
+List of Data Sources
+
+http://www.statcrunch.com/index.php
+http://www.usgovxml.com
+http://www.fueleconomy.gov/feg/ws/index.shtml
+http://www.census.gov/did/www/saipe/data/index.html?eml=gd&utm_medium=email&utm_source=govdelivery
+http://services.faa.gov/airport/status/JFK?format=application/xml
+http://openflights.org/data.html
+http://www.ourairports.com/data/
+http://www.wunderground.com/weather/api/d/docs
+https://open.whitehouse.gov/Government/2010-Report-to-Congress-on-White-House-Staff/rcp4-3y7g
+https://opendata.socrata.com/Fun/Top-1-000-Songs-To-Hear-Before-You-Die/ed74-c6ni
+https://opendata.socrata.com/Fun/Criterions-on-Netflix/sfnr-xcnq
+http://www.irs.gov/Charities-%26-Non-Profits/Exempt-Organizations-Business-Master-File-Extract-EO-BMF
+https://docs.google.com/spreadsheets/d/1cEGQ3eAFKpFBVq1k2mZIy5mBPxC6nBTJHzuSWtZQSVw/edit?pli=1#gid=1144428085
+http://www.reddit.com/r/datasets/comments/1uyd0t/200000_jeopardy_questions_in_a_json_file/
+http://alerts.weather.gov/cap/us.php?x=1
+https://dreamtolearn.com/node/2HUWRTIROI1VEB4B2FHE4ELN6/
+http://www.kdnuggets.com/2011/02/free-public-datasets.html
+http://www.cs.washington.edu/research/xmldatasets/www/repository.html#courses
+http://mwcsvimport.pronique.com/library/view/58/US%20Cities%20Longitude%20Latitude.csv
+http://mwcsvimport.pronique.com/library/index
+http://alerts.weather.gov/cap/us.php?x=1
+http://api.bigoven.com/
+http://developer.factual.com/data-docs/
+http://platform.fatsecret.com/api/Default.aspx?screen=rapiref&method=food.get
+http://apps.who.int/gho/data/node.metadata.5?lang=en
+http://datawarehouse.hrsa.gov/data/webservices.aspx
+http://pillbox.nlm.nih.gov/developer.html
+https://www.data.gov/developers/apis
+http://rxnav.nlm.nih.gov/RxNormAPIREST.html#uLink=RxNorm_REST_findRxcuiByString
+https://developer.bestbuy.com/documentation/products-api
+http://dictionaryapi.com/products/api-collegiate-thesaurus.htm
+http://www.bing.com/dev/en-us/dev-center
+https://developer.yahoo.com/answers/
+https://developer.flightstats.com/getting-started/ (free 30 days)
+http://www.greatschools.org/api/docs/schoolProfile.page
+http://www.programmableweb.com/api/youtube
+http://www.programmableweb.com/api/ebay
+http://www.programmableweb.com/apis/directory
+https://explore.data.gov/Health-and-Nutrition/MyPyramid-Food-Raw-Data/b978-7txq
+http://catalog.data.gov/dataset
+https://explore.data.gov/catalog/raw
+http://www.generatedata.com
+http://lib.stat.cmu.edu
+http://www.usatoday.com/sports/nfl/arrests/
+http://chriswhong.com/open-data/foil_nyc_taxi/ (over 7gigs -- interesting though!)
+https://data.sfgov.org/
+http://data.worldbank.org/data-catalog/world-development-indicators
+http://developer.nytimes.com/docs
+http://api.nytimes.com/svc/search/v2/articlesearch
+http://developer.nytimes.com/docs/congress_api
+http://www.gapminder.org/data/
+https://dev.twitter.com/rest/reference/get/search/tweets (json)
+http://www.freebase.com/
+http://wiki.dbpedia.org/OnlineAccess
+http://www.ncdc.noaa.gov/data-access/quick-links#loc-clim
+http://labrosa.ee.columbia.edu/millionsong/ (very large 280gb || small version at 1.8gb)
+https://data.cityofnewyork.us/Transportation/Medallion-Drivers/iux8-53rc
+https://nycopendata.socrata.com/dashboard (over 1200 datasets)
