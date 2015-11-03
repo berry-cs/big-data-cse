@@ -117,7 +117,7 @@ The following data is available:
 
 In the program we've written, we used the `fetchFloat` method to extract the `temp_f` element of data as a `float`, and assigned it to a variable of the corresponding type. In general, the *Sinbad* library does not do very much for you to determine what _type_ of data is available, only the available labels of data. You have to request a particular type of data using an appropriate `fetch...` method. You can _always_ however, fetch any data element as a `String`, using the `fetchString` method.
 
-Let's try using `fetchString` to extract the location of the weather observation. Add the following statement to your program after the `fetchInt` statement and update the print statement:
+Let's try using `fetchString` to extract the location of the weather observation. Add the following statement to your program after the `fetchFloat` statement and update the print statement:
 
     String loc = ds.fetchString("location");
     System.out.println("The temperature at " + loc + " is " + temp + "F");
