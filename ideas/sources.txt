@@ -1,5 +1,9 @@
 List of Data Sources
 
+https://github.com/caesar0301/awesome-public-datasets (another meta-list of data sources)
+http://datahub.io/dataset
+https://nycopendata.socrata.com/dashboard (over 1200 datasets)
+
 http://www.statcrunch.com/index.php
 http://www.usgovxml.com
 http://www.fueleconomy.gov/feg/ws/index.shtml
@@ -57,4 +61,6 @@ http://wiki.dbpedia.org/OnlineAccess
 http://www.ncdc.noaa.gov/data-access/quick-links#loc-clim
 http://labrosa.ee.columbia.edu/millionsong/ (very large 280gb || small version at 1.8gb)
 https://data.cityofnewyork.us/Transportation/Medallion-Drivers/iux8-53rc
-https://nycopendata.socrata.com/dashboard (over 1200 datasets)
+https://wwwcf2.nlm.nih.gov/nlm_eresources/eresources/search_database.cfm
+
+Pick your favorite city, find their official government page and see if they have an "open data" collection.
