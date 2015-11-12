@@ -1031,7 +1031,7 @@ public class IOUtil {
 	}
 
 
-	// version that uses 'options' though there are currently no supported options
+	// version that uses 'options' //////// .nah. the only supported option is "hideerrors"k
 	/**
 	 * @nowebref
 	 */

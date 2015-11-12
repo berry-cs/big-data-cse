@@ -26,6 +26,22 @@ import javax.xml.transform.stream.*;
 @SuppressWarnings("serial")
 public class XML implements Serializable {
 
+    public class SimpleErrorHandler implements ErrorHandler {
+        public void warning(SAXParseException e) throws SAXException {
+            //System.err.println(e.getMessage());
+        }
+
+        public void error(SAXParseException e) throws SAXException {
+            //System.err.println(e.getMessage());
+        }
+
+        public void fatalError(SAXParseException e) throws SAXException {
+            //System.err.println(e.getMessage());
+        }
+    }
+
+    
+    
 	/** The internal representation, a DOM node. */
 	protected Node node;
 
@@ -131,6 +147,8 @@ public class XML implements Serializable {
 	 * https://github.com/processing/processing/issues/2100
 	 *
 	 * @nowebref
+	 * 
+	 * options could be  "hideerrors"
 	 */
 	public XML(final Reader reader, String options) throws IOException, ParserConfigurationException, SAXException {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -159,7 +177,10 @@ public class XML implements Serializable {
 
 		//    builder = DocumentBuilderFactory.newDocumentBuilder();
 		//    builder = new SAXBuilder();
-		//    builder.setValidation(validating);
+		//    builder.setValidation(validating);]
+		if (options != null && options.equals("hideerrors")) {
+		    builder.setErrorHandler(new SimpleErrorHandler());
+		}
 
 		Document document = builder.parse(new InputSource(new Reader() {
 			@Override

@@ -177,7 +177,7 @@ public class DataCacher {
 
 	private boolean isCacheable(String path) {
 		// for now, only things that look like URLs are cacheable
-		return path.contains(":") && cacheExpiration != NEVER_CACHE; 
+		return path.contains("://") && cacheExpiration != NEVER_CACHE; 
 	}
 }
 

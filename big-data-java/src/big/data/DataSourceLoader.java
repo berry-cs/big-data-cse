@@ -196,7 +196,7 @@ public class DataSourceLoader {
 
 	
 	public static boolean isValidDataSourceSpec(String path) {
-		XML xml = IOUtil.loadXML(path);
+		XML xml = IOUtil.loadXML(path, "hideerrors");
 		return (xml != null
 				&& xml.getName().equals("datasourcespec"));		
 	}

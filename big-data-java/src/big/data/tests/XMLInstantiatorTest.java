@@ -104,7 +104,7 @@ public class XMLInstantiatorTest {
 		
 		assertEquals(new Pair("xmlpreprocclass", "WeatherConsolidate"), 
 					 instantiate(cf2, xml1, cspair));
-		assertEquals(new Pair("FAA Airport Status", null), 
+		assertEquals(new Pair("FAA Airport Status", ""), 
 					 instantiate(cf1, xml1, cspair));
 		assertNull(instantiate(cf1, xml1.getChild("dataspec"), cspair));   // no subfields successfully parsed
 		assertNull(instantiate(cf1, xml1, new CompSig<Thread>(Thread.class))); 
