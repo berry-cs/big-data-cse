@@ -401,7 +401,7 @@ public class IOUtil {
 
 		// safe to check for this as a url first. this will prevent online
 		// access logs from being spammed with GET /sketchfolder/http://blahblah
-		if (filename.contains(":")) {  // at least smells like URL
+		if (filename.contains("://")) {  // at least smells like URL
 			try {
 				URL url = new URL(filename);
 				stream = url.openStream();
