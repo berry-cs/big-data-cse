@@ -17,7 +17,7 @@ import big.data.util.XML;
 
 
 public class DataCacher {
-	public static final String DEFAULT_CACHE_DIR = "cache";
+	public static final String DEFAULT_CACHE_DIR = getDefaultCacheDir();
 	public static final long NEVER_CACHE = 0;
 	public static final long NEVER_RELOAD = -1;
 	
@@ -45,6 +45,14 @@ public class DataCacher {
 			return new DataCacher(DEFAULT_CACHE_DIR, NEVER_RELOAD);	
 	}
 	
+	private static String getDefaultCacheDir() {
+        try {
+           return new File(System.getProperty("java.io.tmpdir", "."), "data_cache").getCanonicalPath();
+        } catch (IOException e) {
+            return "data_cache";
+        }
+    }
+	
 	public static DataCacher defaultCacher() { return dc; }
 	
 	public DataCacher updateDirectory(String path) {
@@ -53,6 +61,10 @@ public class DataCacher {
 		if (!f.exists() || (!f.isDirectory() && !path.equals("/dev/null")) )
 			throw new RuntimeException("Cannot access cache directory: " + path);
 		return new DataCacher(path, this.cacheExpiration);
+	}
+	
+	public String getDirectory() {
+	    return this.cacheDirectory;
 	}
 	
 	public static void setCaching(boolean val) {

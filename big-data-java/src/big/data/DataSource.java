@@ -298,6 +298,10 @@ public abstract class DataSource implements IDataSource {
 		return this;
 	}
 	
+	public DataCacher getCacher() {
+	    return this.cacher;
+	}
+	
 	public DataSource setOption(String op, String value) {
 		System.err.println("Warning: " + op + " option ignored");
 		return this;
