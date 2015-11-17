@@ -39,10 +39,10 @@ public class DataCacher {
 	}
 	
 	private static DataCacher makeDefaultDataCacher() {
-		if (ProcessingDetector.inProcessing()) 
-			return new DataCacher(ProcessingDetector.sketchPath(DEFAULT_CACHE_DIR), NEVER_RELOAD);
-		else 
-			return new DataCacher(DEFAULT_CACHE_DIR, NEVER_RELOAD);	
+		//if (ProcessingDetector.inProcessing()) 
+		//	return new DataCacher(ProcessingDetector.sketchPath(DEFAULT_CACHE_DIR), NEVER_RELOAD);
+		//else 
+	    return new DataCacher(DEFAULT_CACHE_DIR, NEVER_RELOAD);	
 	}
 	
 	private static String getDefaultCacheDir() {
