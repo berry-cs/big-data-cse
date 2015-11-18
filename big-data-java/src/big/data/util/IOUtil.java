@@ -45,6 +45,7 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.zip.GZIPInputStream;
@@ -404,7 +405,9 @@ public class IOUtil {
 		if (filename.contains("://")) {  // at least smells like URL
 			try {
 				URL url = new URL(filename);
-				stream = url.openStream();
+	            URLConnection urlConn = url.openConnection();
+	            urlConn.addRequestProperty("User-Agent", "Mozilla/4.76"); 
+				stream = urlConn.getInputStream();
 				return stream;
 
 			} catch (MalformedURLException mfue) {
