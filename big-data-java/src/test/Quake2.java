@@ -1,11 +1,10 @@
 package test;
 
-// duplicating example from Bart's paper, Figure 2
-
-import big.data.*;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+
+import easy.data.*;
 
 public class Quake2 {
     public static void main(String[] args) {

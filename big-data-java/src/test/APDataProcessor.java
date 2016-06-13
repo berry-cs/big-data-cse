@@ -1,7 +1,7 @@
 package test;
 
-import big.data.util.XML;
-import big.data.xml.IPostProcessor;
+import easy.data.util.XML;
+import easy.data.xml.IPostProcessor;
 
 public class APDataProcessor implements IPostProcessor {
 

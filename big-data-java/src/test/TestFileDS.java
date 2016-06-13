@@ -6,11 +6,9 @@ import java.util.*;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-import big.data.*;
-import big.data.field.FieldToXMLSpec;
-import big.data.util.IOUtil;
-//import big.data.xml.*;
-//import data.csv.*;
+import easy.data.*;
+import easy.data.field.FieldToXMLSpec;
+import easy.data.util.IOUtil;
 
 
 public class TestFileDS {
@@ -32,7 +30,7 @@ public class TestFileDS {
 	}
 	
 	public static void test2() {
-		DataSource ds = DataSource.connect("src/big/data/tests/dsspec1.xml");
+		DataSource ds = DataSource.connect("src/easy/data/tests/dsspec1.xml");
 		ds.printUsageString();
 		System.out.println(ds.readyToLoad());
 		System.out.println(IOUtil.join(ds.missingParams().toArray(new String[] {}), ", "));
@@ -93,27 +91,27 @@ public class TestFileDS {
 	public static class CodeCountry { String code; String ctry; String city; public CodeCountry(String a, String b, String c) { code = a; ctry = b; city = c; } }
 
 	public static void test4() {
-		DataSource ds = DataSource.connectCSV("Airline Data", "http://sourceforge.net/p/openflights/code/HEAD/tree/openflights/data/airlines.dat");
+		DataSource ds = DataSource.connectCSV("Airline Data", "https://raw.githubusercontent.com/jpatokal/openflights/master/data/airlines.dat");
 		ds.setOption("header", "\"ID\",\"Name\",\"Alias\",\"IATA\",\"ICAO\",\"Callsign\",\"Country\",Active");
 		ds.set("format", "raw");
 		ds.printUsageString();
 		ds.load();
 		ds.printUsageString();
 		System.out.println("ds.size(): " + ds.size());
-		String[] names = ds.fetchStringArray("Name");
+		String[] names = ds.fetchStringArray("row/Name");
 		System.out.println(names.length + " airlines");
 		System.out.println(names[100]);
 		
-		ds = DataSource.connect("src/big/data/tests/dsspec2.xml").load();
+		ds = DataSource.connect("src/easy/data/tests/dsspec2.xml").load();
 		ds.printUsageString();
-		names = ds.fetchStringArray("Name");
+		names = ds.fetchStringArray("row/Name");
 		System.out.println(names.length + " airlines");
 		System.out.println(names[100]);
 		
 		System.out.println("---");
 		ds.getFieldSpec().apply(new FieldToXMLSpec()).write(new PrintWriter(System.out));
 		
-		ds = DataSource.connect("src/big/data/tests/dsspec3.xml").load();
+		ds = DataSource.connect("src/easy/data/tests/dsspec3.xml").load();
 		ds.printUsageString();
 		names = ds.fetchStringArray("Country");
 		System.out.println(IOUtil.join(ArrayUtils.subarray(names, 0, 20), ","));
@@ -163,7 +161,7 @@ public class TestFileDS {
 	}
 	
 	public static void test5() {
-		DataSource ds = DataSource.connect("src/big/data/tests/dsspec4.xml");
+		DataSource ds = DataSource.connect("src/easy/data/tests/dsspec4.xml");
 		ds.set("q", "11746").set("key", "7kwg5bevqqvrv3s676kd4uwb").load();
 		ds.printUsageString();
 		
@@ -178,7 +176,7 @@ public class TestFileDS {
 	}
 	
 	public static void test6() {
-		DataSource ds = DataSource.connect("src/big/data/tests/dsspec3.xml").load();
+		DataSource ds = DataSource.connect("src/easy/data/tests/dsspec3.xml").load();
 		DataSourceIterator iter = ds.iterator();
 		System.out.println(iter.usageString());
 		int count = 0;
@@ -195,7 +193,7 @@ public class TestFileDS {
 	}
 	
 	public static void test7() {
-		DataSource apds = DataSource.connect("src/big/data/tests/dsspec7.xml");
+		DataSource apds = DataSource.connect("src/easy/data/tests/dsspec7.xml");
 		apds.load();
 		apds.printUsageString();
 				
@@ -205,11 +203,11 @@ public class TestFileDS {
 	}
 
 	public static void main(String[] args) {
-		test1();
+		//test1();
 		//test2();
 		////test3();
 		//test4();
-		test5();
+		//test5();
 		test6();
 		//test7();
 	}

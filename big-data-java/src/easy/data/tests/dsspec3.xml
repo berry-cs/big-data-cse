@@ -1,0 +1,99 @@
+<datasourcespec>
+    
+	<format>CSV</format>
+	<path>https://raw.githubusercontent.com/jpatokal/openflights/master/data/airlines.dat</path>
+	<name>Airline Data</name>
+	
+	<infourl>http://openflights.org/data.html</infourl>
+	<description />
+	
+	<options>
+		<option><name>header</name><value>"ID","Name","Alias","IATA","ICAO","Callsign","Country",Active</value></option>
+	</options>
+
+	<params>
+		<queryparam>
+			<key>format</key>
+			<value>raw</value>
+		</queryparam>
+	</params>
+		
+	<cache>
+		<timeout />
+		<directory />             
+	</cache>
+	
+	<dataspec>
+<listfield>
+  <basepath/>
+  <description/>
+  <elempath>row</elempath>
+  <elemfield>
+    <compfield>
+      <basepath/>
+      <description/>
+      <fields>
+                  <field>
+          <name>Callsign</name>
+          <primfield>
+            <basepath>Callsign</basepath>
+            <description>Airline callsign</description>
+          </primfield>
+        </field>
+                  <field>
+          <name>Country</name>
+          <primfield>
+            <basepath>Country</basepath>
+            <description>Country or territory where airline is incorporated</description>
+          </primfield>
+        </field>
+                  
+        <field>
+          <name>IATA</name>
+          <primfield>
+            <basepath>IATA</basepath>
+            <description>2-letter IATA code, if available</description>
+          </primfield>
+        </field>
+        <field>
+          <name>Name</name>
+          <primfield>
+            <basepath>Name</basepath>
+            <description>Name of the airline</description>
+          </primfield>
+        </field>
+        <field>
+          <name>Active</name>
+          <primfield>
+            <basepath>Active</basepath>
+            <description>if the airline is or has until recently been operational</description>
+          </primfield>
+        </field>
+        <field>
+          <name>Alias</name>
+          <primfield>
+            <basepath>Alias</basepath>
+            <description>Alias of the airline</description>
+          </primfield>
+        </field>
+        <field>
+          <name>ICAO</name>
+          <primfield>
+            <basepath>ICAO</basepath>
+            <description>3-letter ICAO code, if available</description>
+          </primfield>
+        </field>
+        <field>
+          <name>ID</name>
+          <primfield>
+            <basepath>ID</basepath>
+            <description>Unique OpenFlights identifier for this airline</description>
+          </primfield>
+        </field>
+      </fields>
+    </compfield>
+  </elemfield>
+</listfield>    
+	</dataspec>
+	
+</datasourcespec>

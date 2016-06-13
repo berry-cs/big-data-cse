@@ -1,12 +1,7 @@
 package test;
 
 
-// http://www.kaggle.com/c/forest-cover-type-prediction/data
-// a little hard to work with becasue of the binary columns... 
-// TODO: any way to improve binding this sort of thing to java code that might,
-//    for example, simply keep a list of soil types?
-
-import big.data.DataSource;
+import easy.data.DataSource;
 
 public class ForestCover {
 

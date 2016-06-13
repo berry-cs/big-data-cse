@@ -1,7 +1,8 @@
 package test;
 
 import java.util.List;
-import big.data.*;
+
+import easy.data.*;
 
 // character data
 

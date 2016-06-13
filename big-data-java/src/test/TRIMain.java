@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import big.data.*;
+import easy.data.*;
 
 class Facility {
 	String name;

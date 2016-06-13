@@ -1,5 +1,5 @@
 package test;
-import big.data.*;
+import easy.data.*;
 
 public class EbayFinder {
 

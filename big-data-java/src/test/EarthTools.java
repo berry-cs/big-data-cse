@@ -1,15 +1,8 @@
 package test;
 
-// Data Source: http://xisbn.worldcat.org
-
-import big.data.*;
-/*
-import big.data.field.FieldToXMLSpec;
-import big.data.field.IDataField;
-import big.data.util.XML;
-*/
-
 import java.util.Scanner;
+
+import easy.data.*;
 
 public class EarthTools {
   

@@ -1,8 +1,8 @@
 package test;
 
 import java.lang.reflect.Constructor;
-//import javax.swing.JFileChooser;
-import big.data.*;
+
+import easy.data.*;
 
 /**
  * Test JSON using Kiva website

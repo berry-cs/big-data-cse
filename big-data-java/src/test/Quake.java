@@ -4,7 +4,8 @@ package test;
 
 import java.util.HashSet;
 import java.util.List;
-import big.data.*;
+
+import easy.data.*;
 
 public class Quake {
 	public static void main(String[] args) {
